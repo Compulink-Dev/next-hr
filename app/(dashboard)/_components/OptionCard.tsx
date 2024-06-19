@@ -18,13 +18,13 @@ function OptionCard({ optionData }) {
             {
                 enabled ? (
                     <Link
-                        href={link}
+                        href={`/dashboard/inventory${link}/new`}
                         className='bg-blue-600 text-sm text-white hover:bg-blue-400 px-4 py-2 rounded'>
                         {linkTitle}
                     </Link>
                 ) : (
                     <button
-                        className="py-2 px-4 text-sm rounded sm bg-blue-600 px-3 inline-flex items-center space-x-2 text-white">
+                        className="py-2 text-sm rounded sm bg-blue-600 px-4 inline-flex items-center space-x-2 text-white">
                         Enabled
                     </button>
                 )

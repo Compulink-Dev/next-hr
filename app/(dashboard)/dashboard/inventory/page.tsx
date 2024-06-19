@@ -1,6 +1,6 @@
 import React from 'react'
 import FixedHeader from '../../_components/FixedHeader'
-import { BadgePercent, Boxes, Component, List, Shirt } from 'lucide-react'
+import { BadgePercent, Boxes, Cog, Component, Frame, List, Merge, Shirt, Warehouse } from 'lucide-react'
 import OptionCard from '../../_components/OptionCard'
 
 function DashInventory() {
@@ -9,34 +9,50 @@ function DashInventory() {
         {
             title: 'Items',
             description: 'Create standalone items and services that you buy and sell',
-            link: '/new',
+            link: '/items',
             linkTitle: "New Item",
             enabled: true,
             icon: Shirt
         },
         {
-            title: 'Item Groups',
+            title: 'Categories',
             description: 'Create standalone items and services that you buy and sell',
-            link: '/new',
-            linkTitle: "New Item",
+            link: '/categories',
+            linkTitle: "New Category",
             enabled: true,
             icon: Boxes
         },
         {
-            title: 'Composite Items',
+            title: 'Brands',
             description: 'Create standalone items and services that you buy and sell',
-            link: '/new',
-            linkTitle: "New Composite Item",
+            link: '/brands',
+            linkTitle: "New Bran",
             enabled: false,
-            icon: Component
+            icon: Frame
         },
         {
-            title: 'Price List',
+            title: 'Adjustments',
             description: 'Create standalone items and services that you buy and sell',
-            link: '/new',
-            linkTitle: "New Composite Item",
+            link: '/adjustments',
+            linkTitle: "New Adjustment Item",
             enabled: false,
-            icon: BadgePercent
+            icon: Cog
+        },
+        {
+            title: 'Units',
+            description: 'Create standalone items and services that you buy and sell',
+            link: '/units',
+            linkTitle: "New Units Item",
+            enabled: false,
+            icon: Merge
+        },
+        {
+            title: 'Warehouse',
+            description: 'Create standalone items and services that you buy and sell',
+            link: '/warehouse',
+            linkTitle: "New Warehouse Item",
+            enabled: false,
+            icon: Warehouse
         },
     ]
 

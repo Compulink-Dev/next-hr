@@ -8,15 +8,23 @@ import DropDownLink from './DropDownLink'
 const inventoryLinks = [
     {
         title: "Items",
-        href: "inventory/items"
+        href: "inventory/items/new"
     },
     {
-        title: "Item Groups",
-        href: "inventory/itemgroups"
+        title: "Categories",
+        href: "inventory/categories/new"
     },
     {
-        title: "Adjustments",
-        href: "inventory/adjustments"
+        title: "Brands",
+        href: "inventory/brands/new"
+    },
+    {
+        title: "Units",
+        href: "inventory/units/new"
+    },
+    {
+        title: "Warehouse",
+        href: "inventory/warehouse/new"
     },
 ]
 
