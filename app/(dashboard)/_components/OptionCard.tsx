@@ -10,7 +10,7 @@ function OptionCard({ optionData }) {
         <div className="shadow-md bg-white p-4 flex flex-col items-center rounded">
             <h2 className="font-bold text-xl">{title}</h2>
             <div className="">
-                <Icon className='w-36 h-36' strokeWidth=".5px" />
+                <Icon className='w-32 h-32' strokeWidth=".5px" />
             </div>
             <p className="line-clamp-1 my-4 text-xs">
                 {description}

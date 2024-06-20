@@ -59,7 +59,7 @@ function DashInventory() {
     return (
         <div className=''>
             <FixedHeader newlink={'/dashboard/inventory/items/new'} />
-            <div className="p-8 grid grid-col-1 lg:grid-cols-2 gap-4">
+            <div className="p-8 grid grid-col-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {
                     optionCards.map((card, i) => (
                         <OptionCard

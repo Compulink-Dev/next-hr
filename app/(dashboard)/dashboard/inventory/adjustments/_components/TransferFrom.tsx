@@ -7,7 +7,7 @@ import SubmitButton from '../../_components/SubmitButton'
 import SelectInput from '../../_components/SelectInput'
 
 
-function Form() {
+function TransferForm() {
 
     const {
         register,
@@ -21,7 +21,7 @@ function Form() {
         setLoading(true)
         try {
             console.log(data);
-            const response = await fetch('/api/adjustments/add', {
+            const response = await fetch('/api/adjustments/transfer', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -56,26 +56,34 @@ function Form() {
 
     return (
         <section className="bg-white dark:bg-gray-900">
-            <div className="px-4 mx-auto max-w-2xl ">
-                <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">Add a new adjustment</h2>
+            <div className="px-4 mx-auto max-w-2xl">
+                <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">Add a new transfer adjustment</h2>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
                         <TextInput
                             errors={errors}
-                            label={'Enter quantity of stock to add'}
-                            name={'addStockQty'}
+                            label={'Enter quantity of stock to transfer'}
+                            name={'qtyStock'}
                             register={register}
                             type='number'
-                            className='w-full'
                         />
                         <SelectInput
                             errors={errors}
-                            label={'Select the warehouse to receive stock '}
+                            label={'Select the warehouse to release stock'}
+                            name={'givingWarehouseId'}
+                            register={register}
+                            className='w-full'
+                            options={warehouse}
+                        />
+                        <SelectInput
+                            errors={errors}
+                            label={'Select the warehouse to receive stock'}
                             name={'receivingWarehouseId'}
                             register={register}
                             className='w-full'
                             options={warehouse}
                         />
+
                         <TextareaInput
                             errors={errors}
                             label={'Adjustment notes'}
@@ -86,7 +94,7 @@ function Form() {
                     </div>
                     <SubmitButton
                         isLoading={loading}
-                        title='Add Stock'
+                        title='Adjustment'
                     />
                 </form>
             </div>
@@ -94,4 +102,4 @@ function Form() {
     )
 }
 
-export default Form
+export default TransferForm

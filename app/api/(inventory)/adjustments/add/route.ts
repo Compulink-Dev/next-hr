@@ -2,9 +2,9 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
     try {
-        const { qtyStock, branch, notes } = await request.json()
+        const { addStockQty, receivingWarehouseId, notes } = await request.json()
 
-        const adjustment = { qtyStock, branch, notes }
+        const adjustment = { addStockQty, receivingWarehouseId, notes }
         console.log(adjustment);
 
         return NextResponse.json(adjustment)
