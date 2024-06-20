@@ -8,6 +8,7 @@ import SelectInput from '../../_components/SelectInput'
 import { UploadButton } from '@/lib/uploadthing'
 import UploadThing from '@/app/(dashboard)/_components/UploadThing'
 import ImageInput from '@/app/(dashboard)/_components/UploadThing'
+import toast from 'react-hot-toast'
 
 
 function Form() {
@@ -35,6 +36,7 @@ function Form() {
             })
             if (response.ok) {
                 console.log(response);
+                toast.success('Item created successfully')
                 reset()
                 setLoading(false)
             }

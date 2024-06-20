@@ -5,6 +5,7 @@ import TextInput from '../../_components/TextInput'
 import TextareaInput from '../../_components/TextArea'
 import SubmitButton from '../../_components/SubmitButton'
 import SelectInput from '../../_components/SelectInput'
+import toast from 'react-hot-toast'
 
 
 function Form() {
@@ -30,6 +31,7 @@ function Form() {
             })
             if (response.ok) {
                 console.log(response);
+                toast.success('Warehouse created successfully')
                 reset()
                 setLoading(false)
             }
@@ -93,7 +95,7 @@ function Form() {
                         <SelectInput
                             errors={errors}
                             label={'Warehouse address'}
-                            name={'address'}
+                            name={'location'}
                             register={register}
                             className='w-full'
                             options={selectOptions}
@@ -101,7 +103,7 @@ function Form() {
                         <SelectInput
                             errors={errors}
                             label={'Warehouse type'}
-                            name={'type'}
+                            name={'warehouseType'}
                             register={register}
                             className='w-full'
                             options={selectType}

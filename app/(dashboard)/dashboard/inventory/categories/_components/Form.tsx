@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import TextInput from '../../_components/TextInput'
 import TextareaInput from '../../_components/TextArea'
 import SubmitButton from '../../_components/SubmitButton'
+import toast from 'react-hot-toast'
 
 
 function Form() {
@@ -14,6 +15,7 @@ function Form() {
         reset,
         formState: { errors },
     } = useForm()
+
 
     const [loading, setLoading] = useState(false)
     async function onSubmit(data: any) {
@@ -29,6 +31,7 @@ function Form() {
             })
             if (response.ok) {
                 console.log(response);
+                toast.success("Category created")
                 reset()
                 setLoading(false)
             }

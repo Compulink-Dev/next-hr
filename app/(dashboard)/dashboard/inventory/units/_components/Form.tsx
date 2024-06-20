@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import TextInput from '../../_components/TextInput'
 import TextareaInput from '../../_components/TextArea'
 import SubmitButton from '../../_components/SubmitButton'
+import toast from 'react-hot-toast'
 
 
 function Form() {
@@ -29,6 +30,7 @@ function Form() {
             })
             if (response.ok) {
                 console.log(response);
+                toast.success('Unit created successfully')
                 reset()
                 setLoading(false)
             }
@@ -47,7 +49,7 @@ function Form() {
                         <TextInput
                             errors={errors}
                             label={'Unit Title'}
-                            name={'title'}
+                            name={'name'}
                             register={register}
                             className='w-full'
                         />

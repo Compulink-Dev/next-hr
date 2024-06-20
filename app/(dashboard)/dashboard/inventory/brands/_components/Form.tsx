@@ -2,8 +2,8 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import TextInput from '../../_components/TextInput'
-import TextareaInput from '../../_components/TextArea'
 import SubmitButton from '../../_components/SubmitButton'
+import toast from 'react-hot-toast'
 
 
 function Form() {
@@ -29,11 +29,13 @@ function Form() {
             })
             if (response.ok) {
                 console.log(response);
+                toast.success('Brand created successfully')
                 reset()
                 setLoading(false)
             }
         } catch (error) {
             console.log(error);
+            toast.error('Brand was not created')
             setLoading(false)
         }
     }

@@ -1,10 +1,13 @@
+import db from "@/lib/db";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
     try {
-        const { name } = await request.json()
+        const { name, abbreviation } = await request.json()
 
-        const unit = { name }
+        const unit = await db.unit.create({
+            data: { name, abbreviation }
+        })
         console.log(unit);
 
         return NextResponse.json(unit)
@@ -12,7 +15,7 @@ export async function POST(request: Request) {
         console.log(error);
         return NextResponse.json({
             error,
-            message: "Failed to create brand"
+            message: "Failed to create unit"
         },
             { status: 500 }
         )

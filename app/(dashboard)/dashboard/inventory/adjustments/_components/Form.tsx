@@ -5,6 +5,7 @@ import TextInput from '../../_components/TextInput'
 import TextareaInput from '../../_components/TextArea'
 import SubmitButton from '../../_components/SubmitButton'
 import SelectInput from '../../_components/SelectInput'
+import toast from 'react-hot-toast'
 
 
 function Form() {
@@ -30,11 +31,13 @@ function Form() {
             })
             if (response.ok) {
                 console.log(response);
+                toast.success('Adjustment created successfully')
                 reset()
                 setLoading(false)
             }
         } catch (error) {
             console.log(error);
+            toast.error('Adjustment failed to create')
             setLoading(false)
         }
     }
@@ -60,6 +63,30 @@ function Form() {
                 <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">Add a new adjustment</h2>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
+                        <TextInput
+                            errors={errors}
+                            label={'Enter quantity of stock to add'}
+                            name={'addStockQty'}
+                            register={register}
+                            type='number'
+                            className='w-full'
+                        />
+                        <TextInput
+                            errors={errors}
+                            label={'Enter quantity of stock to add'}
+                            name={'addStockQty'}
+                            register={register}
+                            type='number'
+                            className='w-full'
+                        />
+                        <TextInput
+                            errors={errors}
+                            label={'Enter quantity of stock to add'}
+                            name={'addStockQty'}
+                            register={register}
+                            type='number'
+                            className='w-full'
+                        />
                         <TextInput
                             errors={errors}
                             label={'Enter quantity of stock to add'}

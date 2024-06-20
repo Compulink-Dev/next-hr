@@ -18,3 +18,41 @@ model Category {
   title       String
   description String?
 }
+
+model Unit {
+  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  abbreviation String
+}
+
+model Brand {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+}
+
+model Warehouse {
+  id            String  @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  location      String?
+  description   String?
+  warehouseType String
+}
+
+model Supplier {
+  id            String  @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  phone         String?
+  email         String?
+  address       String?
+  contactPerson String?
+  supplierCode  String  @unique
+  paymentTerms  String?
+  taxID         String?
+  notes         String?
+}
+
+// model AddStock {
+//     id            String  @id @default(auto()) @map("_id") @db.ObjectId
+//     addStock Int
+
+// }
