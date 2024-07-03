@@ -46,13 +46,13 @@ export async function POST(request: Request) {
 
 export async function GET(request: Request) {
     try {
-        const item = await db.item.findMany({
+        const items = await db.item.findMany({
             orderBy: {
                 createdAt: 'desc'
             }
         })
 
-        return NextResponse.json(item)
+        return NextResponse.json(items)
     } catch (error) {
         console.log(error);
         return NextResponse.json({
@@ -63,3 +63,4 @@ export async function GET(request: Request) {
         )
     }
 }
+

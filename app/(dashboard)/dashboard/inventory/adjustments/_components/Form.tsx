@@ -9,7 +9,7 @@ import toast from 'react-hot-toast'
 import { makeApiRequest } from '@/lib/apiRequest'
 
 
-function Form() {
+function Form({ items, warehouse }: any) {
 
     const {
         register,
@@ -21,50 +21,27 @@ function Form() {
     const [loading, setLoading] = useState(false)
     async function onSubmit(data: any) {
         setLoading(true)
-        // try {
-        //     console.log(data);
-        //     const response = await fetch('/api/adjustments/add', {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json'
-        //         },
-        //         body: JSON.stringify(data)
-        //     })
-        //     if (response.ok) {
-        //         console.log(response);
-        //         toast.success('Adjustment created successfully')
-        //         reset()
-        //         setLoading(false)
-        //     }
-        // } catch (error) {
-        //     console.log(error);
-        //     toast.error('Adjustment failed to create')
-        //     setLoading(false)
-        // }
-        makeApiRequest(
-            setLoading,
-            "adjustment/add",
-            data,
-            'Adjustment',
-            reset
-        )
+        try {
+            console.log(data);
+            const response = await fetch('/api/adjustments/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            if (response.ok) {
+                console.log(response);
+                toast.success('Adjustment created successfully')
+                reset()
+                setLoading(false)
+            }
+        } catch (error) {
+            toast.error('Adjustment failed to create')
+            console.log(error);
+            setLoading(false)
+        }
     }
-
-
-    const warehouse = [
-        {
-            label: "",
-            value: ""
-        },
-        {
-            label: "Pomona",
-            value: "112"
-        },
-        {
-            label: "In-House",
-            value: "112"
-        },
-    ]
 
     return (
         <section className="bg-white dark:bg-gray-900">
@@ -80,12 +57,13 @@ function Form() {
                             type='number'
                             className='w-full'
                         />
-                        <TextInput
+                        <SelectInput
                             errors={errors}
-                            label={'Item Id'}
+                            label={'Select the item'}
                             name={'itemId'}
                             register={register}
                             className='w-full'
+                            options={items}
                         />
                         <TextInput
                             errors={errors}

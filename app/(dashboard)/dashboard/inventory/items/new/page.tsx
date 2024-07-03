@@ -5,7 +5,7 @@ import Form from '../_components/Form'
 function NewItem() {
     return (
         <div className=''>
-            <NewHeader title='New Item' link='inventory' />
+            <NewHeader title='New Item' link='inventory/items' />
             <div className="">
                 <Form />
             </div>

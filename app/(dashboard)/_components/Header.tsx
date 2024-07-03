@@ -7,12 +7,12 @@ import { Button } from '@/components/ui/button'
 function Header() {
     return (
         <div className='bg-slate-100 h-14 flex items-center justify-between px-4'>
-            <div className="flex items-center gap-4">
+            <div className="hidden md:flex items-center gap-4">
                 <History className='w-6 h-6' />
                 <SearchInput />
             </div>
             <div className="flex items-center gap-3 ">
-                <div className="flex items-center gap-2">
+                <div className="items-center gap-2 hidden md:flex ">
                     <button className='bg-blue-600 hover:bg-blue-400 p-1 rounded-lg text-white'>
                         <Plus className='h-4 w-4' />
                     </button>

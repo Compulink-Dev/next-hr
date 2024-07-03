@@ -24,14 +24,31 @@ function CreateForm({ brand, category, unit, warehouse, supplier }: any) {
     async function onSubmit(data: any) {
         data.imageUrl = imageUrl
         setLoading(true)
-        makeApiRequest(
-            setLoading,
-            "items",
-            data,
-            'Item',
-            reset
-        )
-
+        try {
+            console.log(data);
+            setLoading(true)
+            const response = await fetch('/api/items', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            if (response.ok) {
+                console.log(response);
+                toast.success(`Items created successfully`)
+                reset()
+                setLoading(false)
+            }
+            else {
+                setLoading(false)
+                toast.error('Something went wrong')
+            }
+        } catch (error) {
+            console.log(error);
+            setLoading(false)
+            toast.error('Something went wrong')
+        }
     }
 
     return (

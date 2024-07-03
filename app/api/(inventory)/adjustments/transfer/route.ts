@@ -21,4 +21,24 @@ export async function POST(request: Request) {
         )
 
     }
-} 
+}
+
+export async function GET(request: Request) {
+    try {
+        const adjustment = await db.transferStockAdjustment.findMany({
+            orderBy: {
+                createdAt: 'desc'
+            }
+        })
+
+        return NextResponse.json(adjustment)
+    } catch (error) {
+        console.log(error);
+        return NextResponse.json({
+            error,
+            message: "Failed to create adjustment"
+        },
+            { status: 500 }
+        )
+    }
+}

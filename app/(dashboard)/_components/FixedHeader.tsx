@@ -3,16 +3,16 @@ import { ChevronDown, HelpCircle, Layout, LayoutGrid, List, MoreHorizontal, Plus
 import Link from 'next/link'
 import React from 'react'
 
-function FixedHeader({ newlink }: any) {
+function FixedHeader({ link, title }: any) {
     return (
         <div className='flex items-center justify-between p-4 bg-slate-50'>
             <Button className="bg-blue-600 hover:bg-blue-500">
-                <span className="">All Items</span>
+                <span className="">All {title}</span>
                 <ChevronDown className='w-4 h-4 pl-1' />
             </Button>
             <div className="flex items-center gap-2">
                 <Link
-                    href={newlink}
+                    href={`/${link}`}
                     className="bg-blue-600 hover:bg-blue-500 p-2 rounded-md flex items-center text-white text-sm">
                     <Plus className='w-3 h-3' />
                     <span className="">New</span>

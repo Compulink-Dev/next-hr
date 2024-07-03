@@ -8,31 +8,31 @@ import DropDownLink from './DropDownLink'
 const inventoryLinks = [
     {
         title: "Items",
-        href: "inventory/items/new"
+        href: "inventory/items/"
     },
     {
         title: "Categories",
-        href: "inventory/categories/new"
+        href: "inventory/categories/"
     },
     {
         title: "Brands",
-        href: "inventory/brands/new"
+        href: "inventory/brands/"
     },
     {
         title: "Units",
-        href: "inventory/units/new"
+        href: "inventory/units/"
     },
     {
         title: "Warehouse",
-        href: "inventory/warehouse/new"
+        href: "inventory/warehouse/"
     },
     {
         title: "Adjustments",
-        href: "inventory/adjustments/new"
+        href: "inventory/adjustments/"
     },
     {
         title: "Suppliers",
-        href: "inventory/suppliers/new"
+        href: "inventory/suppliers/"
     },
 ]
 
@@ -73,7 +73,7 @@ const salesLink = [
 
 function Sidebar() {
     return (
-        <div className="w-60 p-4 bg-slate-900 text-white flex flex-col">
+        <div className="w-60 p-4 bg-slate-900 text-white md:flex flex-col hidden">
 
             <div className="flex flex-col gap-2 justify-between">
                 <div className="flex items-center gap-1 border-b border-slate-400 pb-2 ">
