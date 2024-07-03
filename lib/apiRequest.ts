@@ -8,7 +8,7 @@ export async function makeApiRequest(setLoading, url, data, resourceName, reset)
     try {
         console.log(data);
         setLoading(true)
-        const response = await fetch(`/api/${url}`, {
+        const response = await fetch(`${process.env.URL}/api/${url}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

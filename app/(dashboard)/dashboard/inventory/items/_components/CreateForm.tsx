@@ -7,6 +7,7 @@ import TextInput from '../../_components/TextInput'
 import SelectInput from '../../_components/SelectInput'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
+import { makeApiRequest } from '@/lib/apiRequest'
 
 
 function CreateForm({ brand, category, unit, warehouse, supplier }: any) {
@@ -23,26 +24,13 @@ function CreateForm({ brand, category, unit, warehouse, supplier }: any) {
     async function onSubmit(data: any) {
         data.imageUrl = imageUrl
         setLoading(true)
-        try {
-            console.log(data);
-            const response = await fetch('/api/items', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-            if (response.ok) {
-                console.log(response);
-                toast.success('Item created successfully')
-                reset()
-                setLoading(false)
-                setImageUrl("")
-            }
-        } catch (error) {
-            console.log(error);
-            setLoading(false)
-        }
+        makeApiRequest(
+            setLoading,
+            "items",
+            data,
+            'Item',
+            reset
+        )
 
     }
 
