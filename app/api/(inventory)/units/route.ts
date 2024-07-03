@@ -21,4 +21,24 @@ export async function POST(request: Request) {
         )
 
     }
-} 
+}
+
+export async function GET(request: Request) {
+    try {
+        const unit = await db.unit.findMany({
+            orderBy: {
+                createdAt: 'desc'
+            }
+        })
+
+        return NextResponse.json(unit)
+    } catch (error) {
+        console.log(error);
+        return NextResponse.json({
+            error,
+            message: "Failed to create unit"
+        },
+            { status: 500 }
+        )
+    }
+}

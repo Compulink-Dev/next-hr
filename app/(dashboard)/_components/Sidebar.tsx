@@ -30,6 +30,10 @@ const inventoryLinks = [
         title: "Adjustments",
         href: "inventory/adjustments/new"
     },
+    {
+        title: "Suppliers",
+        href: "inventory/suppliers/new"
+    },
 ]
 
 const salesLink = [

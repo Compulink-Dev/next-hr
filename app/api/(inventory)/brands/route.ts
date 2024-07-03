@@ -21,4 +21,25 @@ export async function POST(request: Request) {
         )
 
     }
-} 
+}
+
+
+export async function GET(request: Request) {
+    try {
+        const brand = await db.brand.findMany({
+            orderBy: {
+                createdAt: 'desc'
+            }
+        })
+
+        return NextResponse.json(brand)
+    } catch (error) {
+        console.log(error);
+        return NextResponse.json({
+            error,
+            message: "Failed to create brand"
+        },
+            { status: 500 }
+        )
+    }
+}

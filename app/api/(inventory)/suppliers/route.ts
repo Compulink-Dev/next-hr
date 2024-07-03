@@ -3,17 +3,19 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
     try {
-        const { qtyStock, branch, notes } = await request.json()
+        const { name, phone, email, address, contactPerson, supplierCode, paymentTerms, taxID, notes } = await request.json()
 
-        const adjustment = { qtyStock, branch, notes }
-        console.log(adjustment);
+        const supplier = await db.supplier.create({
+            data: { name, phone, email, address, contactPerson, supplierCode, paymentTerms, taxID, notes },
+        })
+        console.log(supplier);
 
-        return NextResponse.json(adjustment)
+        return NextResponse.json(supplier)
     } catch (error) {
         console.log(error);
         return NextResponse.json({
             error,
-            message: "Failed to create adjustment"
+            message: "Failed to create supplier"
         },
             { status: 500 }
         )
@@ -21,20 +23,21 @@ export async function POST(request: Request) {
     }
 }
 
+
 export async function GET(request: Request) {
     try {
-        const warehouse = await db.warehouse.findMany({
+        const supplier = await db.supplier.findMany({
             orderBy: {
                 createdAt: 'desc'
             }
         })
 
-        return NextResponse.json(warehouse)
+        return NextResponse.json(supplier)
     } catch (error) {
         console.log(error);
         return NextResponse.json({
             error,
-            message: "Failed to create warehouse"
+            message: "Failed to create supplier"
         },
             { status: 500 }
         )

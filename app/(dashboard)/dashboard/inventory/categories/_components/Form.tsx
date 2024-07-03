@@ -49,8 +49,8 @@ function Form() {
                     <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
                         <TextInput
                             errors={errors}
-                            label={'Category title'}
-                            name={'title'}
+                            label={'Category Name'}
+                            name={'name'}
                             register={register}
                         />
                         <TextareaInput

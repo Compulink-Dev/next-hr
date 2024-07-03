@@ -6,6 +6,7 @@ import TextareaInput from '../../_components/TextArea'
 import SubmitButton from '../../_components/SubmitButton'
 import SelectInput from '../../_components/SelectInput'
 import toast from 'react-hot-toast'
+import { makeApiRequest } from '@/lib/apiRequest'
 
 
 function Form() {
@@ -20,25 +21,13 @@ function Form() {
     const [loading, setLoading] = useState(false)
     async function onSubmit(data: any) {
         setLoading(true)
-        try {
-            console.log(data);
-            const response = await fetch('/api/warehouse', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-            if (response.ok) {
-                console.log(response);
-                toast.success('Warehouse created successfully')
-                reset()
-                setLoading(false)
-            }
-        } catch (error) {
-            console.log(error);
-            setLoading(false)
-        }
+        makeApiRequest(
+            setLoading,
+            "warehouse",
+            data,
+            'Warehouse',
+            reset
+        )
     }
 
     const selectOptions = [

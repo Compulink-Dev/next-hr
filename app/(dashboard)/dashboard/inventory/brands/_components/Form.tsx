@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import TextInput from '../../_components/TextInput'
 import SubmitButton from '../../_components/SubmitButton'
 import toast from 'react-hot-toast'
+import { makeApiRequest } from '@/lib/apiRequest'
 
 
 function Form() {
@@ -18,26 +19,13 @@ function Form() {
     const [loading, setLoading] = useState(false)
     async function onSubmit(data: any) {
         setLoading(true)
-        try {
-            console.log(data);
-            const response = await fetch('/api/brands', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-            if (response.ok) {
-                console.log(response);
-                toast.success('Brand created successfully')
-                reset()
-                setLoading(false)
-            }
-        } catch (error) {
-            console.log(error);
-            toast.error('Brand was not created')
-            setLoading(false)
-        }
+        makeApiRequest(
+            setLoading,
+            'brands',
+            data,
+            'Brands',
+            reset
+        )
     }
 
     return (

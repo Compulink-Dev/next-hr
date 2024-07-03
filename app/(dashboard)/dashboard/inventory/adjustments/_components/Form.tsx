@@ -49,11 +49,11 @@ function Form() {
         },
         {
             label: "Pomona",
-            value: "1121212313123"
+            value: "112"
         },
         {
             label: "In-House",
-            value: "1121212313123"
+            value: "112"
         },
     ]
 
@@ -65,26 +65,17 @@ function Form() {
                     <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
                         <TextInput
                             errors={errors}
-                            label={'Enter quantity of stock to add'}
-                            name={'addStockQty'}
+                            label={'Reference Number'}
+                            name={'referenceNumber'}
                             register={register}
                             type='number'
                             className='w-full'
                         />
                         <TextInput
                             errors={errors}
-                            label={'Enter quantity of stock to add'}
-                            name={'addStockQty'}
+                            label={'Item Id'}
+                            name={'itemId'}
                             register={register}
-                            type='number'
-                            className='w-full'
-                        />
-                        <TextInput
-                            errors={errors}
-                            label={'Enter quantity of stock to add'}
-                            name={'addStockQty'}
-                            register={register}
-                            type='number'
                             className='w-full'
                         />
                         <TextInput

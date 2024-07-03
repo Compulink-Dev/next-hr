@@ -1,6 +1,6 @@
 import React from 'react'
 import FixedHeader from '../../_components/FixedHeader'
-import { BadgePercent, Boxes, Cog, Component, Frame, List, Merge, Shirt, Warehouse } from 'lucide-react'
+import { BadgePercent, Boxes, Cog, Component, Factory, Frame, List, Merge, Shirt, User, Warehouse } from 'lucide-react'
 import OptionCard from '../../_components/OptionCard'
 
 function DashInventory() {
@@ -27,7 +27,7 @@ function DashInventory() {
             description: 'Create standalone items and services that you buy and sell',
             link: '/brands',
             linkTitle: "New Bran",
-            enabled: false,
+            enabled: true,
             icon: Frame
         },
         {
@@ -35,7 +35,7 @@ function DashInventory() {
             description: 'Create standalone items and services that you buy and sell',
             link: '/adjustments',
             linkTitle: "New Adjustment Item",
-            enabled: false,
+            enabled: true,
             icon: Cog
         },
         {
@@ -43,7 +43,7 @@ function DashInventory() {
             description: 'Create standalone items and services that you buy and sell',
             link: '/units',
             linkTitle: "New Units Item",
-            enabled: false,
+            enabled: true,
             icon: Merge
         },
         {
@@ -51,8 +51,16 @@ function DashInventory() {
             description: 'Create standalone items and services that you buy and sell',
             link: '/warehouse',
             linkTitle: "New Warehouse Item",
-            enabled: false,
+            enabled: true,
             icon: Warehouse
+        },
+        {
+            title: 'Supplier',
+            description: 'Create standalone items and services that you buy and sell',
+            link: '/suppliers',
+            linkTitle: "New Supplier",
+            enabled: true,
+            icon: Factory
         },
     ]
 
