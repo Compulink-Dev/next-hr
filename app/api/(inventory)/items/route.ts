@@ -49,6 +49,13 @@ export async function GET(request: Request) {
         const items = await db.item.findMany({
             orderBy: {
                 createdAt: 'desc'
+            },
+            include: {
+                category: true,
+                supplier: true,
+                brand: true,
+                unit: true,
+                warehouse: true
             }
         })
 

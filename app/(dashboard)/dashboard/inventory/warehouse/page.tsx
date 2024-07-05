@@ -9,6 +9,7 @@ async function Warehouse() {
 
     const data = warehouse.map((obj: any) => {
         return {
+            id: obj.id,
             name: obj.name,
             location: obj.location,
             description: obj.description,
@@ -25,7 +26,7 @@ async function Warehouse() {
                 title='warehouse'
             />
             <div className="p-4">
-                <DataTable data={data} columns={columns} />
+                <DataTable data={data} columns={columns} updateLink={'inventory/warehouse'} />
             </div>
         </div>
     )

@@ -9,7 +9,7 @@ import toast from 'react-hot-toast'
 import { makeApiRequest } from '@/lib/apiRequest'
 
 
-function Form() {
+function Form({ warehouse }: any) {
 
     const {
         register,
@@ -21,13 +21,26 @@ function Form() {
     const [loading, setLoading] = useState(false)
     async function onSubmit(data: any) {
         setLoading(true)
-        makeApiRequest(
-            setLoading,
-            "warehouse",
-            data,
-            'Warehouse',
-            reset
-        )
+        try {
+            console.log(data);
+            const response = await fetch('/api/warehouse', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            if (response.ok) {
+                console.log(response);
+                toast.success('Warehouse created successfully')
+                reset()
+                setLoading(false)
+            }
+        } catch (error) {
+            toast.error('Warehouse failed to create')
+            console.log(error);
+            setLoading(false)
+        }
     }
 
     const selectOptions = [
@@ -87,7 +100,7 @@ function Form() {
                             name={'location'}
                             register={register}
                             className='w-full'
-                            options={selectOptions}
+                            options={warehouse}
                         />
                         <SelectInput
                             errors={errors}
@@ -95,7 +108,7 @@ function Form() {
                             name={'warehouseType'}
                             register={register}
                             className='w-full'
-                            options={selectType}
+                            options={warehouse}
                         />
                         <TextareaInput
                             errors={errors}

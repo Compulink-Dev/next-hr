@@ -10,6 +10,7 @@ async function Categories() {
 
     const data = categories.map((obj: any) => {
         return {
+            id: obj.id,
             name: obj.name,
             description: obj.description
         }
@@ -24,7 +25,7 @@ async function Categories() {
                 title='Categories'
             />
             <div className="p-4">
-                <DataTable data={data} columns={columns} />
+                <DataTable data={data} columns={columns} updateLink='inventory/categories' />
             </div>
         </div>
     )

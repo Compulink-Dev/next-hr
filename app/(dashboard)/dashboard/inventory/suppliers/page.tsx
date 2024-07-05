@@ -10,6 +10,7 @@ async function Suppliers() {
 
     const data = suppliers.map((obj: any) => {
         return {
+            id: obj.id,
             name: obj.name,
             phone: obj.phone,
             email: obj.email,
@@ -31,7 +32,7 @@ async function Suppliers() {
                 title='suppliers'
             />
             <div className="my-4 p-8">
-                <DataTable data={data} columns={columns} />
+                <DataTable data={data} columns={columns} updateLink={'inventory/suppliers'} />
             </div>
         </div>
     )

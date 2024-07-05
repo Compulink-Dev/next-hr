@@ -9,6 +9,7 @@ async function Units() {
 
     const data = units.map((obj: any) => {
         return {
+            id: obj.id,
             name: obj.name,
             abbreviation: obj.abbreviation,
         }
@@ -23,7 +24,7 @@ async function Units() {
                 title='units'
             />
             <div className="p-4">
-                <DataTable data={data} columns={columns} />
+                <DataTable data={data} columns={columns} updateLink={'inventory/units'} />
             </div>
         </div>
     )

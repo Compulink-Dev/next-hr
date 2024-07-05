@@ -13,9 +13,10 @@ interface LinkProps {
     links: any
     Icon: any
     href: any
+    onClick: any
 }
 
-function DropDownLink({ title, links, Icon, href }: LinkProps) {
+function DropDownLink({ title, links, Icon, href, onClick }: LinkProps) {
     return (
         <Collapsible>
             <div className="hover:bg-blue-400 w-full rounded flex gap-1 items-center justify-between px-4 py-2'">
@@ -34,12 +35,15 @@ function DropDownLink({ title, links, Icon, href }: LinkProps) {
                             key={i}
                             className="flex items-center justify-between hover:bg-blue-400 transition-all duration-300  rounded mx-4 px-4 py-2">
                             <Link
+                                onClick={onClick}
                                 key={link.title}
                                 className=' flex gap-1 items-center lowercase'
                                 href={`/dashboard/${link.href}`}>
                                 <span className="text-sm capitalize">{link.title}</span>
                             </Link>
-                            <Link href={`/dashboard/${link.href}/new`}>
+                            <Link
+                                onClick={onClick}
+                                href={`/dashboard/${link.href}/new`}>
                                 <PlusCircle className='w-4 h-4' />
                             </Link>
                         </div>

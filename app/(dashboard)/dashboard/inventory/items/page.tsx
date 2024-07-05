@@ -9,6 +9,7 @@ async function Items() {
 
     const data = items.map((obj: any) => {
         return {
+            id: obj.id,
             name: obj.name,
             description: obj.description,
             categoryId: obj.categoryId,
@@ -23,13 +24,15 @@ async function Items() {
             buyingPrice: obj.buyingPrice,
             reOrderPoint: obj.reOrderPoint,
             weight: obj.weight,
+            imageUrl: obj.imageUrl,
             dimensions: obj.dimensions,
             taxRate: obj.taxRate,
             notes: obj.notes,
+            categoryName: obj.category.name
         }
     })
 
-    const columns = ['name', 'description', 'categoryId', 'sku', 'barcode', 'quantity', 'unitId', 'brandId', 'supplierId', 'warehouseId', 'sellingPrice', 'buyingPrice', 'reOrderPoint', 'weight', 'dimensions', 'taxRate', 'notes']
+    const columns = ['imageUrl', 'name', 'description', 'categoryId', 'sku', 'barcode', 'quantity', 'unitId', 'brandId', 'supplierId', 'warehouseId', 'sellingPrice', 'buyingPrice', 'reOrderPoint', 'weight', 'dimensions', 'taxRate', 'notes', 'categoryName']
 
     return (
         <div>
@@ -38,7 +41,7 @@ async function Items() {
                 title='Items'
             />
             <div className="p-4">
-                <DataTable data={data} columns={columns} />
+                <DataTable data={data} columns={columns} updateLink={'inventory/items'} resourceName='items' />
             </div>
         </div>
     )

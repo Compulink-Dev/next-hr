@@ -20,13 +20,26 @@ function Form() {
     const [loading, setLoading] = useState(false)
     async function onSubmit(data: any) {
         setLoading(true)
-        makeApiRequest(
-            setLoading,
-            "units",
-            data,
-            'Unit',
-            reset
-        )
+        try {
+            console.log(data);
+            const response = await fetch('/api/units', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            if (response.ok) {
+                console.log(response);
+                toast.success('Unit created successfully')
+                reset()
+                setLoading(false)
+            }
+        } catch (error) {
+            toast.error('Unit failed to create')
+            console.log(error);
+            setLoading(false)
+        }
     }
 
     return (

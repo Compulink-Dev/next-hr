@@ -9,11 +9,14 @@ async function Brands() {
 
     const data = brands.map((obj: any) => {
         return {
+            id: obj.id,
             name: obj.name,
+            createdAt: obj.createdAt,
+            updatedAt: obj.updatedAt
         }
     })
 
-    const columns = ['name']
+    const columns = ['name', 'createdAt']
 
     return (
         <div>
@@ -22,7 +25,7 @@ async function Brands() {
                 title='Brands'
             />
             <div className="p-4">
-                <DataTable data={data} columns={columns} />
+                <DataTable data={data} columns={columns} updateLink='inventory/brands' resourceName='brands' />
             </div>
         </div>
     )

@@ -7,8 +7,6 @@ import TextInput from '../../_components/TextInput'
 import SelectInput from '../../_components/SelectInput'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
-import { makeApiRequest } from '@/lib/apiRequest'
-
 
 function CreateForm({ brand, category, unit, warehouse, supplier }: any) {
     const {

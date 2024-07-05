@@ -1,10 +1,11 @@
 import { Button } from '@/components/ui/button'
-import { getData } from '@/lib/apiResponse'
 import { Delete, Edit, Trash } from 'lucide-react'
+import Link from 'next/link'
 import React from 'react'
+import DeleteButton from './DeleteButton'
 
 
-function DataTable({ data, columns }: any) {
+function DataTable({ data = [], columns = [], updateLink, resourceName }: any) {
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -32,24 +33,31 @@ function DataTable({ data, columns }: any) {
                                         <td
                                             key={i}
                                             scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            {item[columnName]}
+                                            {
+                                                columnName.includes('.') ? (
+                                                    columnName.split('.').reduce((obj: any, key: any) => obj[key], item)
+                                                ) :
+                                                    columnName === 'imageUrl' ?
+                                                        (
+                                                            <img src={item.imageUrl} alt="" className="w-10 h-10 object-cover rounded-full" />
+                                                        ) : columnName === 'createdAt' || columnName === 'updatedAt' ?
+                                                            new Date(item[columnName]).toLocaleDateString()
+                                                            : (
+                                                                item[columnName]
+                                                            )
+                                            }
                                         </td>
                                     ))
                                 }
-
                                 <td className="px-6 py-4 text-right flex gap-2 items-center">
-                                    <Button
+                                    <Link
+                                        href={`/dashboard/${updateLink}/update/${item.id}`}
                                         className='text-blue-600 hover:text-blue-400 flex items-center gap-1'
-                                        variant={'ghost'}>
+                                    >
                                         <Edit />
                                         <span className="">Edit</span>
-                                    </Button>
-                                    <Button
-                                        className='text-red-600 hover:text-red-400 space-x-2s'
-                                        variant={'ghost'}>
-                                        <Trash />
-                                        <span className="">Delete</span>
-                                    </Button>
+                                    </Link>
+                                    <DeleteButton id={item.id} endpoint={resourceName} />
                                 </td>
                             </tr>
                         ))

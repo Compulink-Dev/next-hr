@@ -1,4 +1,4 @@
-import { BaggageClaim, Book, BusFront, Cable, ChevronLeft, CreditCard, FileBarChart, Home, LucideTruck, ShoppingCart, Users2 } from 'lucide-react'
+import { BaggageClaim, Book, BusFront, Cable, ChevronLeft, CreditCard, FileBarChart, Home, LucideTruck, Minimize2, ShoppingCart, Users2 } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 import SubscriptionCard from './SubscriptionCard'
@@ -71,14 +71,24 @@ const salesLink = [
     },
 ]
 
-function Sidebar() {
+function Sidebar({ showSide, setShowSide }: any) {
+    console.log(showSide);
+
     return (
-        <div className="w-60 p-4 bg-slate-900 text-white md:flex flex-col hidden">
+        <div className={`${showSide ? "w-60 min-h-screen fixed p-4 bg-slate-900 text-white md:flex flex-col  z-50" : "w-60 min-h-screen fixed p-4 bg-slate-900 text-white md:flex flex-col hidden z-50"}`}>
 
             <div className="flex flex-col gap-2 justify-between">
-                <div className="flex items-center gap-1 border-b border-slate-400 pb-2 ">
-                    <ShoppingCart />
-                    <span className="text-lg font-bold">Inventory</span>
+                <div className="flex items-center justify-between gap-1 border-b border-slate-400 pb-2 ">
+                    <div className="flex items-center gap-1">
+                        <ShoppingCart />
+                        <span className="text-lg font-bold">Inventory</span>
+                    </div>
+                    <Button
+                        onClick={() => setShowSide(false)}
+                        className='flex md:hidden'
+                    >
+                        <Minimize2 className='h-5 w-5' />
+                    </Button>
                 </div>
                 <nav className="flex flex-col gap-1">
                     <Link
@@ -92,12 +102,15 @@ function Sidebar() {
                         Icon={BaggageClaim}
                         title={'Inventory'}
                         links={inventoryLinks}
+                        onClick={() => setShowSide(false)}
+
                     />
                     <DropDownLink
                         href={'sales'}
                         Icon={ShoppingCart}
                         title={'Sales'}
                         links={salesLink}
+                        onClick={() => setShowSide(false)}
                     />
                     <Link
                         className='hover:bg-blue-400 rounded flex gap-1 items-center px-4 py-2'
