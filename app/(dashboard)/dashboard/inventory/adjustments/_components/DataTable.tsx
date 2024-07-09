@@ -5,7 +5,8 @@ import React from 'react'
 import DeleteButton from './DeleteButton'
 
 
-function DataTable({ data = [], columns = [], updateLink, resourceName }: any) {
+
+function DataTable({ data = [], columns = [], updateLink, endpoint }: any) {
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -56,9 +57,9 @@ function DataTable({ data = [], columns = [], updateLink, resourceName }: any) {
                                     >
                                         <Edit />
                                         <span className="">Edit</span>
-                                        {/* <p className="bg-red-800 h-8 w-24 text-white">{item.id}</p> */}
                                     </Link>
-                                    <DeleteButton id={item.id} endpoint={resourceName} />
+                                    {/* <DeleteButton id={item.id} endpoint={resourceName} /> */}
+                                    <DeleteButton id={item.id} endpoint={endpoint} />
                                 </td>
                             </tr>
                         ))

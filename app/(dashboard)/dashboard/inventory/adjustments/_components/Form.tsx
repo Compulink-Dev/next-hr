@@ -6,7 +6,6 @@ import TextareaInput from '../../_components/TextArea'
 import SubmitButton from '../../_components/SubmitButton'
 import SelectInput from '../../_components/SelectInput'
 import toast from 'react-hot-toast'
-import { makeApiRequest } from '@/lib/apiRequest'
 
 
 function Form({ items, warehouse }: any) {

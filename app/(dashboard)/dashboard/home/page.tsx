@@ -2,7 +2,9 @@ import React from 'react'
 
 function DashHome() {
     return (
-        <div>DashHome</div>
+        <div className=''>
+            Dashboard
+        </div>
     )
 }
 

@@ -26,7 +26,7 @@ async function Warehouse() {
                 title='warehouse'
             />
             <div className="p-4">
-                <DataTable data={data} columns={columns} updateLink={'inventory/warehouse'} />
+                <DataTable data={data} columns={columns} updateLink={'inventory/warehouse'} resourceName='warehouse' />
             </div>
         </div>
     )

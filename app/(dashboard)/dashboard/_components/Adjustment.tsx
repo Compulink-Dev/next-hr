@@ -8,6 +8,9 @@ import Swal from 'sweetalert2'
 
 function DeleteButton({ id, endpoint }: any) {
 
+    console.log("Delete button id :" + id);
+
+
     const router = useRouter()
     const [loading, setLoading] = useState(false)
 

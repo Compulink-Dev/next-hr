@@ -1,7 +1,7 @@
 import FixedHeader from '@/app/(dashboard)/_components/FixedHeader'
 import React from 'react'
-import DataTable from '../../_components/DataTable'
 import { getData } from '@/lib/apiResponse'
+import DataTable from '../../_components/DataTable'
 
 async function Adjustments() {
 
@@ -35,11 +35,11 @@ async function Adjustments() {
             />
             <div className="p-4">
                 <h2 className="text-lg font-bold mb-4 capitalize">Stock increment adjustments</h2>
-                <DataTable data={data} columns={columns} />
+                <DataTable data={data} columns={columns} updateLink={'adjustments/add'} resourceName='adjustments/add' />
             </div>
             <div className="p-4">
                 <h2 className="text-lg font-bold mb-4 capitalize">Stock transfer adjustments</h2>
-                <DataTable data={transfer} columns={transferColumns} />
+                <DataTable data={transfer} columns={transferColumns} updateLink={'adjustments/transfer'} resourceName='adjustments/transfer' />
             </div>
         </div>
     )

@@ -32,7 +32,7 @@ async function Suppliers() {
                 title='suppliers'
             />
             <div className="my-4 p-8">
-                <DataTable data={data} columns={columns} updateLink={'inventory/suppliers'} />
+                <DataTable data={data} columns={columns} updateLink={'inventory/suppliers'} resourceName='suppliers' />
             </div>
         </div>
     )

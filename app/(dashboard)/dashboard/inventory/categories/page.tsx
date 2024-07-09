@@ -25,7 +25,7 @@ async function Categories() {
                 title='Categories'
             />
             <div className="p-4">
-                <DataTable data={data} columns={columns} updateLink='inventory/categories' />
+                <DataTable data={data} columns={columns} updateLink='inventory/categories' resourceName='categories' />
             </div>
         </div>
     )

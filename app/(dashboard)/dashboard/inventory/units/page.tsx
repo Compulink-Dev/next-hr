@@ -24,7 +24,7 @@ async function Units() {
                 title='units'
             />
             <div className="p-4">
-                <DataTable data={data} columns={columns} updateLink={'inventory/units'} />
+                <DataTable data={data} columns={columns} updateLink={'inventory/units'} resourceName='units' />
             </div>
         </div>
     )
