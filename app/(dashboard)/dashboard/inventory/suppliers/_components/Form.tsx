@@ -6,6 +6,7 @@ import TextareaInput from '../../_components/TextArea'
 import SubmitButton from '../../_components/SubmitButton'
 import { makeApiRequest } from '@/lib/apiRequest'
 import toast from 'react-hot-toast'
+import { useRouter } from 'next/navigation'
 
 
 function Form() {
@@ -16,6 +17,7 @@ function Form() {
         reset,
         formState: { errors },
     } = useForm()
+    const router = useRouter()
 
     const [loading, setLoading] = useState(false)
     async function onSubmit(data: any) {
@@ -34,6 +36,7 @@ function Form() {
                 toast.success('Supplier created successfully')
                 reset()
                 setLoading(false)
+                router.push('/dashboard/inventory/suppliers')
             }
         } catch (error) {
             toast.error('Supplier failed to create')

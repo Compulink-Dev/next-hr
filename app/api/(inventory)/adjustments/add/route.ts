@@ -1,14 +1,60 @@
 import db from "@/lib/db";
 import { NextResponse } from "next/server";
+import { parse } from "path";
 
 export async function POST(request: Request) {
     try {
-        const { referenceNumber, itemId, addStockQty, receivingWarehouseId, notes } = await request.json()
+        const data = await request.json()
+
+
+
+        const itemToUpdate = await db.item.findUnique({
+            where: {
+                id: data.itemId
+            }
+        })
+
+
+        const currentItemQty = itemToUpdate.quantity
+
+        const newQty = parseInt(currentItemQty) + parseInt(data.addStockQty)
+
+        const updatedItem = await db.item.update({
+            where: {
+                id: data.itemId
+            },
+            data: { quantity: newQty }
+        });
+
+        const warehouse = await db.warehouse.findUnique({
+            where: {
+                id: data.receivingWarehouseId
+            }
+        })
+
+        const currentWarehouseStock = warehouse.stockQty
+
+        const newStockQty = parseInt(currentWarehouseStock) + parseInt(data.addStockQty)
+
+        const updatedWarehouse = await db.warehouse.update({
+            where: {
+                id: data.receivingWarehouseId
+            },
+            data: {
+                stockQty: newStockQty
+            }
+        })
 
         const adjustment = await db.addStockAdjustment.create({
-            data: { referenceNumber, itemId, addStockQty: Number(addStockQty), receivingWarehouseId, notes }
-        });
-        console.log(adjustment);
+            data: {
+                itemId: data.itemId,
+                referenceNumber: data.referenceNumber,
+                addStockQty: parseInt(data.addStockQty),
+                receivingWarehouseId: data.receivingWarehouseId,
+                notes: data.notes
+
+            }
+        })
 
         return NextResponse.json(adjustment)
     } catch (error) {

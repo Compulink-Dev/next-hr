@@ -6,6 +6,28 @@ export async function POST(request: Request) {
         // const { title, description, categoryId, sku, barcode, quantity, unitId, brandId, sellingPrice, buyingPrice, supplierId, reOrderPoint, imageUrl, warehouseId, weight, dimensions, taxRate, notes } = await request.json()
         const itemData = await request.json()
 
+
+        const warehouse = await db.warehouse.findUnique({
+            where: {
+                id: itemData.warehouseId
+            }
+        })
+
+
+        const currentWarehouseStock = warehouse.stockQty
+
+
+        const newStockQty = parseInt(currentWarehouseStock) + parseInt(itemData.quantity)
+
+        const updatedWarehouse = await db.warehouse.update({
+            where: {
+                id: itemData.warehouseId
+            },
+            data: {
+                stockQty: newStockQty
+            }
+        })
+
         const item = await db.item.create({
             data: {
                 name: itemData.name,
@@ -28,8 +50,6 @@ export async function POST(request: Request) {
                 notes: itemData.notes
             }
         })
-        console.log(item);
-
         return NextResponse.json(item)
     } catch (error) {
         console.log(error);

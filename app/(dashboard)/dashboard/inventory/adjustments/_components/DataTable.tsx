@@ -59,7 +59,7 @@ function DataTable({ data = [], columns = [], updateLink, endpoint }: any) {
                                         <span className="">Edit</span>
                                     </Link>
                                     {/* <DeleteButton id={item.id} endpoint={resourceName} /> */}
-                                    <DeleteButton id={item.id} endpoint={endpoint} />
+                                    <DeleteButton id={item.id} />
                                 </td>
                             </tr>
                         ))

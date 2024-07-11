@@ -5,6 +5,16 @@ export async function POST(request: Request) {
     try {
         const { transferStockQty, itemId, givingWarehouseId, receivingWarehouseId, referenceNumber, notes } = await request.json()
 
+        const receivingWarehouse = await db.warehouse.findUnique({
+            where: {
+                id: receivingWarehouseId
+            }
+        })
+
+        const currentReceivingWarehouseStock = receivingWarehouse.stockQty
+
+        // const newStockReceivingWarehouse = paersInt()
+
         const adjustment = await db.transferStockAdjustment.create({
             data: { transferStockQty: Number(transferStockQty), itemId, givingWarehouseId, receivingWarehouseId, referenceNumber, notes }
         })

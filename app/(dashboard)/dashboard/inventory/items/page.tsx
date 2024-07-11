@@ -28,11 +28,12 @@ async function Items() {
             dimensions: obj.dimensions,
             taxRate: obj.taxRate,
             notes: obj.notes,
-            categoryName: obj.category.name
+            categoryName: obj.category.name,
+            warehouse: obj.warehouse.name
         }
     })
 
-    const columns = ['imageUrl', 'name', 'description', 'categoryId', 'sku', 'barcode', 'quantity', 'unitId', 'brandId', 'supplierId', 'warehouseId', 'sellingPrice', 'buyingPrice', 'reOrderPoint', 'weight', 'dimensions', 'taxRate', 'notes', 'categoryName']
+    const columns = ['imageUrl', 'name', 'description', 'categoryId', 'sku', 'barcode', 'quantity', 'unitId', 'brandId', 'supplierId', 'warehouseId', 'sellingPrice', 'buyingPrice', 'reOrderPoint', 'weight', 'dimensions', 'taxRate', 'notes', 'categoryName', 'warehouse']
 
     return (
         <div>

@@ -24,7 +24,7 @@ function DeleteButton({ id, endpoint }: any) {
                 confirmButtonText: 'Yes, delete it'
             }).then(async (result) => {
                 if (result.isConfirmed) {
-                    const res = await fetch(`/api/${endpoint}/${id}`, {
+                    const res = await fetch(`/api/adjustments/transfer/${id}`, {
                         method: 'DELETE'
                     })
                     if (res.ok) {

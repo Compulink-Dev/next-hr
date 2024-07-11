@@ -3,6 +3,8 @@ import React from 'react'
 import { getData } from '@/lib/apiResponse'
 import DataTable from '../../_components/DataTable'
 
+
+
 async function Adjustments() {
 
     const addAdjustmentsData = getData('adjustments/add')
@@ -12,6 +14,7 @@ async function Adjustments() {
 
     const data = addAdjustments.map((obj: any) => {
         return {
+            id: obj.id,
             referenceNumber: obj.referenceNumber,
             addStockQty: obj.addStockQty
         }
@@ -19,6 +22,7 @@ async function Adjustments() {
 
     const transfer = transferAdjustments.map((obj: any) => {
         return {
+            id: obj.id,
             referenceNumber: obj.referenceNumber,
             transferStockQty: obj.transferStockQty
         }

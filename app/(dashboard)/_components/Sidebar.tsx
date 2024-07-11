@@ -71,6 +71,77 @@ const salesLink = [
     },
 ]
 
+const purchaseLink = [
+    {
+        title: "Customers",
+        href: "purchase/customers"
+    },
+    {
+        title: "Purchase Order",
+        href: "purchase/salesorder"
+    },
+    {
+        title: "Shipments",
+        href: "purchase/shipments"
+    },
+    {
+        title: "Invoices",
+        href: "purchase/invoices"
+    },
+    {
+        title: "Receipts",
+        href: "purchase/receipts"
+    },
+    {
+        title: "Payments",
+        href: "purchase/payments"
+    },
+    {
+        title: "Purchase Order",
+        href: "purchase/purchase-order"
+    },
+    {
+        title: "Debit Note",
+        href: "purchase/debit-note"
+    },
+]
+
+const humanLink = [
+    {
+        title: "Loans",
+        href: "hr/loans/"
+    },
+    {
+        title: "Leave Forms",
+        href: "hr/leave/"
+    },
+    {
+        title: "Payslips",
+        href: "hr/pay-slips/"
+    },
+    {
+        title: "Employees",
+        href: "hr/employees/"
+    },
+]
+
+const fleetLink = [
+    {
+        title: "Invoices",
+        href: "fleet/invoices/"
+    },
+    {
+        title: "Vehicles",
+        href: "fleet/vehicles/"
+    },
+    {
+        title: "Drivers",
+        href: "fleet/drivers/"
+    },
+]
+
+
+
 function Sidebar({ showSide, setShowSide }: any) {
     console.log(showSide);
 
@@ -112,24 +183,27 @@ function Sidebar({ showSide, setShowSide }: any) {
                         links={salesLink}
                         onClick={() => setShowSide(false)}
                     />
-                    <Link
-                        className='hover:bg-blue-400 rounded flex gap-1 items-center px-4 py-2'
-                        href={'/dashboard/home'}>
-                        <CreditCard className='w-4 h-4' />
-                        <span className="text-sm">Purchase</span>
-                    </Link>
-                    <Link
-                        className='hover:bg-blue-400 rounded flex gap-1 items-center px-4 py-2'
-                        href={'/dashboard/home'}>
-                        <Users2 className='w-4 h-4' />
-                        <span className="text-sm">Human Resource</span>
-                    </Link>
-                    <Link
-                        className='hover:bg-blue-400 rounded flex gap-1 items-center px-4 py-2'
-                        href={'/dashboard/fleet'}>
-                        <BusFront className='w-4 h-4' />
-                        <span className="text-sm">Fleet</span>
-                    </Link>
+                    <DropDownLink
+                        href={'purchase'}
+                        Icon={CreditCard}
+                        title={'Purchase'}
+                        links={purchaseLink}
+                        onClick={() => setShowSide(false)}
+                    />
+                    <DropDownLink
+                        href={'hr'}
+                        Icon={Users2}
+                        title={'H.R'}
+                        links={humanLink}
+                        onClick={() => setShowSide(false)}
+                    />
+                    <DropDownLink
+                        href={'fleet'}
+                        Icon={BusFront}
+                        title={'Fleet'}
+                        links={fleetLink}
+                        onClick={() => setShowSide(false)}
+                    />
                     <Link
                         className='hover:bg-blue-400 rounded flex gap-1 items-center px-4 py-2'
                         href={'/dashboard/home'}>
