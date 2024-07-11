@@ -68,23 +68,31 @@ model Supplier {
 }
 
 model Customer {
-  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
   name          String
   phone         String?
   email         String?
   address       String?
   contactPerson String?
-  supplierCode  String   @unique
+  supplierCode  String    @unique
   paymentTerms  String?
   taxID         String?
   notes         String?
-  createdAt     DateTime @default(now())
-  updateAt      DateTime @updatedAt
+  createdAt     DateTime  @default(now())
+  updateAt      DateTime  @updatedAt
+  JobCard       JobCard[]
 }
 
 model SalesOrder {
-  id   String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String
+  quantity    String
+  unit        String
+  price       Float
+  discount    Float
+  vat         Float
+  total       Float
 }
 
 model Shipment {
@@ -98,8 +106,9 @@ model SalesInvoice {
 }
 
 model Payments {
-  id   String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  name  String
+  price Float
 }
 
 model CreditNotes {
@@ -113,11 +122,23 @@ model DebitNotes {
 }
 
 model PurchaseOrder {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String
+  quantity    String
+  unit        String
+  price       Float
+  discount    Float
+  vat         Float
+  total       Float
+}
+
+model Purchase {
   id   String @id @default(auto()) @map("_id") @db.ObjectId
   name String
 }
 
-model Purchase {
+model Reports {
   id   String @id @default(auto()) @map("_id") @db.ObjectId
   name String
 }
@@ -147,12 +168,15 @@ model FleetInvoice {
   name String
 }
 
-model Vehicles {
-  id   String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
+model Vehicle {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  numberPlate String
+  serviceDate DateTime
+  mileage     Float
 }
 
-model Drivers {
+model Driver {
   id   String @id @default(auto()) @map("_id") @db.ObjectId
   name String
 }
@@ -223,4 +247,44 @@ model TransferStockAdjustment {
   notes                String?
   createdAt            DateTime @default(now())
   updateAt             DateTime @updatedAt
+}
+
+model JobCard {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  customer      Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  customerId    String   @db.ObjectId
+  contactPerson String
+  engineerId    String   @db.ObjectId
+  serialNumber  String
+  equipment     String
+  fault         String
+  labourHours   Float
+  travelTime    Float
+  mileage       Float
+}
+
+model Certification {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  startDate   DateTime
+  endDate     DateTime
+  duration    Float?
+  document    String
+  image       String?
+  description String
+  price       String?
+  modality    String?
+}
+
+model Training {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  startDate   DateTime
+  endDate     DateTime
+  duration    Float
+  image       String?
+  price       Float?
+  description String
+  modality    String?
 }

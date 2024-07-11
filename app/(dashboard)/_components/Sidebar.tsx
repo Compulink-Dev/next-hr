@@ -123,6 +123,14 @@ const humanLink = [
         title: "Employees",
         href: "hr/employees/"
     },
+    {
+        title: "Certification",
+        href: "hr/certification/"
+    },
+    {
+        title: "Training",
+        href: "hr/training/"
+    },
 ]
 
 const fleetLink = [
