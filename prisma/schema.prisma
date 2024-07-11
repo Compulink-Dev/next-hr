@@ -67,6 +67,106 @@ model Supplier {
   updateAt      DateTime @updatedAt
 }
 
+model Customer {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  phone         String?
+  email         String?
+  address       String?
+  contactPerson String?
+  supplierCode  String   @unique
+  paymentTerms  String?
+  taxID         String?
+  notes         String?
+  createdAt     DateTime @default(now())
+  updateAt      DateTime @updatedAt
+}
+
+model SalesOrder {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+}
+
+model Shipment {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+}
+
+model SalesInvoice {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+}
+
+model Payments {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+}
+
+model CreditNotes {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+}
+
+model DebitNotes {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+}
+
+model PurchaseOrder {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+}
+
+model Purchase {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+}
+
+model Loans {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+}
+
+model Leave {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+}
+
+model Payslip {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+}
+
+model Employee {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+}
+
+model FleetInvoice {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+}
+
+model Vehicles {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+}
+
+model Drivers {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+}
+
+model Integration {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+}
+
+model Document {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+}
+
 model Item {
   id                      String                    @id @default(auto()) @map("_id") @db.ObjectId
   name                    String

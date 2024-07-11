@@ -1,4 +1,4 @@
-import { BaggageClaim, Book, BusFront, Cable, ChevronLeft, CreditCard, FileBarChart, Home, LucideTruck, Minimize2, ShoppingCart, Users2 } from 'lucide-react'
+import { BaggageClaim, Book, BusFront, Cable, ChevronLeft, CreditCard, FileBarChart, Home, LucideTruck, Minimize2, ShoppingCart, Users2, Webhook } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 import SubscriptionCard from './SubscriptionCard'
@@ -149,10 +149,10 @@ function Sidebar({ showSide, setShowSide }: any) {
         <div className={`${showSide ? "w-60 min-h-screen fixed p-4 bg-slate-900 text-white md:flex flex-col  z-50" : "w-60 min-h-screen fixed p-4 bg-slate-900 text-white md:flex flex-col hidden z-50"}`}>
 
             <div className="flex flex-col gap-2 justify-between">
-                <div className="flex items-center justify-between gap-1 border-b border-slate-400 pb-2 ">
-                    <div className="flex items-center gap-1">
-                        <ShoppingCart />
-                        <span className="text-lg font-bold">Inventory</span>
+                <div className="flex items-center justify-between gap-2 border-b border-slate-400 pb-2 ">
+                    <div className="flex items-center gap-2">
+                        <Webhook />
+                        <span className="text-lg font-bold">Compulink</span>
                     </div>
                     <Button
                         onClick={() => setShowSide(false)}
@@ -206,7 +206,7 @@ function Sidebar({ showSide, setShowSide }: any) {
                     />
                     <Link
                         className='hover:bg-blue-400 rounded flex gap-1 items-center px-4 py-2'
-                        href={'/dashboard/home'}>
+                        href={'/dashboard/reports'}>
                         <FileBarChart className='w-4 h-4' />
                         <span className="text-sm">Reports</span>
                     </Link>
