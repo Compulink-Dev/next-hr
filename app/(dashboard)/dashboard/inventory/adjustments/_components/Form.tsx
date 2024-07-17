@@ -8,7 +8,7 @@ import SelectInput from '../../_components/SelectInput'
 import toast from 'react-hot-toast'
 
 
-function Form({ items, warehouse }: any) {
+function Form({ items, warehouse, suppliers }: any) {
 
     const {
         register,
@@ -34,6 +34,13 @@ function Form({ items, warehouse }: any) {
                 toast.success('Adjustment created successfully')
                 reset()
                 setLoading(false)
+            } else {
+                setLoading(false)
+                if (response.status == 409) {
+                    toast.error('Giving warehouse stock insufficient')
+                } else {
+                    toast.error('Failed to create')
+                }
             }
         } catch (error) {
             toast.error('Adjustment failed to create')
@@ -54,7 +61,6 @@ function Form({ items, warehouse }: any) {
                             name={'referenceNumber'}
                             register={register}
                             type='number'
-                            className='w-full'
                         />
                         <SelectInput
                             errors={errors}
@@ -79,6 +85,14 @@ function Form({ items, warehouse }: any) {
                             register={register}
                             className='w-full'
                             options={warehouse}
+                        />
+                        <SelectInput
+                            errors={errors}
+                            label={'Select the supplier to receive stock '}
+                            name={'supplierId'}
+                            register={register}
+                            className='w-full'
+                            options={suppliers}
                         />
                         <TextareaInput
                             errors={errors}

@@ -46,24 +46,8 @@ const salesLink = [
         href: "sales/salesorder"
     },
     {
-        title: "Shipments",
-        href: "sales/shipments"
-    },
-    {
         title: "Invoices",
         href: "sales/invoices"
-    },
-    {
-        title: "Receipts",
-        href: "sales/receipts"
-    },
-    {
-        title: "Payments",
-        href: "sales/payments"
-    },
-    {
-        title: "Sales Order",
-        href: "sales/salesorder"
     },
     {
         title: "Credit Note",
@@ -73,32 +57,16 @@ const salesLink = [
 
 const purchaseLink = [
     {
-        title: "Customers",
-        href: "purchase/customers"
+        title: "suppliers",
+        href: "purchases/suppliers"
     },
     {
         title: "Purchase Order",
-        href: "purchase/salesorder"
-    },
-    {
-        title: "Shipments",
-        href: "purchase/shipments"
+        href: "purchases/salesorder"
     },
     {
         title: "Invoices",
-        href: "purchase/invoices"
-    },
-    {
-        title: "Receipts",
-        href: "purchase/receipts"
-    },
-    {
-        title: "Payments",
-        href: "purchase/payments"
-    },
-    {
-        title: "Purchase Order",
-        href: "purchase/purchase-order"
+        href: "purchases/invoices"
     },
     {
         title: "Debit Note",
@@ -192,7 +160,7 @@ function Sidebar({ showSide, setShowSide }: any) {
                         onClick={() => setShowSide(false)}
                     />
                     <DropDownLink
-                        href={'purchase'}
+                        href={'purchases'}
                         Icon={CreditCard}
                         title={'Purchase'}
                         links={purchaseLink}

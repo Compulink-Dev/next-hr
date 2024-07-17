@@ -6,7 +6,7 @@ import Form from './Form'
 import TransferForm from './TransferFrom'
 
 //@ts-ignore
-function CreateForm({ items, warehouse }) {
+function CreateForm({ items, warehouse, suppliers }) {
 
     const tabs = [
         {
@@ -65,7 +65,7 @@ function CreateForm({ items, warehouse }) {
 
             <div className="">
                 {
-                    activeForm === "transfer" ? <TransferForm items={items} warehouse={warehouse} /> : <Form items={items} warehouse={warehouse} />
+                    activeForm === "transfer" ? <TransferForm items={items} warehouse={warehouse} /> : <Form items={items} warehouse={warehouse} suppliers={suppliers} />
                 }
             </div>
         </div>

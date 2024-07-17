@@ -12,11 +12,12 @@ async function Categories() {
         return {
             id: obj.id,
             name: obj.name,
-            description: obj.description
+            description: obj.description,
+            createdAt: obj.createdAt
         }
     })
 
-    const columns = ['name', 'description']
+    const columns = ['name', 'description', 'createdAt']
 
     return (
         <div>

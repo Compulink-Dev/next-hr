@@ -9,12 +9,13 @@ async function HeaderTabs() {
 
     const itemsData = getData('items')
     const warehouseData = getData('warehouse')
+    const suppliersData = getData('suppliers')
 
-    const [items, warehouse] = await Promise.all([itemsData, warehouseData])
+    const [items, warehouse, suppliers] = await Promise.all([itemsData, warehouseData, suppliersData])
 
     return (
         //@ts-ignore
-        <CreateForm items={items} warehouse={warehouse} />
+        <CreateForm items={items} warehouse={warehouse} suppliers={suppliers} />
     )
 }
 

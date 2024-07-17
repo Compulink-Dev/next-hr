@@ -2,10 +2,11 @@ import NewHeader from '@/app/(dashboard)/_components/NewHeader'
 import React from 'react'
 import Form from '../_components/Form'
 
-function NewSupplier() {
+function NewCustomer() {
+
     return (
         <div className=''>
-            <NewHeader title='New Supplier' link='inventory' />
+            <NewHeader title='New Supplier' link='inventory/suppliers' />
             <div className="">
                 <Form />
             </div>
@@ -13,4 +14,4 @@ function NewSupplier() {
     )
 }
 
-export default NewSupplier
+export default NewCustomer

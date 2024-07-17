@@ -14,10 +14,12 @@ async function Warehouse() {
             location: obj.location,
             description: obj.description,
             warehouseType: obj.warehouseType,
+            stockQty: parseInt(obj.stockQty),
+            createdAt: obj.createdAt
         }
     })
 
-    const columns = ['name', 'location', 'description', 'warehouseType']
+    const columns = ['name', 'location', 'description', 'stockQty', 'warehouseType', 'createdAt']
 
     return (
         <div>

@@ -22,7 +22,7 @@ function Performers() {
         <div className='shadow-lg p-4 rounded w-full mt-8'>
             <p className="text-lg font-bold">Top Performers</p>
             <div className="mt-4">
-                <p className="">You have 10 influence's in your company.</p>
+                <p className="">{"You have 10 influence's in your company."}</p>
             </div>
             <div className="flex gap-8 mt-8">
                 <div className="">

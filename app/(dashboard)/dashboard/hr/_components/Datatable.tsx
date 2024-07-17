@@ -3,6 +3,7 @@ import { Delete, Edit, Trash } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 import DeleteButton from '../../_components/DeleteButton'
+import Image from 'next/image'
 
 
 function DataTable({ data = [], columns = [], updateLink, resourceName }: any) {
@@ -41,7 +42,7 @@ function DataTable({ data = [], columns = [], updateLink, resourceName }: any) {
                                                         ) :
                                                             columnName === 'imageUrl' ?
                                                                 (
-                                                                    <img src={item.imageUrl} alt="" className="w-10 h-10 object-cover rounded-full" />
+                                                                    <Image src={item.imageUrl} alt="" className="w-10 h-10 object-cover rounded-full" />
                                                                 ) : columnName === 'createdAt' || columnName === 'updatedAt' ?
                                                                     new Date(item[columnName]).toLocaleDateString()
                                                                     : (

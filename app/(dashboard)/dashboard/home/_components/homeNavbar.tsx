@@ -22,10 +22,6 @@ function HomeNavbar() {
             href: "/dashboard/home/announcement"
         },
         {
-            title: "Overview",
-            href: "/dashboard/home/overview"
-        },
-        {
             title: "Updates",
             href: "/dashboard/home/updates"
         },
@@ -35,12 +31,6 @@ function HomeNavbar() {
     return (
         <div className='h032 p-5 header-bg bg-slate-50 border-b border-slate-300'>
             <div className="flex space-x-3">
-                <div className="flex w-12 h-12 rounded-lg bg-white items-center justify-center">
-                    <Building2 />
-                    <div className="flex flex-col">
-                        <p className="text-slate-700 font-semibold">Compulink CRM</p>
-                    </div>
-                </div>
                 <nav className="sticky mt-6 flex space-x-4">
                     <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
                         <ul className="flex flex-wrap -mb-px">

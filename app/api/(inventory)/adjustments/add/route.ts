@@ -48,6 +48,7 @@ export async function POST(request: Request) {
         const adjustment = await db.addStockAdjustment.create({
             data: {
                 itemId: data.itemId,
+                supplierId: data.supplierId,
                 referenceNumber: data.referenceNumber,
                 addStockQty: parseInt(data.addStockQty),
                 receivingWarehouseId: data.receivingWarehouseId,

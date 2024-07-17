@@ -26,13 +26,14 @@ export async function GET(request: Request, { params: { id } }) {
 //@ts-ignore
 export async function PUT(request: Request, { params: { id } }) {
     try {
-        const { name } = await request.json()
+        const { name, description } = await request.json()
         const category = await db.category.update({
             where: {
                 id
             },
             data: {
-                name
+                name,
+                description
             }
         })
         console.log(category);

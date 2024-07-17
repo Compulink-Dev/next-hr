@@ -34,6 +34,13 @@ function TransferForm({ items, warehouse }) {
                 toast.success('Adjustment created successfully')
                 reset()
                 setLoading(false)
+            } else {
+                setLoading(false)
+                if (response.status == 409) {
+                    toast.error('Giving warehouse stock insufficient')
+                } else {
+                    toast.error('Failed to create')
+                }
             }
         } catch (error) {
             toast.error('Adjustment failed to create')
@@ -54,7 +61,6 @@ function TransferForm({ items, warehouse }) {
                             label={'Reference number'}
                             name={'referenceNumber'}
                             register={register}
-                            className='w-full'
                         />
                         <SelectInput
                             errors={errors}
@@ -70,6 +76,7 @@ function TransferForm({ items, warehouse }) {
                             name={'transferStockQty'}
                             register={register}
                             type='number'
+                            className='w-full'
                         />
                         <SelectInput
                             errors={errors}

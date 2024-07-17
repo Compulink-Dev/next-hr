@@ -1,10 +1,37 @@
+'use client'
 import { BellDot, ChevronDown, History, LayoutGrid, Menu, Plus, RefreshCcwDotIcon, RefreshCw, Settings, User, User2Icon, Users2 } from 'lucide-react'
 import React from 'react'
 import SearchInput from './SearchInput'
 import { Button } from '@/components/ui/button'
+import { signOut, useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
+import { generateInitials } from '@/lib/initials'
+import Image from 'next/image'
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { DropdownMenuItem } from '@radix-ui/react-dropdown-menu'
 
 
 function Header({ setShowSide }: any) {
+
+    const { data: session, status } = useSession()
+    const router = useRouter()
+
+    if (status === "loading") {
+        return <p className="text-xs text-slate-500">Loading user...</p>
+    }
+
+    const username = session?.user?.name?.split(' ')[0] || undefined
+
+    const initial = generateInitials(username)
+
+
+    console.log(username);
 
 
     return (
@@ -37,17 +64,56 @@ function Header({ setShowSide }: any) {
                     </button>
                 </div>
                 <div className="flex items-center">
-                    <Button
-                        variant={'ghost'}
-                        className=" items-center hover:bg-slate-300 hidden md:flex">
-                        Grant
-                        <ChevronDown className='w-3 h-3' />
-                    </Button>
-                    <Button
-                        className='hover:bg-slate-300'
-                        variant={'ghost'}>
-                        <User className='h-4 w-4' />
-                    </Button>
+                    {
+                        session?.user?.image ? (
+                            <Image
+                                src={'/next.svg'}
+                                alt=''
+                                height={96}
+                                width={96}
+                                className='w-8 h-8 rounded-full border border-slate-800'
+                            />
+                        )
+                            : (
+                                <Button
+                                    variant={'ghost'}
+                                    className=" items-center hover:bg-slate-300 hidden md:flex gap-1">
+                                    {username}
+                                </Button>
+                            )
+                    }
+                    {
+                        session?.user?.name ? (
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button
+                                        className='hover:bg-slate-300 rounded-full bg-blue-500'
+                                    >
+                                        <span className=''>{initial}</span>
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent className="w-56">
+                                    <DropdownMenuLabel>My Profile</DropdownMenuLabel>
+                                    <DropdownMenuSeparator />
+                                    <div className="w-full p-8 flex flex-col gap-4 items-center justify-center">
+                                        <DropdownMenuItem>Profile</DropdownMenuItem>
+                                        <Button
+                                            className='bg-blue-600 hover:bg-blue-400'
+                                            onClick={() => signOut({
+                                                redirect: true,
+                                                callbackUrl: "/login"
+                                            })}
+                                        >
+                                            Logout
+                                        </Button>
+                                    </div>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        ) : (
+                            null
+                        )
+                    }
+
                     <Button
                         className='hidden md:flex hover:bg-slate-300'
                         variant={'ghost'}>

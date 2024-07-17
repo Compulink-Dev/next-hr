@@ -6,7 +6,6 @@ import TextareaInput from '../../_components/TextArea'
 import SubmitButton from '../../_components/SubmitButton'
 import SelectInput from '../../_components/SelectInput'
 import toast from 'react-hot-toast'
-import { makeApiRequest } from '@/lib/apiRequest'
 
 
 function Form({ warehouse }: any) {
@@ -92,9 +91,31 @@ function Form({ warehouse }: any) {
                             label={'Warehouse name'}
                             name={'name'}
                             register={register}
-
+                            className='w-full'
                         />
-                        <SelectInput
+                        <TextInput
+                            errors={errors}
+                            label={'Stock Quantity'}
+                            name={'stockQty'}
+                            register={register}
+                            type='number'
+                            className='w-full'
+                        />
+                        <TextInput
+                            errors={errors}
+                            label={'Warehouse type'}
+                            name={'warehouseType'}
+                            register={register}
+                            className='w-full'
+                        />
+                        <TextInput
+                            errors={errors}
+                            label={'Warehouse address'}
+                            name={'location'}
+                            register={register}
+                            className='w-full'
+                        />
+                        {/* <SelectInput
                             errors={errors}
                             label={'Warehouse address'}
                             name={'location'}
@@ -109,7 +130,7 @@ function Form({ warehouse }: any) {
                             register={register}
                             className='w-full'
                             options={warehouse}
-                        />
+                        /> */}
                         <TextareaInput
                             errors={errors}
                             label={'Warehouse description'}

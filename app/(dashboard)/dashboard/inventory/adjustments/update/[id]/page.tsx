@@ -4,7 +4,7 @@ import { getData } from '@/lib/apiResponse'
 
 //@ts-ignore
 async function UpdateAdjustments({ params: { id } }) {
-    const data = await getData(`adjustment/${id}`)
+    const data = await getData(`adjustments/${id}`)
     return (
         <div className=''>
             <NewHeader title='New Adjustment' link='inventory/adjustment' />

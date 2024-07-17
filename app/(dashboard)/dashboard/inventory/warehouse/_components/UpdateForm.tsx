@@ -42,7 +42,7 @@ function UpdateForm({ initialData, warehouse }: any) {
                 setLoading(false)
             }
         } catch (error) {
-            toast.error('Brand failed to update')
+            toast.error('Warehouse failed to update')
             console.log(error);
             setLoading(false)
         }
@@ -59,9 +59,29 @@ function UpdateForm({ initialData, warehouse }: any) {
                             label={'Warehouse name'}
                             name={'name'}
                             register={register}
-
                         />
-                        <SelectInput
+                        <TextInput
+                            errors={errors}
+                            label={'Stock Quantity'}
+                            name={'stockQty'}
+                            register={register}
+                            type='number'
+                        />
+                        <TextInput
+                            errors={errors}
+                            label={'Warehouse type'}
+                            name={'warehouseType'}
+                            register={register}
+                            className='w-full'
+                        />
+                        <TextInput
+                            errors={errors}
+                            label={'Warehouse address'}
+                            name={'location'}
+                            register={register}
+                            className='w-full'
+                        />
+                        {/* <SelectInput
                             errors={errors}
                             label={'Warehouse address'}
                             name={'location'}
@@ -76,7 +96,7 @@ function UpdateForm({ initialData, warehouse }: any) {
                             register={register}
                             className='w-full'
                             options={warehouse}
-                        />
+                        /> */}
                         <TextareaInput
                             errors={errors}
                             label={'Warehouse description'}

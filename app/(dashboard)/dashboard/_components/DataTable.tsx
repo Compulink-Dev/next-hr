@@ -58,7 +58,6 @@ function DataTable({ data = [], columns = [], updateLink, resourceName }: any) {
                                             >
                                                 <Edit />
                                                 <span className="">Edit</span>
-                                                {/* <p className="bg-red-800 h-8 w-24 text-white">{item.id}</p> */}
                                             </Link>
                                             <DeleteButton id={item.id} endpoint={resourceName} />
                                         </td>

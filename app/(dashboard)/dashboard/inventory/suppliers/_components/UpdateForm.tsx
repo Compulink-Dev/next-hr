@@ -1,11 +1,11 @@
 'use client'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import TextInput from '../../_components/TextInput'
-import SubmitButton from '../../_components/SubmitButton'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
-import TextareaInput from '../../_components/TextArea'
+import TextInput from '../../../inventory/_components/TextInput'
+import SubmitButton from '../../../inventory/_components/SubmitButton'
+import TextareaInput from '../../../inventory/_components/TextArea'
 
 
 function UpdateForm({ initialData }: any) {
@@ -50,7 +50,7 @@ function UpdateForm({ initialData }: any) {
     return (
         <section className="bg-white dark:bg-gray-900">
             <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
-                <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">Update a new Supplier</h2>
+                <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">Update a new Customer</h2>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
                         <TextInput
@@ -58,12 +58,12 @@ function UpdateForm({ initialData }: any) {
                             label={'Supplier name'}
                             name={'name'}
                             register={register}
+                            className='w-full'
                         />
                         <TextInput
                             errors={errors}
                             label={'Supplier phone'}
                             name={'phone'}
-                            type='phone'
                             register={register}
                             className='w-full'
                         />
@@ -71,7 +71,6 @@ function UpdateForm({ initialData }: any) {
                             errors={errors}
                             label={'Supplier email'}
                             name={'email'}
-                            type='email'
                             register={register}
                             className='w-full'
                         />
@@ -84,28 +83,27 @@ function UpdateForm({ initialData }: any) {
                         />
                         <TextInput
                             errors={errors}
-                            label={'Contact Person'}
+                            label={'Supplier contactPerson'}
                             name={'contactPerson'}
                             register={register}
-                            className='w-full'
                         />
                         <TextInput
                             errors={errors}
-                            label={'Supplier code'}
+                            label={'Supplier supplierCode'}
                             name={'supplierCode'}
                             register={register}
                             className='w-full'
                         />
                         <TextInput
                             errors={errors}
-                            label={'Payment Terms'}
+                            label={'Supplier paymentTerms'}
                             name={'paymentTerms'}
                             register={register}
                             className='w-full'
                         />
                         <TextInput
                             errors={errors}
-                            label={'Tax ID'}
+                            label={'Supplier taxId'}
                             name={'taxID'}
                             register={register}
                         />

@@ -52,77 +52,88 @@ model Warehouse {
 }
 
 model Supplier {
-  id            String   @id @default(auto()) @map("_id") @db.ObjectId
-  name          String
-  phone         String?
-  email         String?
-  address       String?
-  contactPerson String?
-  supplierCode  String   @unique
-  paymentTerms  String?
-  taxID         String?
-  notes         String?
-  Item          Item[]
-  createdAt     DateTime @default(now())
-  updateAt      DateTime @updatedAt
+  id                 String               @id @default(auto()) @map("_id") @db.ObjectId
+  name               String
+  phone              String?
+  email              String?
+  address            String?
+  contactPerson      String?
+  supplierCode       String               @unique
+  paymentTerms       String?
+  taxID              String?
+  notes              String?
+  Item               Item[]
+  createdAt          DateTime             @default(now())
+  updateAt           DateTime             @updatedAt
+  AddStockAdjustment AddStockAdjustment[]
 }
 
 model Customer {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
-  name          String
-  phone         String?
-  email         String?
-  address       String?
-  contactPerson String?
-  supplierCode  String    @unique
-  paymentTerms  String?
-  taxID         String?
-  notes         String?
-  createdAt     DateTime  @default(now())
-  updateAt      DateTime  @updatedAt
-  JobCard       JobCard[]
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  phone     String?
+  email     String?
+  address   String?
+  company   String?
+  notes     String?
+  createdAt DateTime  @default(now())
+  updateAt  DateTime  @updatedAt
+  JobCard   JobCard[]
+  User      User[]
 }
 
 model SalesOrder {
-  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   description String
-  quantity    String
+  quantity    Float
   unit        String
   price       Float
-  discount    Float
-  vat         Float
+  discount    Float?
+  vat         Float?
   total       Float
+  createdAt   DateTime @default(now())
+  updateAt    DateTime @updatedAt
 }
 
 model Shipment {
-  id   String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
 }
 
 model SalesInvoice {
-  id   String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
 }
 
 model Payments {
-  id    String @id @default(auto()) @map("_id") @db.ObjectId
-  name  String
-  price Float
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  price     Float
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
 }
 
 model CreditNotes {
-  id   String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
 }
 
 model DebitNotes {
-  id   String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
 }
 
 model PurchaseOrder {
-  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   description String
   quantity    String
@@ -131,41 +142,73 @@ model PurchaseOrder {
   discount    Float
   vat         Float
   total       Float
+  createdAt   DateTime @default(now())
+  updateAt    DateTime @updatedAt
+}
+
+model User {
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  name           String?
+  email          String?   @unique
+  emailVerified  DateTime?
+  image          String?
+  hashedPassword String?
+  customer       Customer  @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  customerId     String    @db.ObjectId
+  createdAt      DateTime  @default(now())
+  updateAt       DateTime  @updatedAt
+  userId         String?   @db.ObjectId
 }
 
 model Purchase {
-  id   String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
 }
 
 model Reports {
-  id   String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
 }
 
 model Loans {
-  id   String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
 }
 
 model Leave {
-  id   String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
 }
 
 model Payslip {
-  id   String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
 }
 
 model Employee {
-  id   String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
+  id            String          @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  Certification Certification[]
+  Training      Training[]
+  createdAt     DateTime        @default(now())
+  updateAt      DateTime        @updatedAt
 }
 
 model FleetInvoice {
-  id   String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
 }
 
 model Vehicle {
@@ -174,21 +217,29 @@ model Vehicle {
   numberPlate String
   serviceDate DateTime
   mileage     Float
+  createdAt   DateTime @default(now())
+  updateAt    DateTime @updatedAt
 }
 
 model Driver {
-  id   String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
 }
 
 model Integration {
-  id   String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
 }
 
 model Document {
-  id   String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
 }
 
 model Item {
@@ -229,6 +280,8 @@ model AddStockAdjustment {
   referenceNumber      String
   addStockQty          Float
   notes                String?
+  supplier             Supplier @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+  supplierId           String   @db.ObjectId
   receivingWarehouseId String   @db.ObjectId
   item                 Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
   itemId               String   @db.ObjectId
@@ -262,6 +315,8 @@ model JobCard {
   labourHours   Float
   travelTime    Float
   mileage       Float
+  createdAt     DateTime @default(now())
+  updateAt      DateTime @updatedAt
 }
 
 model Certification {
@@ -271,10 +326,14 @@ model Certification {
   endDate     DateTime
   duration    Float?
   document    String
+  userId      String   @db.ObjectId
+  user        Employee @relation(fields: [userId], references: [id], onDelete: Cascade)
   image       String?
   description String
   price       String?
   modality    String?
+  createdAt   DateTime @default(now())
+  updateAt    DateTime @updatedAt
 }
 
 model Training {
@@ -284,7 +343,11 @@ model Training {
   endDate     DateTime
   duration    Float
   image       String?
+  userId      String   @db.ObjectId
+  user        Employee @relation(fields: [userId], references: [id], onDelete: Cascade)
   price       Float?
   description String
   modality    String?
+  createdAt   DateTime @default(now())
+  updateAt    DateTime @updatedAt
 }

@@ -4,11 +4,11 @@ import UpdateForm from '../../_components/UpdateForm'
 import { getData } from '@/lib/apiResponse'
 
 //@ts-ignore
-async function UpdateBrands({ params: { id } }) {
+async function UpdateCustomers({ params: { id } }) {
     const data = await getData(`suppliers/${id}`)
     return (
         <div className=''>
-            <NewHeader title='New Supplier' link='inventory/suppliers' />
+            <NewHeader title='Update Supplier' link='inventory/suppliers' />
             <div className="">
                 <UpdateForm initialData={data} />
             </div>
@@ -16,4 +16,4 @@ async function UpdateBrands({ params: { id } }) {
     )
 }
 
-export default UpdateBrands
+export default UpdateCustomers

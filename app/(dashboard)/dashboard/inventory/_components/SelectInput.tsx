@@ -24,7 +24,8 @@ export default function SelectInput({
                 >
                     {options.map((option: any, i: any) => {
                         return (
-                            <option key={i} value={option.id}>
+                            <option
+                                key={i} value={option.id}>
                                 {option.name}
                             </option>
                         );

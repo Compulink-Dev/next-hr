@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Toast } from 'react-hot-toast';
+import AuthProvider from "@/context/AuthProvider";
 
 
 export const metadata: Metadata = {
@@ -17,9 +18,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {children}
-        <Toaster />
-        <Toast />
+        {/*//@ts-ignore*/}
+        <AuthProvider>
+          <Toaster />
+          {children}
+          <Toast />
+        </AuthProvider>
       </body>
     </html>
   );

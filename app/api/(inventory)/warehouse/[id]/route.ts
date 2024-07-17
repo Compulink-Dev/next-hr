@@ -26,13 +26,17 @@ export async function GET(request: Request, { params: { id } }) {
 //@ts-ignore
 export async function PUT(request: Request, { params: { id } }) {
     try {
-        const { name } = await request.json()
+        const data = await request.json()
         const warehouse = await db.warehouse.update({
             where: {
                 id
             },
             data: {
-                name
+                name: data.name,
+                location: data.location,
+                description: data.description,
+                warehouseType: data.warehouseType,
+                stockQty: parseInt(data.stockQty)
             }
         })
         console.log(warehouse);

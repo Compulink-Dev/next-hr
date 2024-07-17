@@ -16,7 +16,8 @@ async function Adjustments() {
         return {
             id: obj.id,
             referenceNumber: obj.referenceNumber,
-            addStockQty: obj.addStockQty
+            addStockQty: obj.addStockQty,
+            supplierId: obj.supplierId,
         }
     })
 
@@ -28,7 +29,7 @@ async function Adjustments() {
         }
     })
 
-    const columns = ['referenceNumber', 'addStockQty']
+    const columns = ['referenceNumber', 'addStockQty', 'supplierId']
     const transferColumns = ['referenceNumber', 'transferStockQty']
 
     return (
