@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 
 import NewHeader from '@/app/(dashboard)/_components/NewHeader'
 import React from 'react'
