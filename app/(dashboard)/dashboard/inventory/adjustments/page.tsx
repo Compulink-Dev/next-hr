@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic"
 import FixedHeader from '@/app/(dashboard)/_components/FixedHeader'
 import React from 'react'
 import { getData } from '@/lib/apiResponse'

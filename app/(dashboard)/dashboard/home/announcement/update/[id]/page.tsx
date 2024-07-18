@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic"
 import NewHeader from '@/app/(dashboard)/_components/NewHeader'
 import React from 'react'
 import UpdateForm from '../../_components/UpdateForm'
