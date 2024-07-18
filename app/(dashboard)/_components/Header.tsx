@@ -1,10 +1,9 @@
 'use client'
-import { BellDot, ChevronDown, History, LayoutGrid, Menu, Plus, RefreshCcwDotIcon, RefreshCw, Settings, User, User2Icon, Users2 } from 'lucide-react'
+import { BellDot, History, LayoutGrid, Menu, Plus, Settings, Users2 } from 'lucide-react'
 import React from 'react'
 import SearchInput from './SearchInput'
 import { Button } from '@/components/ui/button'
 import { signOut, useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
 import { generateInitials } from '@/lib/initials'
 import Image from 'next/image'
 import {
@@ -20,7 +19,6 @@ import { DropdownMenuItem } from '@radix-ui/react-dropdown-menu'
 function Header({ setShowSide }: any) {
 
     const { data: session, status } = useSession()
-    const router = useRouter()
 
     if (status === "loading") {
         return <p className="text-xs text-slate-500">Loading user...</p>

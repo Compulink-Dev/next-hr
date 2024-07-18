@@ -79,7 +79,6 @@ model Customer {
   createdAt DateTime  @default(now())
   updateAt  DateTime  @updatedAt
   JobCard   JobCard[]
-  User      User[]
 }
 
 model SalesOrder {
@@ -153,8 +152,6 @@ model User {
   emailVerified  DateTime?
   image          String?
   hashedPassword String?
-  customer       Customer  @relation(fields: [customerId], references: [id], onDelete: Cascade)
-  customerId     String    @db.ObjectId
   createdAt      DateTime  @default(now())
   updateAt       DateTime  @updatedAt
   userId         String?   @db.ObjectId

@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic"
 import React from 'react'
 import CreateForm from './CreateForm'
 import { getData } from '@/lib/apiResponse'
