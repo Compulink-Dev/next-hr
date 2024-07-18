@@ -172,24 +172,41 @@ model Reports {
 }
 
 model Loans {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  createdAt DateTime @default(now())
-  updateAt  DateTime @updatedAt
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  payment     String
+  type        String
+  ammount     Float
+  repayment   DateTime
+  repayments  Int?
+  reason      String?
+  intrest     Float?
+  installment Float?
+  attachment  String?
+  createdAt   DateTime @default(now())
+  updateAt    DateTime @updatedAt
 }
 
 model Leave {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  createdAt DateTime @default(now())
-  updateAt  DateTime @updatedAt
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  type       String
+  source     String?
+  from       String
+  to         String
+  duration   String
+  contact    String?
+  reason     String?
+  attachment String?
+  createdAt  DateTime @default(now())
+  updateAt   DateTime @updatedAt
 }
 
 model Payslip {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  createdAt DateTime @default(now())
-  updateAt  DateTime @updatedAt
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  period     DateTime
+  attachment String
+  createdAt  DateTime @default(now())
+  updateAt   DateTime @updatedAt
 }
 
 model Employee {
@@ -329,6 +346,7 @@ model Certification {
   description String
   price       String?
   modality    String?
+  attachment  String
   createdAt   DateTime @default(now())
   updateAt    DateTime @updatedAt
 }
@@ -345,6 +363,7 @@ model Training {
   price       Float?
   description String
   modality    String?
+  attachment  String
   createdAt   DateTime @default(now())
   updateAt    DateTime @updatedAt
 }

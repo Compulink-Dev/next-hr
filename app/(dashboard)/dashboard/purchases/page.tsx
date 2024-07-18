@@ -1,7 +1,8 @@
 import React from 'react'
 import FixedHeader from '../../_components/FixedHeader'
 import { BadgeDollarSign, BadgePercent, Boxes, CircleUserRound, Cog, Component, Factory, Frame, List, Merge, Notebook, Shirt, StickyNote, User, UserRound, Warehouse } from 'lucide-react'
-import OptionCard from '../../_components/OptionCard'
+import OptionCard from './_components/OptionCard'
+
 
 function DashInventory() {
 
@@ -31,10 +32,10 @@ function DashInventory() {
             icon: Notebook
         },
         {
-            title: 'Credit Note',
+            title: 'Debit Note',
             description: 'Create standalone items and services that you buy and sell',
-            link: '/creditnote',
-            linkTitle: "New Credit Note",
+            link: '/debitnote',
+            linkTitle: "New Debit Note",
             enabled: true,
             icon: StickyNote
         },

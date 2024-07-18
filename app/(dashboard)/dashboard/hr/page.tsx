@@ -3,7 +3,8 @@ import React, { useState } from 'react'
 import Admin from './_components/Admin'
 import Users from './_components/Users'
 import { BadgePercent, Boxes, Cog, Component, Factory, File, FileJson, FileSpreadsheet, FileStack, Frame, List, Merge, School, Shirt, User, Warehouse } from 'lucide-react'
-import OptionCard from '../../_components/OptionCard'
+import OptionCard from './_components/OptionCard'
+
 
 
 function HumanResource

@@ -4,7 +4,7 @@ import React from 'react'
 import DataTable from '../../_components/DataTable'
 import { getData } from '@/lib/apiResponse'
 
-async function Loans() {
+async function PaySlip() {
 
     const leave = await getData('leave')
 
@@ -38,4 +38,4 @@ async function Loans() {
     )
 }
 
-export default Loans
+export default PaySlip
