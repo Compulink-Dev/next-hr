@@ -12,7 +12,7 @@ export async function POST(request: Request) {
                 location: data.location,
                 time: data.time,
                 paymentType: data.paymentType,
-                amount: data.amount,
+                amount: parseFloat(data.amount),
             },
         })
         console.log(fleetInvoice);

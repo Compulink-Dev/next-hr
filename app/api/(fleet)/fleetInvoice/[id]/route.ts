@@ -36,7 +36,7 @@ export async function PUT(request: Request, { params: { id } }) {
                 location: data.location,
                 time: data.time,
                 paymentType: data.paymentType,
-                amount: data.amount,
+                amount: parseFloat(data.amount),
             },
         })
         console.log(fleetInvoice);

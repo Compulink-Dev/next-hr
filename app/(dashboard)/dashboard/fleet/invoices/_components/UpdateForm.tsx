@@ -89,6 +89,7 @@ function UpdateForm({ initialData }: any) {
                             errors={errors}
                             label={'Amount'}
                             name={'amount'}
+                            type='number'
                             register={register}
                             className='w-full'
                         />
