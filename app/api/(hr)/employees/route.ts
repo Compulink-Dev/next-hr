@@ -4,19 +4,28 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
     try {
-        const { name, description } = await request.json()
+        const data = await request.json()
 
-        const category = await db.category.create({
-            data: { name, description },
+        const employee = await db.employee.create({
+            data: {
+                name: data.name,
+                email: data.email,
+                phone: data.phone,
+                description: data.description,
+                address: data.address,
+                title: data.title,
+                appliedDate: data.appliedDate,
+                status: data.status,
+            },
         })
-        console.log(category);
+        console.log(employee);
 
-        return NextResponse.json(category)
+        return NextResponse.json(employee)
     } catch (error) {
         console.log(error);
         return NextResponse.json({
             error,
-            message: "Failed to create category"
+            message: "Failed to create employee"
         },
             { status: 500 }
         )
@@ -26,18 +35,18 @@ export async function POST(request: Request) {
 
 export async function GET(request: Request) {
     try {
-        const category = await db.category.findMany({
+        const employee = await db.employee.findMany({
             orderBy: {
                 createdAt: 'desc'
             }
         })
 
-        return NextResponse.json(category)
+        return NextResponse.json(employee)
     } catch (error) {
         console.log(error);
         return NextResponse.json({
             error,
-            message: "Failed to create category"
+            message: "Failed to create employee"
         },
             { status: 500 }
         )

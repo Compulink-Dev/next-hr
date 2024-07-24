@@ -1,9 +1,18 @@
+import NewHeader from '@/app/(dashboard)/_components/NewHeader'
 import React from 'react'
+import Form from '../_components/Form'
 
-function CreatePage() {
+
+function NewVehicle() {
+
     return (
-        <div>CreatePage</div>
+        <div className=''>
+            <NewHeader title='New Vehicle' link='fleet/vehicles' />
+            <div className="">
+                <Form />
+            </div>
+        </div>
     )
 }
 
-export default CreatePage
+export default NewVehicle

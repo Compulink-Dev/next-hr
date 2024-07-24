@@ -18,7 +18,7 @@ async function Leave() {
             duration: obj.duration,
             contact: obj.contact,
             reason: obj.reason,
-            attachment: obj.attachment,
+            attachment: obj.attachment || 'No-file',
             createdAt: obj.createdAt
         }
     })

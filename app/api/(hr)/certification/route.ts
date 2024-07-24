@@ -4,19 +4,31 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
     try {
-        const { name, description } = await request.json()
+        const data = await request.json()
 
-        const category = await db.category.create({
-            data: { name, description },
+        const certification = await db.certification.create({
+            data: {
+                name: data.name,
+                startDate: data.startDate,
+                endDate: data.endDate,
+                duration: parseFloat(data.duration),
+                image: data.image,
+                description: data.description,
+                price: data.price,
+                modality: data.modality,
+                attachment: data.attachment,
+                status: data.status,
+                createdAt: data.createdAt
+            },
         })
-        console.log(category);
+        console.log(certification);
 
-        return NextResponse.json(category)
+        return NextResponse.json(certification)
     } catch (error) {
         console.log(error);
         return NextResponse.json({
             error,
-            message: "Failed to create category"
+            message: "Failed to create certification"
         },
             { status: 500 }
         )
@@ -26,18 +38,21 @@ export async function POST(request: Request) {
 
 export async function GET(request: Request) {
     try {
-        const category = await db.category.findMany({
+        const certification = await db.certification.findMany({
             orderBy: {
                 createdAt: 'desc'
+            },
+            include: {
+                user: true
             }
         })
 
-        return NextResponse.json(category)
+        return NextResponse.json(certification)
     } catch (error) {
         console.log(error);
         return NextResponse.json({
             error,
-            message: "Failed to create category"
+            message: "Failed to create certification"
         },
             { status: 500 }
         )

@@ -1,9 +1,19 @@
+import NewHeader from '@/app/(dashboard)/_components/NewHeader'
 import React from 'react'
+import Form from '../_components/Form'
 
-function CreatePage() {
+
+
+function NewCertification() {
+
     return (
-        <div>CreatePage</div>
+        <div className=''>
+            <NewHeader title='New certification' link='hr/certification' />
+            <div className="">
+                <Form />
+            </div>
+        </div>
     )
 }
 
-export default CreatePage
+export default NewCertification

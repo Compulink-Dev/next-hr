@@ -5,18 +5,18 @@ import { NextResponse } from "next/server";
 export async function GET(request: Request, { params: { id } }) {
     try {
 
-        const category = await db.category.findUnique({
+        const loans = await db.loans.findUnique({
             where: {
                 id
             }
         })
 
-        return NextResponse.json(category)
+        return NextResponse.json(loans)
     } catch (error) {
         console.log(error);
         return NextResponse.json({
             error,
-            message: "Failed to create category"
+            message: "Failed to create loans"
         },
             { status: 500 }
         )
@@ -26,24 +26,31 @@ export async function GET(request: Request, { params: { id } }) {
 //@ts-ignore
 export async function PUT(request: Request, { params: { id } }) {
     try {
-        const { name, description } = await request.json()
-        const category = await db.category.update({
+        const data = await request.json()
+        const loans = await db.loans.update({
             where: {
                 id
             },
             data: {
-                name,
-                description
-            }
+                payment: data.payment,
+                type: data.type,
+                amount: parseFloat(data.amount),
+                repayment: data.repayment,
+                repayments: parseInt(data.repayments),
+                reason: data.reason,
+                interest: parseFloat(data.interest),
+                installment: parseFloat(data.installment),
+                attachment: data.attachment,
+            },
         })
-        console.log(category);
+        console.log(loans);
 
-        return NextResponse.json(category)
+        return NextResponse.json(loans)
     } catch (error) {
         console.log(error);
         return NextResponse.json({
             error,
-            message: "Failed to update category"
+            message: "Failed to update loans"
         },
             { status: 500 }
         )
@@ -52,7 +59,7 @@ export async function PUT(request: Request, { params: { id } }) {
 
 export async function DELETE(req: Request, { params }: { params: { id: string } }) {
     try {
-        await db.category.delete({
+        await db.loans.delete({
             where: {
                 id: params.id
             }

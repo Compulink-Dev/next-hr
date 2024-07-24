@@ -26,7 +26,7 @@ function UpdateForm({ initialData }: any) {
         setLoading(true)
         try {
             console.log(data);
-            const response = await fetch(`/api/customers/${initialData.id}`, {
+            const response = await fetch(`/api/employees/${initialData.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -35,13 +35,13 @@ function UpdateForm({ initialData }: any) {
             })
             if (response.ok) {
                 console.log(response);
-                toast.success('Customer updated successfully')
+                toast.success('Employee updated successfully')
                 reset()
-                router.push('/dashboard/sales/customers/')
+                router.push('/dashboard/hr/employees/')
                 setLoading(false)
             }
         } catch (error) {
-            toast.error('Customer failed to update')
+            toast.error('Employee failed to update')
             console.log(error);
             setLoading(false)
         }
@@ -55,42 +55,52 @@ function UpdateForm({ initialData }: any) {
                     <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
                         <TextInput
                             errors={errors}
-                            label={'Customer name'}
+                            label={'Employee name'}
                             name={'name'}
                             register={register}
                             className='w-full'
                         />
                         <TextInput
                             errors={errors}
-                            label={'Customer phone'}
+                            label={'Employee email'}
+                            name={'email'}
+                            register={register}
+                            className='w-full'
+                            type='email'
+                        />
+                        <TextInput
+                            errors={errors}
+                            label={'Employee phone'}
                             name={'phone'}
                             register={register}
                             className='w-full'
                         />
                         <TextInput
                             errors={errors}
-                            label={'Customer email'}
-                            name={'email'}
-                            register={register}
-                            className='w-full'
-                        />
-                        <TextInput
-                            errors={errors}
-                            label={'Customer address'}
+                            label={'Employee address'}
                             name={'address'}
                             register={register}
                             className='w-full'
                         />
                         <TextInput
                             errors={errors}
-                            label={'Customer company'}
-                            name={'company'}
+                            label={'Employee title'}
+                            name={'title'}
                             register={register}
+                            className='w-full'
                         />
-                        <TextareaInput
+                        <TextInput
                             errors={errors}
-                            label={'Customer notes'}
-                            name={'notes'}
+                            label={'Employee appliedDate'}
+                            name={'appliedDate'}
+                            register={register}
+                            className='w-full'
+                            type='date'
+                        />
+                        <TextInput
+                            errors={errors}
+                            label={'Employee status'}
+                            name={'status'}
                             register={register}
                         />
                     </div>

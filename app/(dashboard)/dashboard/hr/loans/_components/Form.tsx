@@ -7,6 +7,7 @@ import TextInput from '../../../inventory/_components/TextInput'
 import SubmitButton from '../../../inventory/_components/SubmitButton'
 import TextareaInput from '../../../inventory/_components/TextArea'
 import { useRouter } from 'next/navigation'
+import ImageInput from '@/app/(dashboard)/_components/UploadThing'
 
 
 function Form() {
@@ -18,6 +19,7 @@ function Form() {
         formState: { errors },
     } = useForm()
 
+    const [attachment, setAttachment] = useState('')
     const [loading, setLoading] = useState(false)
     const router = useRouter()
 
@@ -26,7 +28,7 @@ function Form() {
         setLoading(true)
         try {
             console.log(data);
-            const response = await fetch('/api/customers', {
+            const response = await fetch('/api/loan', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -35,13 +37,13 @@ function Form() {
             })
             if (response.ok) {
                 console.log(response);
-                toast.success('Customer created successfully')
+                toast.success('Loan created successfully')
                 reset()
                 setLoading(false)
-                router.push('/dashboard/sales/customers')
+                router.push('/dashboard/hr/loans')
             }
         } catch (error) {
-            toast.error('Customer failed to create')
+            toast.error('Loan failed to create')
             console.log(error);
             setLoading(false)
         }
@@ -50,53 +52,76 @@ function Form() {
     return (
         <section className="bg-white dark:bg-gray-900">
             <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
-                <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">Add a new Customer</h2>
+                <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">Add a new Loan</h2>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
                         <TextInput
                             errors={errors}
-                            label={'Customer name'}
-                            name={'name'}
+                            label={'Payment'}
+                            name={'payment'}
                             register={register}
                             className='w-full'
                         />
                         <TextInput
                             errors={errors}
-                            label={'Customer phone'}
-                            name={'phone'}
+                            label={'Loan type'}
+                            name={'type'}
                             register={register}
                             className='w-full'
                         />
                         <TextInput
                             errors={errors}
-                            label={'Customer email'}
-                            name={'email'}
+                            label={'Amount'}
+                            name={'amount'}
+                            register={register}
+                            className='w-full'
+                            type='number'
+                        />
+                        <TextInput
+                            errors={errors}
+                            label={'Loan repayment'}
+                            name={'repayment'}
                             register={register}
                             className='w-full'
                         />
                         <TextInput
                             errors={errors}
-                            label={'Customer address'}
-                            name={'address'}
+                            label={'Loan repayments'}
+                            name={'repayments'}
+                            register={register}
+                            className='w-full'
+                            type='number'
+                        />
+                        <TextInput
+                            errors={errors}
+                            label={'Reason'}
+                            name={'reason'}
                             register={register}
                             className='w-full'
                         />
                         <TextInput
                             errors={errors}
-                            label={'Customer company'}
-                            name={'company'}
+                            label={'Loan interest'}
+                            name={'interest'}
                             register={register}
                         />
-                        <TextareaInput
+                        <TextInput
                             errors={errors}
-                            label={'Customer notes'}
-                            name={'notes'}
+                            label={'Installments'}
+                            name={'installment'}
                             register={register}
+                            className='w-full'
+                            type='number'
+                        />
+                        <ImageInput
+                            label={'Attachment'}
+                            setImageUrl={setAttachment}
+                            imageUrl={attachment}
                         />
                     </div>
                     <SubmitButton
                         isLoading={loading}
-                        title='Customer'
+                        title='Loan'
                     />
                 </form>
             </div>

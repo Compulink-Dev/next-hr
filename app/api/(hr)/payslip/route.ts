@@ -4,19 +4,19 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
     try {
-        const { name, description } = await request.json()
+        const { name, period, attachment } = await request.json()
 
-        const category = await db.category.create({
-            data: { name, description },
+        const payslip = await db.payslip.create({
+            data: { name, period, attachment },
         })
-        console.log(category);
+        console.log(payslip);
 
-        return NextResponse.json(category)
+        return NextResponse.json(payslip)
     } catch (error) {
         console.log(error);
         return NextResponse.json({
             error,
-            message: "Failed to create category"
+            message: "Failed to create payslip"
         },
             { status: 500 }
         )
@@ -26,18 +26,18 @@ export async function POST(request: Request) {
 
 export async function GET(request: Request) {
     try {
-        const category = await db.category.findMany({
+        const payslip = await db.payslip.findMany({
             orderBy: {
                 createdAt: 'desc'
             }
         })
 
-        return NextResponse.json(category)
+        return NextResponse.json(payslip)
     } catch (error) {
         console.log(error);
         return NextResponse.json({
             error,
-            message: "Failed to create category"
+            message: "Failed to create payslip"
         },
             { status: 500 }
         )

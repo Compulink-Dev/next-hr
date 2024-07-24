@@ -6,33 +6,32 @@ import { getData } from '@/lib/apiResponse'
 
 async function Employee() {
 
-    const leave = await getData('leave')
+    const employee = await getData('employees')
 
-    const data = leave.map((obj: any) => {
+    const data = employee.map((obj: any) => {
         return {
             id: obj.id,
-            type: obj.type,
-            source: obj.source,
-            from: obj.from,
-            to: obj.to,
-            duration: obj.duration,
-            contact: obj.contact,
-            reason: obj.reason,
-            attachment: obj.attachment,
+            name: obj.name,
+            email: obj.email,
+            phone: obj.phone,
+            address: obj.address,
+            title: obj.title,
+            appliedDate: obj.appliedDate,
+            status: obj.status,
             createdAt: obj.createdAt
         }
     })
 
-    const columns = ['type', 'source', 'from', 'to', 'duration', 'contact', 'reason', 'attachment', 'createdAt']
+    const columns = ['name', 'email', 'phone', 'address', 'title', 'appliedDate', 'status', 'createdAt']
 
     return (
         <div>
             <FixedHeader
-                link={'dashboard/hr/leave/new'}
-                title='Leave'
+                link={'dashboard/hr/employees/new'}
+                title='Employee'
             />
             <div className="p-4">
-                <DataTable data={data} columns={columns} updateLink='hr/leave' resourceName='leave' />
+                <DataTable data={data} columns={columns} updateLink='hr/employees' resourceName='employees' />
             </div>
         </div>
     )

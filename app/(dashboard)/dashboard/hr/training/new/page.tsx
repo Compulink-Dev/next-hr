@@ -1,9 +1,18 @@
+import NewHeader from '@/app/(dashboard)/_components/NewHeader'
 import React from 'react'
+import Form from '../_components/Form'
 
-function CreatePage() {
+
+function NewTraining() {
+
     return (
-        <div>CreatePage</div>
+        <div className=''>
+            <NewHeader title='New Training' link='hr/training' />
+            <div className="">
+                <Form />
+            </div>
+        </div>
     )
 }
 
-export default CreatePage
+export default NewTraining

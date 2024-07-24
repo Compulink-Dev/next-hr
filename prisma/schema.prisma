@@ -175,11 +175,11 @@ model Loans {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   payment     String
   type        String
-  ammount     Float
-  repayment   DateTime
+  amount      Float
+  repayment   String
   repayments  Int?
   reason      String?
-  intrest     Float?
+  interest    Float?
   installment Float?
   attachment  String?
   createdAt   DateTime @default(now())
@@ -203,8 +203,8 @@ model Leave {
 model Payslip {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   name       String
-  period     DateTime
-  attachment String
+  period     String
+  attachment String?
   createdAt  DateTime @default(now())
   updateAt   DateTime @updatedAt
 }
@@ -212,6 +212,12 @@ model Payslip {
 model Employee {
   id            String          @id @default(auto()) @map("_id") @db.ObjectId
   name          String
+  email         String?
+  phone         String
+  address       String
+  title         String
+  appliedDate   String
+  status        String
   Certification Certification[]
   Training      Training[]
   createdAt     DateTime        @default(now())
@@ -219,27 +225,44 @@ model Employee {
 }
 
 model FleetInvoice {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  createdAt DateTime @default(now())
-  updateAt  DateTime @updatedAt
-}
-
-model Vehicle {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   name        String
-  numberPlate String
-  serviceDate DateTime
-  mileage     Float
+  vehicleId   String?  @db.ObjectId
+  vehicle     Vehicle? @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  location    String?
+  time        String?
+  paymentType String
+  amount      Float
   createdAt   DateTime @default(now())
   updateAt    DateTime @updatedAt
 }
 
+model Vehicle {
+  id             String         @id @default(auto()) @map("_id") @db.ObjectId
+  name           String
+  numberPlate    String
+  serviceDate    String
+  nextService    String
+  serviceType    String
+  radioLicense   String
+  vehicleLicense String
+  mileage        Float
+  status         String
+  createdAt      DateTime       @default(now())
+  updateAt       DateTime       @updatedAt
+  Driver         Driver[]
+  FleetInvoice   FleetInvoice[]
+}
+
 model Driver {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  createdAt DateTime @default(now())
-  updateAt  DateTime @updatedAt
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  licenseNumber String?
+  vehicleId     String?  @db.ObjectId
+  vehicle       Vehicle? @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  status        String
+  createdAt     DateTime @default(now())
+  updateAt      DateTime @updatedAt
 }
 
 model Integration {
@@ -334,36 +357,37 @@ model JobCard {
 }
 
 model Certification {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
   name        String
-  startDate   DateTime
-  endDate     DateTime
+  startDate   String
+  endDate     String
   duration    Float?
-  document    String
-  userId      String   @db.ObjectId
-  user        Employee @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String?   @db.ObjectId
+  user        Employee? @relation(fields: [userId], references: [id], onDelete: Cascade)
   image       String?
   description String
   price       String?
   modality    String?
-  attachment  String
-  createdAt   DateTime @default(now())
-  updateAt    DateTime @updatedAt
+  attachment  String?
+  status      String?
+  createdAt   DateTime  @default(now())
+  updateAt    DateTime  @updatedAt
 }
 
 model Training {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
   name        String
-  startDate   DateTime
-  endDate     DateTime
-  duration    Float
+  startDate   String
+  endDate     String
+  duration    Float?
   image       String?
-  userId      String   @db.ObjectId
-  user        Employee @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String?   @db.ObjectId
+  user        Employee? @relation(fields: [userId], references: [id], onDelete: Cascade)
   price       Float?
   description String
   modality    String?
-  attachment  String
-  createdAt   DateTime @default(now())
-  updateAt    DateTime @updatedAt
+  attachment  String?
+  status      String?
+  createdAt   DateTime  @default(now())
+  updateAt    DateTime  @updatedAt
 }

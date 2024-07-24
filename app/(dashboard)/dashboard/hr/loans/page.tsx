@@ -6,33 +6,34 @@ import { getData } from '@/lib/apiResponse'
 
 async function Loans() {
 
-    const leave = await getData('leave')
+    const loan = await getData('loan')
 
-    const data = leave.map((obj: any) => {
+    const data = loan.map((obj: any) => {
         return {
             id: obj.id,
+            payment: obj.payment,
             type: obj.type,
-            source: obj.source,
-            from: obj.from,
-            to: obj.to,
-            duration: obj.duration,
-            contact: obj.contact,
+            amount: parseFloat(obj.amount),
+            repayment: obj.repayment,
+            repayments: parseInt(obj.repayments) || 0,
             reason: obj.reason,
-            attachment: obj.attachment,
+            interest: parseFloat(obj.interest) || 0,
+            installment: parseFloat(obj.installment) || 0,
+            attachment: obj.attachment || "No file",
             createdAt: obj.createdAt
         }
     })
 
-    const columns = ['type', 'source', 'from', 'to', 'duration', 'contact', 'reason', 'attachment', 'createdAt']
+    const columns = ['payment', 'type', 'amount', 'repayment', 'repayments', 'reason', 'interest', 'installment', 'attachment', 'createdAt']
 
     return (
         <div>
             <FixedHeader
-                link={'dashboard/hr/leave/new'}
-                title='Leave'
+                link={'dashboard/hr/loans/new'}
+                title='Loan'
             />
             <div className="p-4">
-                <DataTable data={data} columns={columns} updateLink='hr/leave' resourceName='leave' />
+                <DataTable data={data} columns={columns} updateLink='hr/loans' resourceName='loan' />
             </div>
         </div>
     )

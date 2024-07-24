@@ -5,18 +5,18 @@ import { NextResponse } from "next/server";
 export async function GET(request: Request, { params: { id } }) {
     try {
 
-        const category = await db.category.findUnique({
+        const training = await db.training.findUnique({
             where: {
                 id
             }
         })
 
-        return NextResponse.json(category)
+        return NextResponse.json(training)
     } catch (error) {
         console.log(error);
         return NextResponse.json({
             error,
-            message: "Failed to create category"
+            message: "Failed to create training"
         },
             { status: 500 }
         )
@@ -26,24 +26,33 @@ export async function GET(request: Request, { params: { id } }) {
 //@ts-ignore
 export async function PUT(request: Request, { params: { id } }) {
     try {
-        const { name, description } = await request.json()
-        const category = await db.category.update({
+        const data = await request.json()
+        const training = await db.training.update({
             where: {
                 id
             },
             data: {
-                name,
-                description
-            }
+                name: data.name,
+                startDate: data.startDate,
+                endDate: data.endDate,
+                duration: parseFloat(data.duration),
+                image: data.image,
+                description: data.description,
+                price: parseFloat(data.price),
+                modality: data.modality,
+                attachment: data.attachment,
+                status: data.status,
+                createdAt: data.createdAt
+            },
         })
-        console.log(category);
+        console.log(training);
 
-        return NextResponse.json(category)
+        return NextResponse.json(training)
     } catch (error) {
         console.log(error);
         return NextResponse.json({
             error,
-            message: "Failed to update category"
+            message: "Failed to update training"
         },
             { status: 500 }
         )
@@ -52,7 +61,7 @@ export async function PUT(request: Request, { params: { id } }) {
 
 export async function DELETE(req: Request, { params }: { params: { id: string } }) {
     try {
-        await db.category.delete({
+        await db.training.delete({
             where: {
                 id: params.id
             }
@@ -62,3 +71,4 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
         return NextResponse.json(error)
     }
 }
+7

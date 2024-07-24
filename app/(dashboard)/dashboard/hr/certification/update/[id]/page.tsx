@@ -5,10 +5,10 @@ import { getData } from '@/lib/apiResponse'
 
 //@ts-ignore
 async function UpdateCategory({ params: { id } }) {
-    const data = await getData(`categories/${id}`)
+    const data = await getData(`certification/${id}`)
     return (
         <div className=''>
-            <NewHeader title='Update Category' link='inventory/categories' />
+            <NewHeader title='Update Certificate' link='hr/certification' />
             <div className="">
                 <UpdateForm initialData={data} />
             </div>

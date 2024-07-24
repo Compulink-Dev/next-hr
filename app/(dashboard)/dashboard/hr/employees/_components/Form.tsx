@@ -26,7 +26,7 @@ function Form() {
         setLoading(true)
         try {
             console.log(data);
-            const response = await fetch('/api/customers', {
+            const response = await fetch('/api/employees', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -35,13 +35,13 @@ function Form() {
             })
             if (response.ok) {
                 console.log(response);
-                toast.success('Customer created successfully')
+                toast.success('Employee created successfully')
                 reset()
                 setLoading(false)
-                router.push('/dashboard/sales/customers')
+                router.push('/dashboard/hr/employees')
             }
         } catch (error) {
-            toast.error('Customer failed to create')
+            toast.error('Employee failed to create')
             console.log(error);
             setLoading(false)
         }
@@ -55,48 +55,58 @@ function Form() {
                     <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
                         <TextInput
                             errors={errors}
-                            label={'Customer name'}
+                            label={'Employee name'}
                             name={'name'}
                             register={register}
                             className='w-full'
                         />
                         <TextInput
                             errors={errors}
-                            label={'Customer phone'}
+                            label={'Employee email'}
+                            name={'email'}
+                            register={register}
+                            className='w-full'
+                            type='email'
+                        />
+                        <TextInput
+                            errors={errors}
+                            label={'Employee phone'}
                             name={'phone'}
                             register={register}
                             className='w-full'
                         />
                         <TextInput
                             errors={errors}
-                            label={'Customer email'}
-                            name={'email'}
-                            register={register}
-                            className='w-full'
-                        />
-                        <TextInput
-                            errors={errors}
-                            label={'Customer address'}
+                            label={'Employee address'}
                             name={'address'}
                             register={register}
                             className='w-full'
                         />
                         <TextInput
                             errors={errors}
-                            label={'Customer company'}
-                            name={'company'}
+                            label={'Employee title'}
+                            name={'title'}
                             register={register}
+                            className='w-full'
                         />
-                        <TextareaInput
+                        <TextInput
                             errors={errors}
-                            label={'Customer notes'}
-                            name={'notes'}
+                            label={'Employee appliedDate'}
+                            name={'appliedDate'}
+                            register={register}
+                            className='w-full'
+                            type='date'
+                        />
+                        <TextInput
+                            errors={errors}
+                            label={'Employee status'}
+                            name={'status'}
                             register={register}
                         />
                     </div>
                     <SubmitButton
                         isLoading={loading}
-                        title='Customer'
+                        title='Employee'
                     />
                 </form>
             </div>

@@ -5,18 +5,18 @@ import { NextResponse } from "next/server";
 export async function GET(request: Request, { params: { id } }) {
     try {
 
-        const category = await db.category.findUnique({
+        const employee = await db.employee.findUnique({
             where: {
                 id
             }
         })
 
-        return NextResponse.json(category)
+        return NextResponse.json(employee)
     } catch (error) {
         console.log(error);
         return NextResponse.json({
             error,
-            message: "Failed to create category"
+            message: "Failed to create employee"
         },
             { status: 500 }
         )
@@ -26,24 +26,30 @@ export async function GET(request: Request, { params: { id } }) {
 //@ts-ignore
 export async function PUT(request: Request, { params: { id } }) {
     try {
-        const { name, description } = await request.json()
-        const category = await db.category.update({
+        const data = await request.json()
+        const employee = await db.employee.update({
             where: {
                 id
             },
             data: {
-                name,
-                description
-            }
+                name: data.name,
+                email: data.email,
+                phone: data.phone,
+                description: data.description,
+                address: data.address,
+                title: data.title,
+                appliedDate: data.appliedDate,
+                status: data.status,
+            },
         })
-        console.log(category);
+        console.log(employee);
 
-        return NextResponse.json(category)
+        return NextResponse.json(employee)
     } catch (error) {
         console.log(error);
         return NextResponse.json({
             error,
-            message: "Failed to update category"
+            message: "Failed to update employee"
         },
             { status: 500 }
         )
@@ -52,7 +58,7 @@ export async function PUT(request: Request, { params: { id } }) {
 
 export async function DELETE(req: Request, { params }: { params: { id: string } }) {
     try {
-        await db.category.delete({
+        await db.employee.delete({
             where: {
                 id: params.id
             }

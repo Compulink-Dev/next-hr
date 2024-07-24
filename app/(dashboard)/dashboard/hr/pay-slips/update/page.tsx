@@ -2,7 +2,7 @@ import React from 'react'
 
 function UpdatePage() {
     return (
-        <div>UpdatePage</div>
+        <div className='p-4'>UpdatePage</div>
     )
 }
 

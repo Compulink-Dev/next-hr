@@ -4,19 +4,29 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
     try {
-        const { name, description } = await request.json()
+        const data = await request.json()
 
-        const category = await db.category.create({
-            data: { name, description },
+        const loans = await db.loans.create({
+            data: {
+                payment: data.payment,
+                type: data.type,
+                amount: parseFloat(data.amount),
+                repayment: data.repayment,
+                repayments: parseInt(data.repayments),
+                reason: data.reason,
+                interest: parseFloat(data.interest),
+                installment: parseFloat(data.installment),
+                attachment: data.attachment,
+            },
         })
-        console.log(category);
+        console.log(loans);
 
-        return NextResponse.json(category)
+        return NextResponse.json(loans)
     } catch (error) {
         console.log(error);
         return NextResponse.json({
             error,
-            message: "Failed to create category"
+            message: "Failed to create loan"
         },
             { status: 500 }
         )
@@ -26,18 +36,18 @@ export async function POST(request: Request) {
 
 export async function GET(request: Request) {
     try {
-        const category = await db.category.findMany({
+        const loans = await db.loans.findMany({
             orderBy: {
                 createdAt: 'desc'
             }
         })
 
-        return NextResponse.json(category)
+        return NextResponse.json(loans)
     } catch (error) {
         console.log(error);
         return NextResponse.json({
             error,
-            message: "Failed to create category"
+            message: "Failed to create loans"
         },
             { status: 500 }
         )
