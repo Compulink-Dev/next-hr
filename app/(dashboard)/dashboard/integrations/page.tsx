@@ -4,6 +4,10 @@ import { Button } from '@/components/ui/button'
 import { Plus } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import CalendarComponent from './_components/Calender'
+import BigCalendar from './_components/Calender'
+import Card from '../hr/_components/Card'
+import IntegrationCard from './_components/Card'
 
 function Integrations() {
     return (
@@ -36,6 +40,12 @@ function Integrations() {
                         </TabsList>
                         <TabsContent value="all">
                             <p className="">All integrations</p>
+                            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 my-4">
+                                <IntegrationCard />
+                                <IntegrationCard />
+                                <IntegrationCard />
+                                <IntegrationCard />
+                            </div>
                         </TabsContent>
                         <TabsContent value="most">
                             <p className="">Most Used</p>
@@ -48,6 +58,7 @@ function Integrations() {
                         </TabsContent>
                         <TabsContent value="calender">
                             <p className="">Calenders</p>
+                            <BigCalendar />
                         </TabsContent>
                         <TabsContent value="email">
                             <p className="">Email messaging</p>
