@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react'
-import { BadgePercent, Boxes, Bus, Car, CarFront, Cog, Component, Factory, File, FileJson, FileSpreadsheet, FileStack, Frame, List, Merge, School, Shirt, User, UserRound, Warehouse } from 'lucide-react'
+import { BadgePercent, Boxes, Bus, Car, CarFront, Cog, Component, Factory, File, FileJson, FileSpreadsheet, FileStack, Frame, List, LocateIcon, Merge, School, Shirt, User, UserRound, Warehouse } from 'lucide-react'
 import OptionCard from './_components/OptionCard'
 
 
@@ -40,6 +40,14 @@ function Fleet
             linkTitle: "New Driver",
             enabled: true,
             icon: UserRound
+        },
+        {
+            title: 'Tracking',
+            description: 'Create standalone drivers and services that you buy and sell',
+            link: '/tracking',
+            linkTitle: "Tracking Vehicle",
+            enabled: true,
+            icon: LocateIcon
         },
     ]
 

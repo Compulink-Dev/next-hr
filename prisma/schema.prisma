@@ -69,16 +69,18 @@ model Supplier {
 }
 
 model Customer {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  phone     String?
-  email     String?
-  address   String?
-  company   String?
-  notes     String?
-  createdAt DateTime  @default(now())
-  updateAt  DateTime  @updatedAt
-  JobCard   JobCard[]
+  id             String           @id @default(auto()) @map("_id") @db.ObjectId
+  name           String
+  phone          String?
+  email          String?
+  address        String?
+  company        String?
+  notes          String?
+  createdAt      DateTime         @default(now())
+  updateAt       DateTime         @updatedAt
+  JobCard        JobCard[]
+  SalesReport    SalesReport[]
+  ProjectsReport ProjectsReport[]
 }
 
 model SalesOrder {
@@ -110,11 +112,12 @@ model SalesInvoice {
 }
 
 model Payments {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  price     Float
-  createdAt DateTime @default(now())
-  updateAt  DateTime @updatedAt
+  id             String           @id @default(auto()) @map("_id") @db.ObjectId
+  name           String
+  price          Float
+  createdAt      DateTime         @default(now())
+  updateAt       DateTime         @updatedAt
+  PaymentsReport PaymentsReport[]
 }
 
 model CreditNotes {
@@ -172,7 +175,7 @@ model Reports {
 }
 
 model Loans {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
   payment     String
   type        String
   amount      Float
@@ -182,12 +185,13 @@ model Loans {
   interest    Float?
   installment Float?
   attachment  String?
-  createdAt   DateTime @default(now())
-  updateAt    DateTime @updatedAt
+  createdAt   DateTime   @default(now())
+  updateAt    DateTime   @updatedAt
+  HRReport    HrReport[]
 }
 
 model Leave {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  id         String     @id @default(auto()) @map("_id") @db.ObjectId
   type       String
   source     String?
   from       String
@@ -196,8 +200,9 @@ model Leave {
   contact    String?
   reason     String?
   attachment String?
-  createdAt  DateTime @default(now())
-  updateAt   DateTime @updatedAt
+  createdAt  DateTime   @default(now())
+  updateAt   DateTime   @updatedAt
+  HRReport   HrReport[]
 }
 
 model Payslip {
@@ -252,6 +257,8 @@ model Vehicle {
   updateAt       DateTime       @updatedAt
   Driver         Driver[]
   FleetInvoice   FleetInvoice[]
+  SalesReport    SalesReport[]
+  FleetReport    FleetReport[]
 }
 
 model Driver {
@@ -310,6 +317,8 @@ model Item {
   AddStockAdjustment      AddStockAdjustment[]
   createdAt               DateTime                  @default(now())
   updateAt                DateTime                  @updatedAt
+  SalesReport             SalesReport[]
+  PaymentsReport          PaymentsReport[]
 }
 
 model AddStockAdjustment {
@@ -390,4 +399,62 @@ model Training {
   status      String?
   createdAt   DateTime  @default(now())
   updateAt    DateTime  @updatedAt
+}
+
+model SalesReport {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  vehicleId   String?   @db.ObjectId
+  vehicle     Vehicle?  @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  clientId    String?   @db.ObjectId
+  customer    Customer? @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  productId   String?   @db.ObjectId
+  item        Item?     @relation(fields: [productId], references: [id], onDelete: Cascade)
+  location    String?
+  time        String?
+  paymentType String
+  amount      Float
+  createdAt   DateTime  @default(now())
+  updateAt    DateTime  @updatedAt
+}
+
+model FleetReport {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  mileage     String
+  receiptNo   String
+  description String
+  vehicleId   String?  @db.ObjectId
+  vehicle     Vehicle? @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+}
+
+model HrReport {
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  name    String
+  date    DateTime @default(now())
+  loanId  String?  @db.ObjectId
+  loan    Loans?   @relation(fields: [loanId], references: [id], onDelete: Cascade)
+  leaveId String?  @db.ObjectId
+  leave   Leave?   @relation(fields: [leaveId], references: [id], onDelete: Cascade)
+}
+
+model PaymentsReport {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  invoiceNo String
+  productId String?   @db.ObjectId
+  product   Item?     @relation(fields: [productId], references: [id], onDelete: Cascade)
+  paymentId String?   @db.ObjectId
+  payment   Payments? @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+}
+
+model ProjectsReport {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  purpose     String
+  destination String
+  startDate   DateTime
+  endDate     DateTime
+  clientId    String?   @db.ObjectId
+  client      Customer? @relation(fields: [clientId], references: [id], onDelete: Cascade)
 }

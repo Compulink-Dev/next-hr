@@ -50,47 +50,67 @@ function UpdateForm({ initialData }: any) {
     return (
         <section className="bg-white dark:bg-gray-900">
             <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
-                <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">Update a new Customer</h2>
+                <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">Update a new Purchase Order</h2>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
                         <TextInput
                             errors={errors}
-                            label={'Customer name'}
+                            label={'Order name'}
                             name={'name'}
                             register={register}
+
+                        />
+                        <TextInput
+                            errors={errors}
+                            label={'Order quantity'}
+                            name={'quantity'}
+                            register={register}
+                            type='number'
                             className='w-full'
                         />
                         <TextInput
                             errors={errors}
-                            label={'Customer phone'}
-                            name={'phone'}
+                            label={'Order unit'}
+                            name={'unit'}
                             register={register}
                             className='w-full'
                         />
                         <TextInput
                             errors={errors}
-                            label={'Customer email'}
-                            name={'email'}
+                            label={'Order price'}
+                            name={'price'}
+                            type='number'
                             register={register}
                             className='w-full'
                         />
                         <TextInput
                             errors={errors}
-                            label={'Customer address'}
-                            name={'address'}
+                            label={'Order discount'}
+                            name={'discount'}
+                            type='number'
                             register={register}
                             className='w-full'
                         />
                         <TextInput
                             errors={errors}
-                            label={'Customer company'}
-                            name={'company'}
+                            label={'Order vat'}
+                            name={'vat'}
+                            type='number'
                             register={register}
+                            className='w-full'
+                        />
+                        <TextInput
+                            errors={errors}
+                            label={'Order total'}
+                            name={'total'}
+                            type='number'
+                            register={register}
+                            className='w-full'
                         />
                         <TextareaInput
                             errors={errors}
-                            label={'Customer notes'}
-                            name={'notes'}
+                            label={'Order description'}
+                            name={'description'}
                             register={register}
                         />
                     </div>

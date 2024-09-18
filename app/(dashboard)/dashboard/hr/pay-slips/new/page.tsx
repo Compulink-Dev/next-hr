@@ -8,7 +8,7 @@ function NewPayslip() {
 
     return (
         <div className=''>
-            <NewHeader title='New Payslip' link='hr/pay-slips' />
+            <NewHeader title='New Payslip' link='hr/payslips' />
             <div className="">
                 <Form />
             </div>

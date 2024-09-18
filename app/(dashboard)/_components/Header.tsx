@@ -14,6 +14,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { DropdownMenuItem } from '@radix-ui/react-dropdown-menu'
+import Link from 'next/link'
 
 
 function Header({ setShowSide }: any) {
@@ -94,7 +95,15 @@ function Header({ setShowSide }: any) {
                                     <DropdownMenuLabel>My Profile</DropdownMenuLabel>
                                     <DropdownMenuSeparator />
                                     <div className="w-full p-8 flex flex-col gap-4 items-center justify-center">
-                                        <DropdownMenuItem>Profile</DropdownMenuItem>
+                                        <DropdownMenuItem>
+                                            <Link href={'/profile'}>Profile</Link>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem>
+                                            <Link href={'/profile'}>Billing</Link>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem>
+                                            <Link href={'/profile'}>Subscriptions</Link>
+                                        </DropdownMenuItem>
                                         <Button
                                             className='bg-blue-600 hover:bg-blue-400'
                                             onClick={() => signOut({

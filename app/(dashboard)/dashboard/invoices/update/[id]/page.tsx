@@ -1,14 +1,14 @@
 import NewHeader from '@/app/(dashboard)/_components/NewHeader'
 import React from 'react'
-import UpdateForm from '../../_components/UpdateForm'
 import { getData } from '@/lib/apiResponse'
+import UpdateForm from '../../_components/UpdateForm'
 
 //@ts-ignore
-async function UpdateBrands({ params: { id } }) {
-    const data = await getData(`brands/${id}`)
+async function UpdateInvoice({ params: { id } }) {
+    const data = await getData(`fleetInvoice/${id}`)
     return (
         <div className=''>
-            <NewHeader title='New Brand' link='inventory/brands' />
+            <NewHeader title='Update Invoice' link='fleet/invoices' />
             <div className="">
                 <UpdateForm initialData={data} />
             </div>
@@ -16,4 +16,4 @@ async function UpdateBrands({ params: { id } }) {
     )
 }
 
-export default UpdateBrands
+export default UpdateInvoice

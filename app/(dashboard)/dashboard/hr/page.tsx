@@ -52,6 +52,14 @@ function HumanResource
             enabled: true,
             icon: School
         },
+        {
+            title: 'Job Cards',
+            description: 'Create standalone items and services that you buy and sell',
+            link: '/job-cards',
+            linkTitle: "New Job Cards",
+            enabled: true,
+            icon: FileStack
+        },
     ]
 
     const adminCards = [

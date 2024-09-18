@@ -46,10 +46,6 @@ const salesLink = [
         href: "sales/salesorder"
     },
     {
-        title: "Invoices",
-        href: "sales/invoices"
-    },
-    {
         title: "Credit Note",
         href: "sales/creditnote"
     },
@@ -62,15 +58,11 @@ const purchaseLink = [
     },
     {
         title: "Purchase Order",
-        href: "purchases/salesorder"
-    },
-    {
-        title: "Invoices",
-        href: "purchases/invoices"
+        href: "purchases/purchaseorder"
     },
     {
         title: "Debit Note",
-        href: "purchase/debit-note"
+        href: "purchases/debit-note"
     },
 ]
 
@@ -114,7 +106,39 @@ const fleetLink = [
         title: "Drivers",
         href: "fleet/drivers/"
     },
+    {
+        title: "Tracking",
+        href: "fleet/tracking/"
+    },
 ]
+
+const reportLink = [
+    {
+        title: "Sales",
+        href: "reports/sales"
+    },
+    {
+        title: "Purchase",
+        href: "reports/purchase"
+    },
+    {
+        title: "Fleet",
+        href: "reports/fleet"
+    },
+    {
+        title: "H.R",
+        href: "reports/hr"
+    },
+    {
+        title: "Payments",
+        href: "reports/payments"
+    },
+    {
+        title: "Projects",
+        href: "reports/projects"
+    },
+]
+
 
 
 
@@ -180,12 +204,13 @@ function Sidebar({ showSide, setShowSide }: any) {
                         links={fleetLink}
                         onClick={() => setShowSide(false)}
                     />
-                    <Link
-                        className='hover:bg-blue-400 rounded flex gap-1 items-center px-4 py-2'
-                        href={'/dashboard/reports'}>
-                        <FileBarChart className='w-4 h-4' />
-                        <span className="text-sm">Reports</span>
-                    </Link>
+                    <DropDownLink
+                        href={'reports'}
+                        Icon={FileBarChart}
+                        title={'Reports'}
+                        links={reportLink}
+                        onClick={() => setShowSide(false)}
+                    />
                     <Link
                         className='hover:bg-blue-400 rounded flex gap-1 items-center px-4 py-2'
                         href={'/dashboard/integrations'}>

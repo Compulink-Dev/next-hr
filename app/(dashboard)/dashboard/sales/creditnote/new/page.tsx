@@ -6,7 +6,7 @@ function NewBrand() {
 
     return (
         <div className=''>
-            <NewHeader title='New Brand' link='inventory' />
+            <NewHeader title='New Credit Note' link='sales' />
             <div className="">
                 <Form />
             </div>
