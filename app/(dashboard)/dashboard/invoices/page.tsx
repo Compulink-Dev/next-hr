@@ -1,8 +1,8 @@
 export const dynamic = "force-dynamic"
 import FixedHeader from '@/app/(dashboard)/_components/FixedHeader'
 import React from 'react'
-import DataTable from '../../_components/DataTable'
 import { getData } from '@/lib/apiResponse'
+import DataTable from '../_components/DataTable'
 
 async function Invoice() {
 

@@ -3,11 +3,9 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
-import TextInput from '../../../inventory/_components/TextInput'
-import SubmitButton from '../../../inventory/_components/SubmitButton'
-import TextareaInput from '../../../inventory/_components/TextArea'
-import SelectInput from '../../../inventory/_components/SelectInput'
 import ImageInput from '@/app/(dashboard)/_components/UploadThing'
+import TextInput from '../../inventory/_components/TextInput'
+import SubmitButton from '../../inventory/_components/SubmitButton'
 
 
 function UpdateForm({ initialData }: any) {
