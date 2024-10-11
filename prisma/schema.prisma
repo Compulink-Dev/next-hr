@@ -155,6 +155,7 @@ model User {
   emailVerified  DateTime?
   image          String?
   hashedPassword String?
+  role           String?
   createdAt      DateTime  @default(now())
   updateAt       DateTime  @updatedAt
   userId         String?   @db.ObjectId

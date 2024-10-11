@@ -53,6 +53,11 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        scrollbarHide: {
+          '&::-webkit-scrollbar': { display: 'none' },  // Hide scrollbar for Chrome, Safari, Edge
+          '-ms-overflow-style': 'none',  // Hide scrollbar for IE and Edge
+          'scrollbar-width': 'none',     // Hide scrollbar for Firefox
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

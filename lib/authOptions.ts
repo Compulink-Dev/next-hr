@@ -31,6 +31,13 @@ const authOptions = {
                     const existingUser = await db.user.findUnique({
                         where: {
                             email: credentials.email
+                        },
+                        select: { // Use select to include specific fields
+                            id: true,
+                            name: true,
+                            email: true,
+                            hashedPassword: true,
+                            role: true // Ensure you select the role here
                         }
 
                     })
@@ -54,7 +61,8 @@ const authOptions = {
                     const user = {
                         id: existingUser.id,
                         name: existingUser.name,
-                        email: existingUser.email
+                        email: existingUser.email,
+                        role: existingUser.role
                     }
 
                     console.log(user);
@@ -67,11 +75,19 @@ const authOptions = {
         })
     ],
     callbacks: {
-        async session({ session, user, token }: any) {
-            return session
+        async session({ session, token }: any) {
+            // Set the role from token to session
+            if (token?.role) {
+                session.user.role = token.role;
+            }
+            return session;
         },
-        async jwt({ token, user, account, profile, isNewUser }: any) {
-            return token
+        async jwt({ token, user }: any) {
+            // Add user role to the token
+            if (user) {
+                token.role = user.role; // Make sure role is set from user
+            }
+            return token;
         }
     }
 }

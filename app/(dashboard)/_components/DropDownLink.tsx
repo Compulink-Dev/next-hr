@@ -4,7 +4,7 @@ import {
     CollapsibleContent,
     CollapsibleTrigger,
 } from "@/components/ui/collapsible"
-import { ChevronRight, Plus, PlusCircle } from 'lucide-react'
+import { ChevronRight, PlusCircle } from 'lucide-react'
 import Link from 'next/link'
 
 
@@ -19,7 +19,7 @@ interface LinkProps {
 function DropDownLink({ title, links, Icon, href, onClick }: LinkProps) {
     return (
         <Collapsible>
-            <div className="hover:bg-blue-400 w-full rounded flex gap-1 items-center justify-between px-4 py-2'">
+            <div className="hover:bg-blue-400 w-full rounded flex gap-1 items-center justify-between px-4 py-2">
                 <Link href={`/dashboard/${href}`} className='flex gap-2'>
                     <Icon className='w-4 h-4' />
                     <span className="text-sm">{title}</span>

@@ -1,9 +1,9 @@
 'use client'
 import React, { useState } from 'react'
-import Header from './_components/Header'
-import Sidebar from './_components/Sidebar'
+import Header from '../_components/Header'
+import Sidebar from '../_components/Sidebar'
 import { useSession } from 'next-auth/react'
-import Login from '../login/page'
+import Login from '../../login/page'
 
 function DashboardLayout({ children }: { children: React.ReactNode }) {
     const [showSide, setShowSide] = useState(false)

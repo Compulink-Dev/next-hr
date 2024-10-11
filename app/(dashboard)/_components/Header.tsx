@@ -1,42 +1,39 @@
 'use client'
-import { BellDot, History, LayoutGrid, Menu, Plus, Settings, Users2 } from 'lucide-react'
-import React from 'react'
-import SearchInput from './SearchInput'
-import { Button } from '@/components/ui/button'
-import { signOut, useSession } from 'next-auth/react'
-import { generateInitials } from '@/lib/initials'
-import Image from 'next/image'
+import { BellDot, History, LayoutGrid, Menu, Plus, Settings, Users2 } from 'lucide-react';
+import React from 'react';
+import SearchInput from './SearchInput';
+import { Button } from '@/components/ui/button';
+import { signOut, useSession } from 'next-auth/react';
+import { generateInitials } from '@/lib/initials';
+import Image from 'next/image';
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { DropdownMenuItem } from '@radix-ui/react-dropdown-menu'
-import Link from 'next/link'
-
+} from "@/components/ui/dropdown-menu";
+import { DropdownMenuItem } from '@radix-ui/react-dropdown-menu';
+import Link from 'next/link';
 
 function Header({ setShowSide }: any) {
-
-    const { data: session, status } = useSession()
+    const { data: session, status } = useSession(); // Fetch session data
 
     if (status === "loading") {
-        return <p className="text-xs text-slate-500">Loading user...</p>
+        return <p className="text-xs text-slate-500">Loading user...</p>;
     }
 
-    const username = session?.user?.name?.split(' ')[0] || undefined
+    const username = session?.user?.name?.split(' ')[0] || undefined;
+    const initial = generateInitials(username);
 
-    const initial = generateInitials(username)
-
-
-    console.log(username);
-
+    // Access the user's role from the session
+    const userRole = session?.user?.role || "User";
+    console.log("User Role:", userRole); // Log the user's role for debugging
 
     return (
         <div className='bg-slate-100 h-14 flex items-center justify-between px-4'>
             <div className="hidden md:flex items-center gap-4">
-                <History className='w-6 h-6' />
+                <History className='w-4 h-4 text-slate-500' />
                 <SearchInput />
             </div>
             <Button
@@ -66,7 +63,7 @@ function Header({ setShowSide }: any) {
                     {
                         session?.user?.image ? (
                             <Image
-                                src={'/next.svg'}
+                                src={session.user.image} // Use the user's image if available
                                 alt=''
                                 height={96}
                                 width={96}
@@ -81,6 +78,10 @@ function Header({ setShowSide }: any) {
                                 </Button>
                             )
                     }
+                    {/* Displaying the user role */}
+                    {/* <span className='hidden md:flex items-center text-sm text-gray-600'>
+                        Role: {userRole}
+                    </span> */}
                     {
                         session?.user?.name ? (
                             <DropdownMenu>
@@ -121,15 +122,15 @@ function Header({ setShowSide }: any) {
                         )
                     }
 
-                    <Button
+                    {/* <Button
                         className='hidden md:flex hover:bg-slate-300'
                         variant={'ghost'}>
                         <LayoutGrid className='h-4 w-4' />
-                    </Button>
+                    </Button> */}
                 </div>
             </div>
         </div>
     )
 }
 
-export default Header
+export default Header;
