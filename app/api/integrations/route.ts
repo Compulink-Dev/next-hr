@@ -6,27 +6,23 @@ export async function POST(request: Request) {
     try {
         const data = await request.json()
 
-        const salesReport = await db.salesReport.create({
+        const integration = await db.integration.create({
             data: {
                 name: data.name,
-                vehicleId: data.vehicleId,
-                clientId: data.clientId,
-                productId: data.productId,
-                location: data.location,
-                time: data.time,
-                paymentType: data.paymentType,
-                amount: data.amount,
+                subTitle: data.subTitle,
+                attachment: data.attachment,
+                category: data.category,
                 createdAt: data.createdAt
             },
         })
-        console.log(salesReport);
+        console.log(integration);
 
-        return NextResponse.json(salesReport)
+        return NextResponse.json(integration)
     } catch (error) {
         console.log(error);
         return NextResponse.json({
             error,
-            message: "Failed to create Sales Report"
+            message: "Failed to create integration"
         },
             { status: 500 }
         )
@@ -36,14 +32,14 @@ export async function POST(request: Request) {
 
 export async function GET(request: Request) {
     try {
-        const salesReport = await db.salesReport.findMany({})
+        const integration = await db.integration.findMany({})
 
-        return NextResponse.json(salesReport)
+        return NextResponse.json(integration)
     } catch (error) {
         console.log(error);
         return NextResponse.json({
             error,
-            message: "Failed to create salesReport"
+            message: "Failed to create integration"
         },
             { status: 500 }
         )

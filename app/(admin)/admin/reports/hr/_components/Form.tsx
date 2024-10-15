@@ -29,7 +29,7 @@ function Form() {
         setLoading(true)
         try {
             console.log(data);
-            const response = await fetch('/api/certification', {
+            const response = await fetch('/api/reports/hr', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -38,13 +38,13 @@ function Form() {
             })
             if (response.ok) {
                 console.log(response);
-                toast.success('Certificate created successfully')
+                toast.success('Report created successfully')
                 reset()
                 setLoading(false)
-                router.push('/dashboard/hr/certification')
+                router.push('/admin/reports/hr/')
             }
         } catch (error) {
-            toast.error('Certificate failed to create')
+            toast.error('Report failed to create')
             console.log(error);
             setLoading(false)
         }
@@ -79,23 +79,16 @@ function Form() {
                         />
                         <TextInput
                             errors={errors}
-                            label={'Advance'}
-                            name={'advance'}
-                            register={register}
-                            className='w-full'
-                        />
-                        <TextInput
-                            errors={errors}
                             label={'Date'}
                             name={'date'}
-                            register={register}
                             className='w-full'
+                            register={register}
                             type='date'
                         />
                     </div>
                     <SubmitButton
                         isLoading={loading}
-                        title='Certificate'
+                        title='Report'
                     />
                 </form>
             </div>

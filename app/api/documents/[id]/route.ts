@@ -5,18 +5,18 @@ import { NextResponse } from "next/server";
 export async function GET(request: Request, { params: { id } }) {
     try {
 
-        const purchaseReport = await db.purchaseReport.findUnique({
+        const document = await db.document.findUnique({
             where: {
                 id
             }
         })
 
-        return NextResponse.json(purchaseReport)
+        return NextResponse.json(document)
     } catch (error) {
         console.log(error);
         return NextResponse.json({
             error,
-            message: "Failed to create purchaseReport"
+            message: "Failed to create document"
         },
             { status: 500 }
         )
@@ -27,33 +27,25 @@ export async function GET(request: Request, { params: { id } }) {
 export async function PUT(request: Request, { params: { id } }) {
     try {
         const data = await request.json()
-        const purchaseReport = await db.purchaseReport.update({
+        const document = await db.document.update({
             where: {
                 id
             },
             data: {
-                user: data.user,
                 name: data.name,
-                date: data.date,
-                creditName: data.creditName,
-                quantity: parseInt(data.quantity),
-                price: parseFloat(data.price),
-                description: data.description,
-                technician: data.technician,
-                paymentType: data.paymentType,
+                subTitle: data.subTitle,
                 attachment: data.attachment,
-                status: data.status,
                 createdAt: data.createdAt
             },
         })
-        console.log(purchaseReport);
+        console.log(document);
 
-        return NextResponse.json(purchaseReport)
+        return NextResponse.json(document)
     } catch (error) {
         console.log(error);
         return NextResponse.json({
             error,
-            message: "Failed to update purchaseReport"
+            message: "Failed to update document"
         },
             { status: 500 }
         )
@@ -62,7 +54,7 @@ export async function PUT(request: Request, { params: { id } }) {
 
 export async function DELETE(req: Request, { params }: { params: { id: string } }) {
     try {
-        await db.purchaseReport.delete({
+        await db.document.delete({
             where: {
                 id: params.id
             }

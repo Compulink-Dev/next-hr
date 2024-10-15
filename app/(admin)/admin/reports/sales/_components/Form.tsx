@@ -8,9 +8,17 @@ import SubmitButton from '../../../inventory/_components/SubmitButton'
 import TextareaInput from '../../../inventory/_components/TextArea'
 import { useRouter } from 'next/navigation'
 import ImageInput from '@/app/(dashboard)/_components/UploadThing'
+import SearchInput from '@/app/(dashboard)/_components/SearchInput'
+import SelectInput from '../../../inventory/_components/SelectInput'
 
 
 function Form() {
+
+    const payments = [
+        'USD',
+        'Card',
+        'Zig'
+    ]
 
     const {
         register,
@@ -64,51 +72,24 @@ function Form() {
                         />
                         <TextInput
                             errors={errors}
-                            label={'Client name'}
-                            name={'customer'}
+                            label={'Location'}
+                            name={'location'}
                             register={register}
                             className='w-full'
                         />
                         <TextInput
                             errors={errors}
-                            label={'Date'}
-                            name={'date'}
+                            label={'Time'}
+                            name={'time'}
                             register={register}
                             className='w-full'
                             type='date'
                         />
-                        <TextInput
-                            errors={errors}
-                            label={'Quantity'}
-                            name={'quantity'}
+                        <SelectInput
+                            label=""
+                            name=""
                             register={register}
-                            className='w-full'
-                            type='number'
-                        />
-                        <TextInput
-                            errors={errors}
-                            label={'Price'}
-                            name={'price'}
-                            register={register}
-                            className='w-full'
-                            type='number'
-                        />
-                        <TextInput
-                            errors={errors}
-                            label={'Technician'}
-                            name={'technician'}
-                            register={register}
-                        />
-                        <TextareaInput
-                            errors={errors}
-                            label={'Status'}
-                            name={'status'}
-                            register={register}
-                        />
-                        <ImageInput
-                            label={'Attachment'}
-                            setImageUrl={setAttachment}
-                            imageUrl={attachment}
+                            options={payments}
                         />
                     </div>
                     <SubmitButton

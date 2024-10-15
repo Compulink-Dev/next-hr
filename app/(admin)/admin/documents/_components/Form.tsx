@@ -21,7 +21,7 @@ function Form() {
         setLoading(true)
         try {
             console.log(data);
-            const response = await fetch('/api/brands', {
+            const response = await fetch('/api/documents', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -30,12 +30,12 @@ function Form() {
             })
             if (response.ok) {
                 console.log(response);
-                toast.success('Brand created successfully')
+                toast.success('Document created successfully')
                 reset()
                 setLoading(false)
             }
         } catch (error) {
-            toast.error('Brand failed to create')
+            toast.error('Document failed to create')
             console.log(error);
             setLoading(false)
         }
@@ -44,19 +44,19 @@ function Form() {
     return (
         <section className="bg-white dark:bg-gray-900">
             <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
-                <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">Add a new Brand</h2>
+                <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">Add a new Document</h2>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
                         <TextInput
                             errors={errors}
-                            label={'Brand name'}
+                            label={'Document name'}
                             name={'name'}
                             register={register}
                         />
                     </div>
                     <SubmitButton
                         isLoading={loading}
-                        title='Brand'
+                        title='Document'
                     />
                 </form>
             </div>

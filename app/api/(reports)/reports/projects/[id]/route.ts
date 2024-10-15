@@ -5,18 +5,18 @@ import { NextResponse } from "next/server";
 export async function GET(request: Request, { params: { id } }) {
     try {
 
-        const certification = await db.certification.findUnique({
+        const projectsReport = await db.projectsReport.findUnique({
             where: {
                 id
             }
         })
 
-        return NextResponse.json(certification)
+        return NextResponse.json(projectsReport)
     } catch (error) {
         console.log(error);
         return NextResponse.json({
             error,
-            message: "Failed to create certification"
+            message: "Failed to create projectsReport"
         },
             { status: 500 }
         )
@@ -27,32 +27,27 @@ export async function GET(request: Request, { params: { id } }) {
 export async function PUT(request: Request, { params: { id } }) {
     try {
         const data = await request.json()
-        const certification = await db.certification.update({
+        const projectsReport = await db.projectsReport.update({
             where: {
                 id
             },
             data: {
                 name: data.name,
+                purpose: data.purpose,
+                description: data.description,
                 startDate: data.startDate,
                 endDate: data.endDate,
-                duration: parseFloat(data.duration),
-                image: data.image,
-                description: data.description,
-                price: data.price,
-                modality: data.modality,
-                attachment: data.attachment,
-                status: data.status,
                 createdAt: data.createdAt
             },
         })
-        console.log(certification);
+        console.log(projectsReport);
 
-        return NextResponse.json(certification)
+        return NextResponse.json(projectsReport)
     } catch (error) {
         console.log(error);
         return NextResponse.json({
             error,
-            message: "Failed to update certification"
+            message: "Failed to update projectsReport"
         },
             { status: 500 }
         )
@@ -61,7 +56,7 @@ export async function PUT(request: Request, { params: { id } }) {
 
 export async function DELETE(req: Request, { params }: { params: { id: string } }) {
     try {
-        await db.certification.delete({
+        await db.projectsReport.delete({
             where: {
                 id: params.id
             }

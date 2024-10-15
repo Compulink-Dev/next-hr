@@ -274,17 +274,23 @@ model Driver {
 }
 
 model Integration {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  createdAt DateTime @default(now())
-  updateAt  DateTime @updatedAt
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  subTitle   String
+  attachment String
+  category   String
+  createdAt  DateTime @default(now())
+  updateAt   DateTime @updatedAt
 }
 
 model Document {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  createdAt DateTime @default(now())
-  updateAt  DateTime @updatedAt
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  subTitle   String
+  attachment String
+  category   String
+  createdAt  DateTime @default(now())
+  updateAt   DateTime @updatedAt
 }
 
 model Item {
@@ -419,6 +425,23 @@ model SalesReport {
   updateAt    DateTime  @updatedAt
 }
 
+model PurchaseReport {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  user        String?
+  name        String
+  date        String?
+  creditName  String?
+  quantity    Int
+  price       Float
+  description String
+  technician  String
+  paymentType String
+  attachment  String?
+  status      String?
+  createdAt   DateTime @default(now())
+  updateAt    DateTime @updatedAt
+}
+
 model FleetReport {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   name        String
@@ -427,16 +450,20 @@ model FleetReport {
   description String
   vehicleId   String?  @db.ObjectId
   vehicle     Vehicle? @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updateAt    DateTime @updatedAt
 }
 
 model HrReport {
-  id      String   @id @default(auto()) @map("_id") @db.ObjectId
-  name    String
-  date    DateTime @default(now())
-  loanId  String?  @db.ObjectId
-  loan    Loans?   @relation(fields: [loanId], references: [id], onDelete: Cascade)
-  leaveId String?  @db.ObjectId
-  leave   Leave?   @relation(fields: [leaveId], references: [id], onDelete: Cascade)
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  date      String?
+  loanId    String?  @db.ObjectId
+  loan      Loans?   @relation(fields: [loanId], references: [id], onDelete: Cascade)
+  leaveId   String?  @db.ObjectId
+  leave     Leave?   @relation(fields: [leaveId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
 }
 
 model PaymentsReport {
@@ -447,6 +474,8 @@ model PaymentsReport {
   product   Item?     @relation(fields: [productId], references: [id], onDelete: Cascade)
   paymentId String?   @db.ObjectId
   payment   Payments? @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+  createdAt DateTime  @default(now())
+  updateAt  DateTime  @updatedAt
 }
 
 model ProjectsReport {
@@ -454,8 +483,11 @@ model ProjectsReport {
   name        String
   purpose     String
   destination String
-  startDate   DateTime
-  endDate     DateTime
+  startDate   String
+  endDate     String
+  status      String
   clientId    String?   @db.ObjectId
   client      Customer? @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  createdAt   DateTime  @default(now())
+  updateAt    DateTime  @updatedAt
 }

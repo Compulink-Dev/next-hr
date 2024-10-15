@@ -33,14 +33,13 @@ export async function PUT(request: Request, { params: { id } }) {
             },
             data: {
                 name: data.name,
-                date: data.date,
-                creditName: data.creditName,
-                quantity: parseFloat(data.quantity),
-                price: parseFloat(data.price),
-                technician: data.technician,
-                description: data.description,
-                attachment: data.attachment,
-                status: data.status,
+                vehicleId: data.vehicleId,
+                clientId: data.clientId,
+                productId: data.productId,
+                location: data.location,
+                time: data.time,
+                paymentType: data.paymentType,
+                amount: data.amount,
                 createdAt: data.createdAt
             },
         })

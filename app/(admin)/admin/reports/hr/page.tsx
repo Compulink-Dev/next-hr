@@ -12,25 +12,24 @@ async function HumanResourceReport() {
         return {
             id: obj.id,
             name: obj.name,
-            loan: obj.loan,
-            leave: obj.leave,
-            advance: obj.advance,
+            loan: obj.loan || 'Not available',
+            leave: obj.leave || 'Not available',
             date: obj.date,
-            createdAt: obj.createdAt
+            createdAt: obj.createdAt || 'Not available'
 
         }
     })
 
-    const columns = ['name', 'loan', 'leave', 'advance', 'date', 'createdAt']
+    const columns = ['name', 'loan', 'leave', 'date', 'createdAt']
 
     return (
         <div>
             <FixedHeader
-                link={'dashboard/reports/hr/new'}
+                link={'admin/reports/hr/new'}
                 title='Human Resource'
             />
             <div className="p-4">
-                <DataTable data={data} columns={columns} updateLink='reports/hr' resourceName='hr' />
+                <DataTable data={data} columns={columns} updateLink='reports/hr' resourceName='reports/hr' />
             </div>
         </div>
     )

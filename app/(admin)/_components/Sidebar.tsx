@@ -26,13 +26,13 @@ const menuItems: MenuItem[] = [
         title: "Inventory",
         icon: BaggageClaim,
         children: [
-            { title: "Item", path: "items" },
-            { title: "Categories", path: "categories" },
-            { title: "Brands", path: "brands" },
-            { title: "Units", path: "units" },
-            { title: "Warehouse", path: "warehouse" },
-            { title: "Adjustments", path: "categories" },
-            { title: "Suppliers", path: "items" },
+            { title: "Item", path: "/admin/inventory/items" },
+            { title: "Categories", path: "/admin/inventory/categories" },
+            { title: "Brands", path: "/admin/inventory/brands" },
+            { title: "Units", path: "/admin/inventory/units" },
+            { title: "Warehouse", path: "/admin/inventory/warehouse" },
+            { title: "Adjustments", path: "/admin/inventory/categories" },
+            { title: "Suppliers", path: "/admin/inventory/suppliers" },
             {
                 title: "Mobile Development",
                 path: "/services/mobile-development",
@@ -108,7 +108,7 @@ const menuItems: MenuItem[] = [
             { title: "Purchase", path: "/admin/reports/purchase" },
             { title: "Fleet", path: "/admin/reports/fleet" },
             { title: "H.R", path: "/admin/reports/hr" },
-            { title: "Payments", path: "/admin/reports/payments" },
+            // { title: "Payments", path: "/admin/reports/payments" },
             { title: "Projects", path: "/admin/reports/projects" },
             {
                 title: "Mobile Development",
@@ -229,7 +229,7 @@ const Sidebar: React.FC<{ showSide: boolean; setShowSide: React.Dispatch<React.S
             </div>
             <div className="flex items-center justify-center py-6">
                 <Button className=''>
-                    <ChevronDown />
+                    <ChevronDown size={14} />
                 </Button>
             </div>
         </div>

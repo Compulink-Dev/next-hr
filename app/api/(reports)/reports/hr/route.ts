@@ -6,29 +6,23 @@ export async function POST(request: Request) {
     try {
         const data = await request.json()
 
-        const certification = await db.certification.create({
+        const hrReport = await db.hrReport.create({
             data: {
                 name: data.name,
-                startDate: data.startDate,
-                endDate: data.endDate,
-                duration: parseFloat(data.duration),
-                image: data.image,
-                description: data.description,
-                price: data.price,
-                modality: data.modality,
-                attachment: data.attachment,
-                status: data.status,
+                date: data.date,
+                loanId: data.loanId,
+                leaveId: data.leaveId,
                 createdAt: data.createdAt
             },
         })
-        console.log(certification);
+        console.log(hrReport);
 
-        return NextResponse.json(certification)
+        return NextResponse.json(hrReport)
     } catch (error) {
         console.log(error);
         return NextResponse.json({
             error,
-            message: "Failed to create certification"
+            message: "Failed to create hrReport"
         },
             { status: 500 }
         )
@@ -38,21 +32,14 @@ export async function POST(request: Request) {
 
 export async function GET(request: Request) {
     try {
-        const certification = await db.certification.findMany({
-            orderBy: {
-                createdAt: 'desc'
-            },
-            include: {
-                user: true
-            }
-        })
+        const hrReport = await db.hrReport.findMany({})
 
-        return NextResponse.json(certification)
+        return NextResponse.json(hrReport)
     } catch (error) {
         console.log(error);
         return NextResponse.json({
             error,
-            message: "Failed to create certification"
+            message: "Failed to create hrReport"
         },
             { status: 500 }
         )

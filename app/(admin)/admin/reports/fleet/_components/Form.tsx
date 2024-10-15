@@ -41,7 +41,7 @@ function Form() {
                 toast.success('Fleet Report created successfully')
                 reset()
                 setLoading(false)
-                router.push('/dashboard/reports/fleet')
+                router.push('/admin/reports/fleet')
             }
         } catch (error) {
             toast.error('Fleet Report failed to create')
@@ -65,13 +65,6 @@ function Form() {
                         />
                         <TextInput
                             errors={errors}
-                            label={'Vehicle Number'}
-                            name={'vehicleNo'}
-                            register={register}
-                            className='w-full'
-                        />
-                        <TextInput
-                            errors={errors}
                             label={'Mileage'}
                             name={'mileage'}
                             register={register}
@@ -86,9 +79,10 @@ function Form() {
                         />
                         <TextInput
                             errors={errors}
-                            label={'Status'}
-                            name={'status'}
+                            label={'Vehicle ID'}
+                            name={'vehicleId'}
                             register={register}
+                            className='w-full'
                         />
                         <TextareaInput
                             errors={errors}

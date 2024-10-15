@@ -30,7 +30,7 @@ function UpdateForm({ initialData }: any) {
         setLoading(true)
         try {
             console.log(data);
-            const response = await fetch(`/api/report/purchase/${initialData.id}`, {
+            const response = await fetch(`/api/reports/purchase/${initialData.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -41,7 +41,7 @@ function UpdateForm({ initialData }: any) {
                 console.log(response);
                 toast.success('Purchase updated successfully')
                 reset()
-                router.push('/dashboard/reports/purchase/')
+                router.push('/admin/reports/purchase/')
                 setLoading(false)
             }
         } catch (error) {
@@ -59,14 +59,14 @@ function UpdateForm({ initialData }: any) {
                     <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
                         <TextInput
                             errors={errors}
-                            label={'Client name'}
-                            name={'customer'}
+                            label={'User name'}
+                            name={'user'}
                             register={register}
                             className='w-full'
                         />
                         <TextInput
                             errors={errors}
-                            label={'Sales name'}
+                            label={'Name'}
                             name={'name'}
                             register={register}
                             className='w-full'
@@ -78,6 +78,13 @@ function UpdateForm({ initialData }: any) {
                             register={register}
                             className='w-full'
                             type='date'
+                        />
+                        <TextInput
+                            errors={errors}
+                            label={'Credit name'}
+                            name={'creditName'}
+                            register={register}
+                            className='w-full'
                         />
                         <TextInput
                             errors={errors}
@@ -102,10 +109,23 @@ function UpdateForm({ initialData }: any) {
                             register={register}
                             className='w-full'
                         />
+                        <TextInput
+                            errors={errors}
+                            label={'Payment Type'}
+                            name={'paymentType'}
+                            register={register}
+                            className='w-full'
+                        />
                         <TextareaInput
                             errors={errors}
                             label={'Status'}
                             name={'status'}
+                            register={register}
+                        />
+                        <TextareaInput
+                            errors={errors}
+                            label={'Description'}
+                            name={'description'}
                             register={register}
                         />
                         <ImageInput

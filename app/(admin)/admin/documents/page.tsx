@@ -4,24 +4,33 @@ import { Button } from '@/components/ui/button'
 import { Filter, Plus } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import CalendarComponent from './_components/Calender'
-import BigCalendar from './_components/Calender'
-import Card from '../hr/_components/Card'
 import IntegrationCard from './_components/Card'
+import { getData } from '@/lib/apiResponse'
 
-function Documents() {
+async function Documents() {
     const documentsData = {
         all: [
             { title: 'Google Chrome', description: 'Access and share availability on any web pages', downloadLink: '/documents/chrome.pdf' },
             { title: 'Firefox', description: 'Browse fast and secure with Firefox', downloadLink: '/documents/firefox.pdf' },
-            // Add more documents here
         ],
         technical: [
             { title: 'Technical Manual', description: 'Comprehensive guide to technical support', downloadLink: '/documents/technical_manual.pdf' },
-            // Add more documents here
         ],
-        // Similarly for other categories
+        sales: [
+            { title: 'Sales Presentation', description: 'Detailed sales strategies and pitches', downloadLink: '/documents/sales_presentation.pdf' },
+        ],
+        networks: [
+            { title: 'Network Setup', description: 'Step-by-step guide to setting up a network', downloadLink: '/documents/network_setup.pdf' },
+        ],
+        software: [
+            { title: 'Software Installation Guide', description: 'Install software with ease', downloadLink: '/documents/software_installation.pdf' },
+        ],
+        accounts: [
+            { title: 'Account Management', description: 'Manage accounts effectively', downloadLink: '/documents/account_management.pdf' },
+        ]
     }
+
+    const documents = await getData('documents')
 
     return (
         <div className=''>
@@ -34,7 +43,8 @@ function Documents() {
                             className='flex items-center gap-2'
                         >
                             <Filter size={14} />
-                            Filter</Button>
+                            Filter
+                        </Button>
                         <Button
                             variant={'outline'}
                             className='flex items-center gap-1'>
@@ -54,23 +64,91 @@ function Documents() {
                             <TabsTrigger value="software">Software</TabsTrigger>
                             <TabsTrigger value="accounts">Accounts</TabsTrigger>
                         </TabsList>
+
+                        {/* All Documents */}
                         <TabsContent value="all">
                             <p className="font-bold text-lg py-2">All documents</p>
                             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 my-4">
                                 {documentsData.all.map((doc, index) => (
-                                    <IntegrationCard key={index} {...doc} />
+                                    <IntegrationCard key={index}
+                                        name={doc.title}
+                                        subTitle={doc.description}
+                                        attachment={doc.downloadLink}
+                                    />
                                 ))}
                             </div>
                         </TabsContent>
+
+                        {/* Technical Documents */}
                         <TabsContent value="technical">
-                            <p className="">Technical</p>
+                            <p className="font-bold text-lg py-2">Technical documents</p>
                             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 my-4">
-                                {documentsData.technical.map((doc: any, index) => (
-                                    <IntegrationCard key={index} {...doc} />
+                                {documentsData.technical.map((doc, index) => (
+                                    <IntegrationCard key={index}
+                                        name={doc.title}
+                                        subTitle={doc.description}
+                                        attachment={doc.downloadLink}
+                                    />
                                 ))}
                             </div>
                         </TabsContent>
-                        {/* Similarly for other tabs */}
+
+                        {/* Sales Documents */}
+                        <TabsContent value="sales">
+                            <p className="font-bold text-lg py-2">Sales documents</p>
+                            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 my-4">
+                                {documentsData.sales.map((doc, index) => (
+                                    <IntegrationCard key={index}
+                                        name={doc.title}
+                                        subTitle={doc.description}
+                                        attachment={doc.downloadLink}
+                                    />
+                                ))}
+                            </div>
+                        </TabsContent>
+
+                        {/* Networks Documents */}
+                        <TabsContent value="networks">
+                            <p className="font-bold text-lg py-2">Network documents</p>
+                            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 my-4">
+                                {documentsData.networks.map((doc, index) => (
+                                    <IntegrationCard key={index}
+                                        name={doc.title}
+                                        subTitle={doc.description}
+                                        attachment={doc.downloadLink}
+                                    />
+                                ))}
+                            </div>
+                        </TabsContent>
+
+                        {/* Software Documents */}
+                        <TabsContent value="software">
+                            <p className="font-bold text-lg py-2">Software documents</p>
+                            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 my-4">
+                                {documentsData.software.map((doc, index) => (
+                                    <IntegrationCard key={index}
+                                        name={doc.title}
+                                        subTitle={doc.description}
+                                        attachment={doc.downloadLink}
+                                    />
+                                ))}
+                            </div>
+                        </TabsContent>
+
+                        {/* Accounts Documents */}
+                        <TabsContent value="accounts">
+                            <p className="font-bold text-lg py-2">Accounts documents</p>
+                            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 my-4">
+                                {documentsData.accounts.map((doc, index) => (
+                                    <IntegrationCard key={index}
+                                        name={doc.title}
+                                        subTitle={doc.description}
+                                        attachment={doc.downloadLink}
+                                    />
+                                ))}
+                            </div>
+                        </TabsContent>
+
                     </Tabs>
                 </div>
             </div>

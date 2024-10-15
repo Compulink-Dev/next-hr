@@ -12,25 +12,23 @@ async function FleetReports() {
         return {
             id: obj.id,
             name: obj.name,
-            vehicleNo: obj.vehicleNo,
             mileage: obj.mileage,
             receiptNo: obj.receiptNo,
             description: obj.description,
-            createdAt: obj.createdAt
-
+            vehicleId: obj.vehicleId || "No Vehicle id",
         }
     })
 
-    const columns = ['name', 'vehicleNo', 'mileage', 'receiptNo', 'description', 'createdAt']
+    const columns = ['name', 'mileage', 'receiptNo', 'description', 'vehicleId']
 
     return (
         <div>
             <FixedHeader
-                link={'dashboard/reports/fleet/new'}
+                link={'admin/reports/fleet/new'}
                 title='Fleet Reports'
             />
             <div className="p-4">
-                <DataTable data={data} columns={columns} updateLink='reports/fleet' resourceName='fleet' />
+                <DataTable data={data} columns={columns} updateLink='reports/fleet' resourceName='reports/fleet' />
             </div>
         </div>
     )

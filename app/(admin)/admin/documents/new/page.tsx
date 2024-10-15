@@ -5,14 +5,14 @@ import { getData } from '@/lib/apiResponse'
 
 async function NewBrand() {
 
-    const categories = await getData('categories')
+    const categories = await getData('documents')
 
 
     return (
         <div className=''>
-            <NewHeader title='New Integrations' link='inventory' />
+            <NewHeader title='New Document' link='inventory' />
             <div className="">
-                <Form categories={categories} />
+                <Form />
             </div>
         </div>
     )

@@ -6,33 +6,33 @@ import DataTable from '@/app/(admin)/_components/DataTable'
 
 async function ProjectReports() {
 
-    const certificate = await getData('projects')
+    const projectsReport = await getData('reports/projects')
 
-    const data = certificate.map((obj: any) => {
+    const data = projectsReport.map((obj: any) => {
         return {
             id: obj.id,
             name: obj.name,
-            customer: obj.customer,
+            purpose: obj.purpose,
             destination: obj.destination,
             startDate: obj.startDate,
             endDate: obj.endDate,
-            description: obj.description,
+            clientId: obj.clientId,
             status: obj.status,
             createdAt: obj.createdAt
 
         }
     })
 
-    const columns = ['name', 'customer', 'destination', 'startDate', 'endDate', 'description', 'status', 'createdAt']
+    const columns = ['name', 'purpose', 'destination', 'startDate', 'endDate', 'createdAt']
 
     return (
         <div>
             <FixedHeader
-                link={'dashboard/reports/projects/new'}
-                title='Certificate'
+                link={'admin/reports/projects/new'}
+                title='projectsReport'
             />
             <div className="p-4">
-                <DataTable data={data} columns={columns} updateLink='reports/projects' resourceName='projects' />
+                <DataTable data={data} columns={columns} updateLink='reports/projects' resourceName='reports/projects' />
             </div>
         </div>
     )

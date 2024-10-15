@@ -5,18 +5,18 @@ import { NextResponse } from "next/server";
 export async function GET(request: Request, { params: { id } }) {
     try {
 
-        const certification = await db.certification.findUnique({
+        const hrReport = await db.hrReport.findUnique({
             where: {
                 id
             }
         })
 
-        return NextResponse.json(certification)
+        return NextResponse.json(hrReport)
     } catch (error) {
         console.log(error);
         return NextResponse.json({
             error,
-            message: "Failed to create certification"
+            message: "Failed to create hrReport"
         },
             { status: 500 }
         )
@@ -27,32 +27,26 @@ export async function GET(request: Request, { params: { id } }) {
 export async function PUT(request: Request, { params: { id } }) {
     try {
         const data = await request.json()
-        const certification = await db.certification.update({
+        const hrReport = await db.hrReport.update({
             where: {
                 id
             },
             data: {
                 name: data.name,
-                startDate: data.startDate,
-                endDate: data.endDate,
-                duration: parseFloat(data.duration),
-                image: data.image,
-                description: data.description,
-                price: data.price,
-                modality: data.modality,
-                attachment: data.attachment,
-                status: data.status,
+                date: data.date,
+                loanId: data.loanId,
+                leaveId: data.leaveId,
                 createdAt: data.createdAt
             },
         })
-        console.log(certification);
+        console.log(hrReport);
 
-        return NextResponse.json(certification)
+        return NextResponse.json(hrReport)
     } catch (error) {
         console.log(error);
         return NextResponse.json({
             error,
-            message: "Failed to update certification"
+            message: "Failed to update hrReport"
         },
             { status: 500 }
         )
@@ -61,7 +55,7 @@ export async function PUT(request: Request, { params: { id } }) {
 
 export async function DELETE(req: Request, { params }: { params: { id: string } }) {
     try {
-        await db.certification.delete({
+        await db.hrReport.delete({
             where: {
                 id: params.id
             }

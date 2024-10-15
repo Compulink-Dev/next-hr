@@ -6,29 +6,25 @@ export async function POST(request: Request) {
     try {
         const data = await request.json()
 
-        const certification = await db.certification.create({
+        const projectsReport = await db.projectsReport.create({
             data: {
                 name: data.name,
+                purpose: data.purpose,
+                destination: data.destination,
                 startDate: data.startDate,
                 endDate: data.endDate,
-                duration: parseFloat(data.duration),
-                image: data.image,
-                description: data.description,
-                price: data.price,
-                modality: data.modality,
-                attachment: data.attachment,
                 status: data.status,
                 createdAt: data.createdAt
             },
         })
-        console.log(certification);
+        console.log(projectsReport);
 
-        return NextResponse.json(certification)
+        return NextResponse.json(projectsReport)
     } catch (error) {
         console.log(error);
         return NextResponse.json({
             error,
-            message: "Failed to create certification"
+            message: "Failed to create projectsReport"
         },
             { status: 500 }
         )
@@ -38,21 +34,15 @@ export async function POST(request: Request) {
 
 export async function GET(request: Request) {
     try {
-        const certification = await db.certification.findMany({
-            orderBy: {
-                createdAt: 'desc'
-            },
-            include: {
-                user: true
-            }
+        const projectsReport = await db.projectsReport.findMany({
         })
 
-        return NextResponse.json(certification)
+        return NextResponse.json(projectsReport)
     } catch (error) {
         console.log(error);
         return NextResponse.json({
             error,
-            message: "Failed to create certification"
+            message: "Failed to create projectsReport"
         },
             { status: 500 }
         )

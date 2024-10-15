@@ -41,7 +41,7 @@ function UpdateForm({ initialData }: any) {
                 console.log(response);
                 toast.success('Human Resource updated successfully')
                 reset()
-                router.push('/dashboard/reports/hr/')
+                router.push('/admin/reports/hr/')
                 setLoading(false)
             }
         } catch (error) {
@@ -64,7 +64,7 @@ function UpdateForm({ initialData }: any) {
                             register={register}
                             className='w-full'
                         />
-                        <TextInput
+                        {/* <TextInput
                             errors={errors}
                             label={'Loan'}
                             name={'loan'}
@@ -84,7 +84,7 @@ function UpdateForm({ initialData }: any) {
                             name={'advance'}
                             register={register}
                             className='w-full'
-                        />
+                        /> */}
                         <TextInput
                             errors={errors}
                             label={'Date'}

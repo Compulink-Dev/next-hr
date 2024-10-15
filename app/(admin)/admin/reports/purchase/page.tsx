@@ -6,7 +6,7 @@ import DataTable from '@/app/(admin)/_components/DataTable'
 
 async function PurchaseReports() {
 
-    const purchase = await getData('purchase')
+    const purchase = await getData('reports/purchase')
 
     const data = purchase.map((obj: any) => {
         return {
@@ -15,7 +15,7 @@ async function PurchaseReports() {
             name: obj.name,
             date: obj.date,
             creditName: obj.creditName,
-            quantity: parseFloat(obj.quantity) || 'Pending',
+            quantity: parseInt(obj.quantity) || 'Pending',
             price: parseFloat(obj.price) || 'Pending',
             description: obj.description,
             technician: obj.technician,
@@ -31,11 +31,11 @@ async function PurchaseReports() {
     return (
         <div>
             <FixedHeader
-                link={'dashboard/hr/purchase/new'}
+                link={'admin/reports/purchase/new'}
                 title='Purchase'
             />
             <div className="p-4">
-                <DataTable data={data} columns={columns} updateLink='hr/purchase' resourceName='purchase' />
+                <DataTable data={data} columns={columns} updateLink='reports/purchase' resourceName='reports/purchase' />
             </div>
         </div>
     )

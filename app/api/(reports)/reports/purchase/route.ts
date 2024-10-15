@@ -6,29 +6,30 @@ export async function POST(request: Request) {
     try {
         const data = await request.json()
 
-        const certification = await db.certification.create({
+        const purchaseReport = await db.purchaseReport.create({
             data: {
+                user: data.user,
                 name: data.name,
-                startDate: data.startDate,
-                endDate: data.endDate,
-                duration: parseFloat(data.duration),
-                image: data.image,
+                date: data.date,
+                creditName: data.creditName,
+                price: parseFloat(data.price),
+                quantity: parseInt(data.quantity),
                 description: data.description,
-                price: data.price,
-                modality: data.modality,
+                technician: data.technician,
+                paymentType: data.paymentType,
                 attachment: data.attachment,
                 status: data.status,
                 createdAt: data.createdAt
             },
         })
-        console.log(certification);
+        console.log(purchaseReport);
 
-        return NextResponse.json(certification)
+        return NextResponse.json(purchaseReport)
     } catch (error) {
         console.log(error);
         return NextResponse.json({
             error,
-            message: "Failed to create certification"
+            message: "Failed to create purchaseReport"
         },
             { status: 500 }
         )
@@ -38,21 +39,13 @@ export async function POST(request: Request) {
 
 export async function GET(request: Request) {
     try {
-        const certification = await db.certification.findMany({
-            orderBy: {
-                createdAt: 'desc'
-            },
-            include: {
-                user: true
-            }
-        })
-
-        return NextResponse.json(certification)
+        const purchaseReport = await db.purchaseReport.findMany({})
+        return NextResponse.json(purchaseReport)
     } catch (error) {
         console.log(error);
         return NextResponse.json({
             error,
-            message: "Failed to create certification"
+            message: "Failed to create purchaseReport"
         },
             { status: 500 }
         )

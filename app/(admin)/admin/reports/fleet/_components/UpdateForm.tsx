@@ -41,7 +41,7 @@ function UpdateForm({ initialData }: any) {
                 console.log(response);
                 toast.success('Fleet Report updated successfully')
                 reset()
-                router.push('/dashboard/reports/fleet/')
+                router.push('/admin/reports/fleet/')
                 setLoading(false)
             }
         } catch (error) {
@@ -66,13 +66,6 @@ function UpdateForm({ initialData }: any) {
                         />
                         <TextInput
                             errors={errors}
-                            label={'Vehicle Number'}
-                            name={'vehicleNo'}
-                            register={register}
-                            className='w-full'
-                        />
-                        <TextInput
-                            errors={errors}
                             label={'Mileage'}
                             name={'mileage'}
                             register={register}
@@ -87,9 +80,10 @@ function UpdateForm({ initialData }: any) {
                         />
                         <TextInput
                             errors={errors}
-                            label={'Status'}
-                            name={'status'}
+                            label={'Vehicle ID'}
+                            name={'vehicleId'}
                             register={register}
+                            className='w-full'
                         />
                         <TextareaInput
                             errors={errors}

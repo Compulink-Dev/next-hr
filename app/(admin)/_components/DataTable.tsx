@@ -53,7 +53,7 @@ function DataTable({ data = [], columns = [], updateLink, resourceName }: any) {
                                         }
                                         <td className="px-6 py-4 text-right flex gap-2 items-center">
                                             <Link
-                                                href={`/dashboard/${updateLink}/update/${item.id}`}
+                                                href={`/admin/${updateLink}/update/${item.id}`}
                                                 className='text-blue-600 hover:text-blue-400 flex items-center gap-1'
                                             >
                                                 <Edit />
