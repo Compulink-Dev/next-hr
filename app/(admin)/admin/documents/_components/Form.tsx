@@ -52,6 +52,28 @@ function Form() {
                             label={'Document name'}
                             name={'name'}
                             register={register}
+                            className='w-full'
+                        />
+                        <TextInput
+                            errors={errors}
+                            label={'Document subtitle'}
+                            name={'subtitle'}
+                            register={register}
+                            className='w-full'
+                        />
+                        <TextInput
+                            errors={errors}
+                            label={'Document category'}
+                            name={'category'}
+                            register={register}
+                            className='w-full'
+                        />
+                        <TextInput
+                            errors={errors}
+                            label={'Document attachment'}
+                            name={'attachment'}
+                            register={register}
+                            className='w-full'
                         />
                     </div>
                     <SubmitButton

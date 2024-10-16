@@ -6,6 +6,7 @@ import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import IntegrationCard from './_components/Card'
 import { getData } from '@/lib/apiResponse'
+import Link from 'next/link'
 
 async function Documents() {
     const documentsData = {
@@ -49,7 +50,9 @@ async function Documents() {
                             variant={'outline'}
                             className='flex items-center gap-1'>
                             <Plus size={14} />
-                            <span className="">Create</span>
+                            <Link href={'/admin/documents/new'}>
+                                <span className="">Create</span>
+                            </Link>
                         </Button>
                     </div>
                 </div>
