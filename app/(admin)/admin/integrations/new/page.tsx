@@ -10,7 +10,7 @@ async function NewBrand() {
 
     return (
         <div className=''>
-            <NewHeader title='New Integrations' link='inventory' />
+            <NewHeader title='New Integrations' link='integrations' />
             <div className="">
                 <Form categories={categories} />
             </div>

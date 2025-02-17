@@ -8,7 +8,7 @@ async function UpdatePurchase({ params: { id } }) {
     const data = await getData(`purchases/${id}`)
     return (
         <div className=''>
-            <NewHeader title='Update Purchase' link='sales/purchases' />
+            <NewHeader title='Update Purchase' link='purchases/purchaseorder' />
             <div className="">
                 <UpdateForm initialData={data} />
             </div>

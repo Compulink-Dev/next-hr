@@ -26,11 +26,11 @@ async function Customer() {
     return (
         <div>
             <FixedHeader
-                link={'dashboard/sales/customers/new'}
+                link={'admin/purchases/debit-note/new'}
                 title='Customers'
             />
             <div className="p-4">
-                <DataTable data={data} columns={columns} updateLink='sales/customers' resourceName='customers' />
+                <DataTable data={data} columns={columns} updateLink='purchases/debit-note' resourceName='purchases' />
             </div>
         </div>
     )

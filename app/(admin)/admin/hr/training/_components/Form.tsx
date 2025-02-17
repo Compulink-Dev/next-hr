@@ -8,9 +8,15 @@ import SubmitButton from '../../../inventory/_components/SubmitButton'
 import TextareaInput from '../../../inventory/_components/TextArea'
 import { useRouter } from 'next/navigation'
 import ImageInput from '@/app/(dashboard)/_components/UploadThing'
+import { useSession } from 'next-auth/react'
 
 
 function Form() {
+
+    const { data: session } = useSession()
+
+    const userName = session?.user?.name || 'name'
+
 
     const {
         register,
@@ -26,6 +32,7 @@ function Form() {
 
 
     async function onSubmit(data: any) {
+        data.name = userName
         setLoading(true)
         try {
             console.log(data);
@@ -41,7 +48,7 @@ function Form() {
                 toast.success('Training created successfully')
                 reset()
                 setLoading(false)
-                router.push('/dashboard/hr/training')
+                router.push('/admin/hr/training')
             }
         } catch (error) {
             toast.error('Training failed to create')
@@ -56,13 +63,13 @@ function Form() {
                 <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">Add a new Training</h2>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
-                        <TextInput
+                        {/* <TextInput
                             errors={errors}
                             label={'Training name'}
                             name={'name'}
                             register={register}
                             className='w-full'
-                        />
+                        /> */}
                         <TextInput
                             errors={errors}
                             label={'Start Date'}

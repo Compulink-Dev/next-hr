@@ -1,11 +1,18 @@
+'use client'
 import DeleteButton from '@/app/(dashboard)/dashboard/_components/Adjustment'
 import { Button } from '@/components/ui/button'
 import { Delete, Edit, Trash } from 'lucide-react'
+import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import React from 'react'
 
 
 function DataTable({ data = [], columns = [], updateLink, resourceName }: any) {
+
+    const { data: session, status } = useSession()
+
+    const userRole = session?.user?.role
+
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
             {
@@ -51,16 +58,31 @@ function DataTable({ data = [], columns = [], updateLink, resourceName }: any) {
                                                 </td>
                                             ))
                                         }
-                                        <td className="px-6 py-4 text-right flex gap-2 items-center">
-                                            <Link
-                                                href={`/admin/${updateLink}/update/${item.id}`}
-                                                className='text-blue-600 hover:text-blue-400 flex items-center gap-1'
-                                            >
-                                                <Edit />
-                                                <span className="">Edit</span>
-                                            </Link>
-                                            <DeleteButton id={item.id} endpoint={resourceName} />
-                                        </td>
+                                        {
+                                            userRole === "admin" ?
+                                                <td className="px-6 py-4 text-right flex gap-2 items-center">
+                                                    <Link
+                                                        href={`/admin/${updateLink}/update/${item.id}`}
+                                                        className='text-blue-600 hover:text-blue-400 flex items-center gap-1'
+                                                    >
+                                                        <Edit />
+                                                        <span className="">Edit</span>
+                                                    </Link>
+                                                    <DeleteButton id={item.id} endpoint={resourceName} />
+                                                </td>
+                                                :
+
+                                                <td className="px-6 py-4 text-right flex gap-2 items-center">
+                                                    <Link
+                                                        href={`/admin/${updateLink}/update/${item.id}`}
+                                                        className='text-blue-600 hover:text-blue-400 flex items-center gap-1'
+                                                    >
+                                                        <Edit />
+                                                        <span className="">Edit</span>
+                                                    </Link>
+                                                    <DeleteButton id={item.id} endpoint={resourceName} />
+                                                </td>
+                                        }
                                     </tr>
                                 ))
                             }

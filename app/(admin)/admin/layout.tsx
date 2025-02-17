@@ -3,12 +3,11 @@ import React, { useState } from 'react'
 import Sidebar from '../_components/Sidebar'
 import { useSession } from 'next-auth/react'
 import Login from '../../login/page'
-import Header from '@/app/(dashboard)/_components/Header'
+import Header from '../_components/header'
 
 function AdminLayout({ children }: { children: React.ReactNode }) {
     const [showSide, setShowSide] = useState(false)
     const { data: session, status } = useSession()
-
 
     if (status === 'loading') {
         return (

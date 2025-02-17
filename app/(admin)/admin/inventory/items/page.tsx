@@ -45,7 +45,7 @@ async function Items() {
         return (
             <div className=''>
                 <FixedHeader
-                    link={'dashboard/inventory/items/new'}
+                    link={'admin/inventory/items/new'}
                     title='Items'
                 />
                 <div className="p-4">

@@ -8,7 +8,7 @@ async function FleetReports() {
 
     const fleet = await getData('reports/fleet')
 
-    const data = fleet.map((obj: any) => {
+    const data = fleet?.map((obj: any) => {
         return {
             id: obj.id,
             name: obj.name,

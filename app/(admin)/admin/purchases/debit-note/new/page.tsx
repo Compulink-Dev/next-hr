@@ -6,7 +6,7 @@ function NewCustomer() {
 
     return (
         <div className=''>
-            <NewHeader title='New Customer' link='sales/customers' />
+            <NewHeader title='New Debit Order' link='purchases/debit-note' />
             <div className="">
                 <Form />
             </div>

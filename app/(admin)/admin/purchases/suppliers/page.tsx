@@ -28,7 +28,7 @@ async function Customer() {
     return (
         <div>
             <FixedHeader
-                link={'dashboard/purchase/suppliers/new'}
+                link={'admin/purchase/suppliers/new'}
                 title='Suppliers'
             />
             <div className="p-4">

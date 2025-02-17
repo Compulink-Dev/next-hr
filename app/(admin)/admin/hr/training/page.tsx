@@ -1,15 +1,23 @@
 export const dynamic = "force-dynamic"
-import FixedHeader from '@/app/(dashboard)/_components/FixedHeader'
 import React from 'react'
 import DataTable from '@/app/(admin)/_components/DataTable'
 import { getData } from '@/lib/apiResponse'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/lib/authOptions'
+import FixedHeader from '@/app/(admin)/_components/fixedHeader'
 
 async function Training() {
 
     const training = await getData('training')
 
-    const data = training.map((obj: any) => {
-        return {
+    const session = await getServerSession(authOptions); // Use getServerSession to fetch session server-side
+
+    const userRole = session?.user?.role;
+    const userName = session?.user?.name;
+
+    const data = training
+        .filter((obj: any) => userRole === 'admin' || obj.name === userName) // Only show user's own payslip if not admin
+        .map((obj: any) => ({
             name: obj.name,
             startDate: obj.startDate,
             endDate: obj.endDate,
@@ -21,8 +29,8 @@ async function Training() {
             attachment: obj.attachment || 'No-file',
             status: obj.status,
             createdAt: obj.createdAt
-        }
-    })
+
+        }))
 
     const columns = ['name', 'startDate', 'endDate', 'duration', 'image', 'description', 'price', 'modality', 'attachment', 'createdAt']
 

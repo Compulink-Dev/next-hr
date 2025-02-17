@@ -8,6 +8,7 @@ import SubmitButton from '../../../inventory/_components/SubmitButton'
 import TextareaInput from '../../../inventory/_components/TextArea'
 import SelectInput from '../../../inventory/_components/SelectInput'
 import ImageInput from '@/app/(dashboard)/_components/UploadThing'
+import { useSession } from 'next-auth/react'
 
 
 function UpdateForm({ initialData }: any) {
@@ -22,6 +23,8 @@ function UpdateForm({ initialData }: any) {
     })
 
     const router = useRouter()
+    const { data: session } = useSession();
+    const userRole = session?.user?.role;
 
     const [imageUrl, setImageUrl] = useState('')
     const [loading, setLoading] = useState(false)
@@ -29,7 +32,7 @@ function UpdateForm({ initialData }: any) {
         setLoading(true)
         try {
             console.log(data);
-            const response = await fetch(`/api/leave/${initialData.id}`, {
+            const response = await fetch(`/api/vehicles/${initialData.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -38,17 +41,24 @@ function UpdateForm({ initialData }: any) {
             })
             if (response.ok) {
                 console.log(response);
-                toast.success('Leave updated successfully')
+                toast.success('Vehicle updated successfully')
                 reset()
-                router.push('/dashboard/hr/leave/')
+                router.push('/admin/fleet/vehicles')
                 setLoading(false)
             }
         } catch (error) {
-            toast.error('Leave failed to update')
+            toast.error('Vehicle failed to update')
             console.log(error);
             setLoading(false)
         }
     }
+
+
+    const statusOptions = [
+        { name: 'Available', value: 'Available' },
+        { name: 'In Transit', value: 'In Transit' },
+        { name: 'Off Duty', value: 'Off Duty' },
+    ]
 
 
     const type = [
@@ -146,13 +156,7 @@ function UpdateForm({ initialData }: any) {
                             register={register}
                             className='w-full'
                         />
-                        <TextInput
-                            errors={errors}
-                            label={'Vehicle License'}
-                            name={'vehicleLicense'}
-                            register={register}
-                            className='w-full'
-                        />
+
                         <TextInput
                             errors={errors}
                             label={'Mileage'}
@@ -161,13 +165,27 @@ function UpdateForm({ initialData }: any) {
                             type='number'
                             className='w-full'
                         />
-                        <TextInput
-                            errors={errors}
-                            label={'Status'}
-                            name={'status'}
-                            register={register}
-                            className='w-full'
-                        />
+                        {userRole === "admin" && (
+                            <>
+                                <SelectInput
+                                    errors={errors}
+                                    label={'Status'}
+                                    name={'status'}
+                                    register={register}
+                                    options={statusOptions}
+                                    className="w-full text-black"
+                                />
+                                <TextInput
+                                    errors={errors}
+                                    label={'Vehicle License'}
+                                    name={'vehicleLicense'}
+                                    register={register}
+                                    className='w-full'
+                                />
+                            </>
+                        )}
+
+
                         {/* <ImageInput
                             label={'Attachment'}
                             setImageUrl={setImageUrl}

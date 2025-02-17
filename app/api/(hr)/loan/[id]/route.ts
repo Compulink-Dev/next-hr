@@ -38,6 +38,7 @@ export async function PUT(request: Request, { params: { id } }) {
                 repayment: data.repayment,
                 repayments: parseInt(data.repayments),
                 reason: data.reason,
+                status: data.status,
                 interest: parseFloat(data.interest),
                 installment: parseFloat(data.installment),
                 attachment: data.attachment,

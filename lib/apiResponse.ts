@@ -2,7 +2,8 @@ export const dynamic = "force-dynamic"
 export async function getData(endpoint: any) {
     try {
         const response = await fetch(`${process.env.URL}/api/${endpoint}`, {
-            cache: 'no-store'
+            cache: 'no-store',
+            credentials: 'include'
         })
 
         const data = await response.json()

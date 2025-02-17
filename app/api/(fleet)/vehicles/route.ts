@@ -1,5 +1,7 @@
 export const dynamic = "force-dynamic";
+import { authOptions } from "@/lib/authOptions";
 import db from "@/lib/db";
+import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
@@ -14,6 +16,7 @@ export async function POST(request: Request) {
                 nextService: data.nextService,
                 serviceType: data.serviceType,
                 radioLicense: data.radioLicense,
+                assignedUser: data.assignedUser,
                 vehicleLicense: data.vehicleLicense,
                 mileage: parseFloat(data.mileage),
                 status: data.status,
@@ -47,7 +50,7 @@ export async function GET(request: Request) {
         console.log(error);
         return NextResponse.json({
             error,
-            message: "Failed to create vehicle"
+            message: "Failed to get vehicle"
         },
             { status: 500 }
         )

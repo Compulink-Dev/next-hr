@@ -10,7 +10,7 @@ generator client {
 
 datasource db {
   provider = "mongodb"
-  url      = env("MONGODB_URI")
+  url      = env("MONGODB_URL")
 }
 
 model Category {
@@ -149,16 +149,30 @@ model PurchaseOrder {
 }
 
 model User {
-  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  id             String           @id @default(auto()) @map("_id") @db.ObjectId
   name           String?
-  email          String?   @unique
+  email          String?          @unique
   emailVerified  DateTime?
   image          String?
   hashedPassword String?
   role           String?
-  createdAt      DateTime  @default(now())
-  updateAt       DateTime  @updatedAt
-  userId         String?   @db.ObjectId
+  createdAt      DateTime         @default(now())
+  updateAt       DateTime         @updatedAt
+  userId         String?          @db.ObjectId
+  Loans          Loans[]
+  Reports        Reports[]
+  Leave          Leave[]
+  Payslip        Payslip[]
+  Employee       Employee[]
+  FleetInvoice   FleetInvoice[]
+  Vehicle        Vehicle[]
+  Driver         Driver[]
+  JobCard        JobCard[]
+  SalesReport    SalesReport[]
+  PurchaseReport PurchaseReport[]
+  FleetReport    FleetReport[]
+  HrReport       HrReport[]
+  ProjectsReport ProjectsReport[]
 }
 
 model Purchase {
@@ -171,12 +185,15 @@ model Purchase {
 model Reports {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
   updateAt  DateTime @updatedAt
 }
 
 model Loans {
   id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  name        String?
   payment     String
   type        String
   amount      Float
@@ -186,6 +203,9 @@ model Loans {
   interest    Float?
   installment Float?
   attachment  String?
+  status      String?
+  userId      String     @db.ObjectId
+  user        User       @relation(fields: [userId], references: [id])
   createdAt   DateTime   @default(now())
   updateAt    DateTime   @updatedAt
   HRReport    HrReport[]
@@ -193,6 +213,7 @@ model Loans {
 
 model Leave {
   id         String     @id @default(auto()) @map("_id") @db.ObjectId
+  name       String?
   type       String
   source     String?
   from       String
@@ -201,6 +222,9 @@ model Leave {
   contact    String?
   reason     String?
   attachment String?
+  status     String?
+  userId     String     @db.ObjectId
+  user       User       @relation(fields: [userId], references: [id])
   createdAt  DateTime   @default(now())
   updateAt   DateTime   @updatedAt
   HRReport   HrReport[]
@@ -211,6 +235,10 @@ model Payslip {
   name       String
   period     String
   attachment String?
+  imageUrl   String?
+  status     String?
+  userId     String   @db.ObjectId
+  user       User     @relation(fields: [userId], references: [id])
   createdAt  DateTime @default(now())
   updateAt   DateTime @updatedAt
 }
@@ -226,6 +254,8 @@ model Employee {
   status        String
   Certification Certification[]
   Training      Training[]
+  userId        String          @db.ObjectId
+  user          User            @relation(fields: [userId], references: [id])
   createdAt     DateTime        @default(now())
   updateAt      DateTime        @updatedAt
 }
@@ -239,27 +269,35 @@ model FleetInvoice {
   time        String?
   paymentType String
   amount      Float
+  userId      String   @db.ObjectId
+  user        User     @relation(fields: [userId], references: [id])
   createdAt   DateTime @default(now())
   updateAt    DateTime @updatedAt
 }
 
 model Vehicle {
-  id             String         @id @default(auto()) @map("_id") @db.ObjectId
-  name           String
-  numberPlate    String
-  serviceDate    String
-  nextService    String
-  serviceType    String
-  radioLicense   String
-  vehicleLicense String
-  mileage        Float
-  status         String
-  createdAt      DateTime       @default(now())
-  updateAt       DateTime       @updatedAt
-  Driver         Driver[]
-  FleetInvoice   FleetInvoice[]
-  SalesReport    SalesReport[]
-  FleetReport    FleetReport[]
+  id              String         @id @default(auto()) @map("_id") @db.ObjectId
+  name            String
+  numberPlate     String
+  serviceDate     String
+  assignedUser    String?
+  nextService     String
+  serviceType     String
+  radioLicense    String
+  vehicleLicense  String
+  mileage         Float
+  status          String
+  transitStart    DateTime? // Nullable, only set when "In Transit"
+  transitEnd      DateTime? // Nullable, set when returning to "Available"
+  transitDuration Int? // Nullable, store in minutes or seconds
+  createdAt       DateTime       @default(now())
+  updateAt        DateTime       @updatedAt
+  userId          String         @db.ObjectId
+  user            User           @relation(fields: [userId], references: [id])
+  Driver          Driver[]
+  FleetInvoice    FleetInvoice[]
+  SalesReport     SalesReport[]
+  FleetReport     FleetReport[]
 }
 
 model Driver {
@@ -269,6 +307,8 @@ model Driver {
   vehicleId     String?  @db.ObjectId
   vehicle       Vehicle? @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
   status        String
+  userId        String   @db.ObjectId
+  user          User     @relation(fields: [userId], references: [id])
   createdAt     DateTime @default(now())
   updateAt      DateTime @updatedAt
 }
@@ -330,6 +370,7 @@ model Item {
 
 model AddStockAdjustment {
   id                   String   @id @default(auto()) @map("_id") @db.ObjectId
+  name                 String
   referenceNumber      String
   addStockQty          Float
   notes                String?
@@ -344,6 +385,7 @@ model AddStockAdjustment {
 
 model TransferStockAdjustment {
   id                   String   @id @default(auto()) @map("_id") @db.ObjectId
+  name                 String
   referenceNumber      String
   item                 Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
   itemId               String   @db.ObjectId
@@ -368,6 +410,8 @@ model JobCard {
   labourHours   Float
   travelTime    Float
   mileage       Float
+  userId        String   @db.ObjectId
+  user          User     @relation(fields: [userId], references: [id])
   createdAt     DateTime @default(now())
   updateAt      DateTime @updatedAt
 }
@@ -421,13 +465,14 @@ model SalesReport {
   time        String?
   paymentType String
   amount      Float
+  userId      String    @db.ObjectId
+  user        User      @relation(fields: [userId], references: [id])
   createdAt   DateTime  @default(now())
   updateAt    DateTime  @updatedAt
 }
 
 model PurchaseReport {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  user        String?
   name        String
   date        String?
   creditName  String?
@@ -438,6 +483,8 @@ model PurchaseReport {
   paymentType String
   attachment  String?
   status      String?
+  userId      String   @db.ObjectId
+  user        User     @relation(fields: [userId], references: [id])
   createdAt   DateTime @default(now())
   updateAt    DateTime @updatedAt
 }
@@ -448,6 +495,8 @@ model FleetReport {
   mileage     String
   receiptNo   String
   description String
+  userId      String   @db.ObjectId
+  user        User     @relation(fields: [userId], references: [id])
   vehicleId   String?  @db.ObjectId
   vehicle     Vehicle? @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
   createdAt   DateTime @default(now())
@@ -462,6 +511,8 @@ model HrReport {
   loan      Loans?   @relation(fields: [loanId], references: [id], onDelete: Cascade)
   leaveId   String?  @db.ObjectId
   leave     Leave?   @relation(fields: [leaveId], references: [id], onDelete: Cascade)
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
   updateAt  DateTime @updatedAt
 }
@@ -488,6 +539,8 @@ model ProjectsReport {
   status      String
   clientId    String?   @db.ObjectId
   client      Customer? @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  userId      String    @db.ObjectId
+  user        User      @relation(fields: [userId], references: [id])
   createdAt   DateTime  @default(now())
   updateAt    DateTime  @updatedAt
 }

@@ -39,6 +39,7 @@ export async function PUT(request: Request, { params: { id } }) {
                 duration: data.duration,
                 contact: data.contact,
                 reason: data.reason,
+                status: data.status,
                 attachment: data.attachment,
             },
         })

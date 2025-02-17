@@ -33,7 +33,7 @@ async function Integrations() {
                     <div className="flex items-center gap-2">
                         <Button variant={'ghost'}>Invite user</Button>
                         <Button variant={'outline'} className='flex items-center gap-1'>
-                            <Plus />
+                            <Plus size={12} />
                             <Link href='/admin/integrations/new' className="">Create</Link>
                         </Button>
                     </div>

@@ -7,6 +7,7 @@ import TextInput from '../../../inventory/_components/TextInput'
 import SubmitButton from '../../../inventory/_components/SubmitButton'
 import TextareaInput from '../../../inventory/_components/TextArea'
 import ImageInput from '@/app/(dashboard)/_components/UploadThing'
+import SelectInput from '../../../inventory/_components/SelectInput'
 
 
 function UpdateForm({ initialData }: any) {
@@ -25,6 +26,7 @@ function UpdateForm({ initialData }: any) {
 
     const [imageUrl, setImageUrl] = useState('')
     const [loading, setLoading] = useState(false)
+    const [isOpen, setIsOpen] = useState(false);
     async function onSubmit(data: any) {
         setLoading(true)
         try {
@@ -38,9 +40,11 @@ function UpdateForm({ initialData }: any) {
             })
             if (response.ok) {
                 console.log(response);
-                toast.success('Loan updated successfully')
-                reset()
-                router.push('/dashboard/hr/loans/')
+                setLoading(false);
+                setIsOpen(true);
+                router.refresh()
+            } else {
+                toast.error('Loan failed to update')
                 setLoading(false)
             }
         } catch (error) {
@@ -53,7 +57,7 @@ function UpdateForm({ initialData }: any) {
     return (
         <section className="bg-white dark:bg-gray-900">
             <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
-                <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">Update a new Customer</h2>
+                <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">Update a new Loan</h2>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
                         <TextInput
@@ -104,13 +108,25 @@ function UpdateForm({ initialData }: any) {
                             label={'Loan interest'}
                             name={'interest'}
                             register={register}
+                            className='w-full'
+                        />
+                        <SelectInput
+                            errors={errors}
+                            label={'Loan status'}
+                            name={'status'}
+                            register={register}
+                            className='w-full'
+                            options={[
+                                { id: 'Approved', name: 'Approved' },
+                                { id: 'Pending', name: 'Pending' },
+                                { id: 'Rejected', name: 'Rejected' },
+                            ]}
                         />
                         <TextInput
                             errors={errors}
                             label={'Installments'}
-                            name={'installments'}
+                            name={'installment'}
                             register={register}
-                            className='w-full'
                             type='number'
                         />
                         <ImageInput
@@ -125,6 +141,35 @@ function UpdateForm({ initialData }: any) {
                     />
                 </form>
             </div>
+            {isOpen && (
+                <div className="fixed inset-0 flex items-center justify-center z-50">
+                    <div className="bg-white p-4 rounded shadow-lg">
+                        <h2 className="text-lg font-bold mb-4">Loan Updated Successfully</h2>
+                        <p className="mb-6">
+                            Do you want to proceed?
+                        </p>
+                        <div className="flex justify-end space-x-4">
+                            <button
+                                onClick={() => setIsOpen(false)}
+                                className="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={() => {
+                                    toast.success('Loan updated successfully')
+                                    reset()
+                                    router.push('/admin/hr/loans/')
+                                    setIsOpen(false)
+                                }}
+                                className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
+                            >
+                                Update
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </section>
     )
 }

@@ -25,6 +25,7 @@ const menuItems: MenuItem[] = [
     {
         title: "Inventory",
         icon: BaggageClaim,
+        roles: ["admin"],
         children: [
             { title: "Item", path: "/admin/inventory/items" },
             { title: "Categories", path: "/admin/inventory/categories" },
@@ -75,7 +76,7 @@ const menuItems: MenuItem[] = [
             { title: "Loans", path: "/admin/hr/loans" },
             { title: "Leave Forms", path: "/admin/hr/leave" },
             { title: "Payslips", path: "/admin/hr/pay-slips" },
-            { title: "Employees", path: "/admin/hr/employees" },
+            { title: "Employees", path: "/admin/hr/employees", roles: ['admin'] },
             { title: "Certification", path: "/admin/hr/certification" },
             { title: "Training", path: "/admin/hr/training" },
             {
@@ -91,12 +92,12 @@ const menuItems: MenuItem[] = [
         children: [
             { title: "Invoice", path: "/admin/fleet/invoices" },
             { title: "Vehicles", path: "/admin/fleet/vehicles" },
-            { title: "Drivers", path: "/admin/fleet/drivers" },
+            { title: "Drivers", path: "/admin/fleet/drivers", roles: ['admin'] },
             { title: "Tracking", path: "/admin/fleet/tracking" },
             {
                 title: "Mobile Development",
                 path: "/services/mobile-development",
-                roles: ["admin", "developer"],
+                roles: ["aDmin", "developer"],
             },
         ],
     },
@@ -134,10 +135,6 @@ const Sidebar: React.FC<{ showSide: boolean; setShowSide: React.Dispatch<React.S
     const { data: session } = useSession(); // Access session
     const [openMenu, setOpenMenu] = useState<string | null>(null);
 
-
-    console.log("Session Data: ", session);
-    console.log("User Role: ", session?.user?.role);
-
     // Toggle open/close of submenus
     const handleMenuClick = (title: string) => {
         setOpenMenu(openMenu === title ? null : title);
@@ -146,7 +143,6 @@ const Sidebar: React.FC<{ showSide: boolean; setShowSide: React.Dispatch<React.S
     // Check if the user has permission to see the menu item
     const checkPermission = (item: MenuItem) => {
         if (item.roles && session?.user?.role) {
-            console.log("Roles required: ", item.roles, "User Role: ", session.user.role); // Log roles required for the item
             return item.roles.includes(session.user.role); // Check if user's role is allowed
         }
         return true; // Public item
@@ -168,49 +164,49 @@ const Sidebar: React.FC<{ showSide: boolean; setShowSide: React.Dispatch<React.S
             </div>
             <Separator />
             <ul className="space-y-2 p-4">
-                {menuItems.map((item) => (
-                    <li key={item.title} className='group p-2 hover:text-slate-700 '>
-                        {item.children ? (
-                            <>
-                                {/* Parent item with submenu */}
-                                <span
-                                    className="flex items-center justify-between cursor-pointer"
-                                    onClick={() => handleMenuClick(item.title)}>
-                                    <span className="flex items-center">
-                                        {item.icon && <item.icon className="w-4 h-4 mr-2 text-gray-400" />}
-                                        {item.title}
-                                    </span>
-                                    {openMenu === item.title ? (
-                                        <ChevronUp className="w-4 h-4 text-gray-400" />
-                                    ) : (
-                                        <ChevronDown className="w-4 h-4 text-gray-400" />
-                                    )}
-                                </span>
-                                {/* Submenu */}
-                                {openMenu === item.title && (
-                                    <ul className="space-y-1 mt-2 ml-4">
-                                        {item.children.map((subItem) =>
-                                            checkPermission(subItem) ? (
-                                                <li
-                                                    className='text-sm'
-                                                    key={subItem.title}>
-                                                    <Link
-                                                        className="block p-2 pl-4 text-gray-400 hover:text-white"
-                                                        href={subItem.path || '#'}>
-                                                        <span className="flex items-center">
-                                                            {subItem.icon && <subItem.icon className="w-4 h-4 mr-2 text-gray-400" />}
-                                                            {subItem.title}
-                                                        </span>
-                                                    </Link>
-                                                </li>
-                                            ) : null // Hide the item if the user doesn't have permission
+                {menuItems.map((item) =>
+                    checkPermission(item) ? (
+                        <li key={item.title} className='group p-2 hover:text-slate-700 '>
+                            {item.children ? (
+                                <>
+                                    {/* Parent item with submenu */}
+                                    <span
+                                        className="flex items-center justify-between cursor-pointer"
+                                        onClick={() => handleMenuClick(item.title)}>
+                                        <span className="flex items-center">
+                                            {item.icon && <item.icon className="w-4 h-4 mr-2 text-gray-400" />}
+                                            {item.title}
+                                        </span>
+                                        {openMenu === item.title ? (
+                                            <ChevronUp className="w-4 h-4 text-gray-400" />
+                                        ) : (
+                                            <ChevronDown className="w-4 h-4 text-gray-400" />
                                         )}
-                                    </ul>
-                                )}
-                            </>
-                        ) : (
-                            // Top-level item
-                            checkPermission(item) ? (
+                                    </span>
+                                    {/* Submenu */}
+                                    {openMenu === item.title && (
+                                        <ul className="space-y-1 mt-2 ml-4">
+                                            {item.children.map((subItem) =>
+                                                checkPermission(subItem) ? (
+                                                    <li
+                                                        className='text-sm'
+                                                        key={subItem.title}>
+                                                        <Link
+                                                            className="block p-2 pl-4 text-gray-400 hover:text-white"
+                                                            href={subItem.path || '#'}>
+                                                            <span className="flex items-center">
+                                                                {subItem.icon && <subItem.icon className="w-4 h-4 mr-2 text-gray-400" />}
+                                                                {subItem.title}
+                                                            </span>
+                                                        </Link>
+                                                    </li>
+                                                ) : null // Hide the item if the user doesn't have permission
+                                            )}
+                                        </ul>
+                                    )}
+                                </>
+                            ) : (
+                                // Top-level item
                                 <Link
                                     className="block rounded-md"
                                     href={item.path || '#'}>
@@ -219,10 +215,10 @@ const Sidebar: React.FC<{ showSide: boolean; setShowSide: React.Dispatch<React.S
                                         {item.title}
                                     </span>
                                 </Link>
-                            ) : null
-                        )}
-                    </li>
-                ))}
+                            )}
+                        </li>
+                    ) : null // Hide the top-level item if the user doesn't have permission
+                )}
             </ul>
             <div className="">
                 <SubscriptionCard />
@@ -235,5 +231,6 @@ const Sidebar: React.FC<{ showSide: boolean; setShowSide: React.Dispatch<React.S
         </div>
     );
 };
+
 
 export default Sidebar;

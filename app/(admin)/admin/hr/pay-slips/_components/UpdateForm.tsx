@@ -6,9 +6,11 @@ import { useRouter } from 'next/navigation'
 import TextInput from '../../../inventory/_components/TextInput'
 import SubmitButton from '../../../inventory/_components/SubmitButton'
 import TextareaInput from '../../../inventory/_components/TextArea'
+import ImageInput from '@/app/(dashboard)/_components/UploadThing'
 
 
 function UpdateForm({ initialData }: any) {
+    const [attachment, setAttachment] = useState('')
 
     const {
         register,
@@ -23,10 +25,12 @@ function UpdateForm({ initialData }: any) {
 
     const [loading, setLoading] = useState(false)
     async function onSubmit(data: any) {
+        data.attachment = attachment
         setLoading(true)
         try {
             console.log(data);
-            const response = await fetch(`/api/customers/${initialData.id}`, {
+
+            const response = await fetch(`/api/payslip/${initialData.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -35,17 +39,19 @@ function UpdateForm({ initialData }: any) {
             })
             if (response.ok) {
                 console.log(response);
-                toast.success('Customer updated successfully')
+                toast.success('Payslip updated successfully')
                 reset()
-                router.push('/dashboard/sales/customers/')
+                router.push('/admin/hr/pay-slips/')
                 setLoading(false)
             }
         } catch (error) {
-            toast.error('Customer failed to update')
+            toast.error('Payslip failed to update')
             console.log(error);
             setLoading(false)
         }
     }
+
+
 
     return (
         <section className="bg-white dark:bg-gray-900">
@@ -55,43 +61,23 @@ function UpdateForm({ initialData }: any) {
                     <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
                         <TextInput
                             errors={errors}
-                            label={'Customer name'}
+                            label={'Payslip name'}
                             name={'name'}
                             register={register}
                             className='w-full'
                         />
                         <TextInput
                             errors={errors}
-                            label={'Customer phone'}
-                            name={'phone'}
+                            label={'Period'}
+                            name={'period'}
                             register={register}
                             className='w-full'
+                            type='date'
                         />
-                        <TextInput
-                            errors={errors}
-                            label={'Customer email'}
-                            name={'email'}
-                            register={register}
-                            className='w-full'
-                        />
-                        <TextInput
-                            errors={errors}
-                            label={'Customer address'}
-                            name={'address'}
-                            register={register}
-                            className='w-full'
-                        />
-                        <TextInput
-                            errors={errors}
-                            label={'Customer company'}
-                            name={'company'}
-                            register={register}
-                        />
-                        <TextareaInput
-                            errors={errors}
-                            label={'Customer notes'}
-                            name={'notes'}
-                            register={register}
+                        <ImageInput
+                            label={'Attachment'}
+                            setImageUrl={setAttachment}
+                            imageUrl={attachment}
                         />
                     </div>
                     <SubmitButton

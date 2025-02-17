@@ -16,9 +16,9 @@ function DashInventory() {
             icon: UserRound
         },
         {
-            title: 'Sales order',
+            title: 'Purchase order',
             description: 'Create standalone items and services that you buy and sell',
-            link: '/sales-order',
+            link: '/purchaseorder',
             linkTitle: "New Order",
             enabled: true,
             icon: BadgeDollarSign
@@ -34,7 +34,7 @@ function DashInventory() {
         {
             title: 'Debit Note',
             description: 'Create standalone items and services that you buy and sell',
-            link: '/debitnote',
+            link: '/debit-note',
             linkTitle: "New Debit Note",
             enabled: true,
             icon: StickyNote
@@ -44,7 +44,7 @@ function DashInventory() {
 
     return (
         <div className=''>
-            <FixedHeader newlink={'/dashboard/purchases/customers/new'} />
+            <FixedHeader newlink={'/admin/purchases/debit-note/new'} />
             <div className="p-8 grid grid-col-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {
                     optionCards.map((card, i) => (

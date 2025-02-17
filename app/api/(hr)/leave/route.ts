@@ -8,6 +8,7 @@ export async function POST(request: Request) {
 
         const leave = await db.leave.create({
             data: {
+                name: data.name,
                 type: data.type,
                 source: data.source,
                 from: data.from,
@@ -15,6 +16,7 @@ export async function POST(request: Request) {
                 duration: data.duration,
                 contact: data.contact,
                 reason: data.reason,
+                status: data.status,
                 attachment: data.attachment,
             },
         })

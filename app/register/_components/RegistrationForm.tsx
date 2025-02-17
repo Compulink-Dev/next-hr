@@ -1,4 +1,5 @@
 'use client'
+import SelectInput from '@/app/(admin)/admin/inventory/_components/SelectInput'
 import SubmitButton from '@/app/(dashboard)/dashboard/inventory/_components/SubmitButton'
 import TextInput from '@/app/(dashboard)/dashboard/inventory/_components/TextInput'
 import Link from 'next/link'
@@ -10,6 +11,21 @@ import toast from 'react-hot-toast'
 function RegistrationForm() {
 
     const router = useRouter()
+
+    const selection = [
+        {
+            id: 'user',
+            name: 'user'
+        },
+        {
+            id: 'admin',
+            name: 'admin'
+        }, {
+            id: 'hr',
+            name: 'hr'
+        },
+    ]
+
     const {
         register,
         handleSubmit,
@@ -88,6 +104,14 @@ function RegistrationForm() {
                     register={register}
                     type='password'
                     className='w-full'
+                />
+                <SelectInput
+                    errors={errors}
+                    label={'Select role'}
+                    name={'role'}
+                    register={register}
+                    options={selection}
+                    className='text-black'
                 />
             </div>
             <SubmitButton

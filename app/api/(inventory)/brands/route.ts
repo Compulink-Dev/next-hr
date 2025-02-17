@@ -38,7 +38,7 @@ export async function GET(request: Request) {
         console.log(error);
         return NextResponse.json({
             error,
-            message: "Failed to create brand"
+            message: "Failed to get brand"
         },
             { status: 500 }
         )

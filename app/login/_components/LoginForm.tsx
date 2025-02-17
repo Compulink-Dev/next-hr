@@ -3,54 +3,50 @@ import SubmitButton from '@/app/(dashboard)/dashboard/inventory/_components/Subm
 import TextInput from '@/app/(dashboard)/dashboard/inventory/_components/TextInput'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { signIn } from 'next-auth/react'
 
 function LoginForm() {
-
     const router = useRouter()
-    const {
-        register,
-        handleSubmit,
-        reset,
-        formState: { errors },
-    } = useForm()
-
+    const { register, handleSubmit, reset, formState: { errors } } = useForm()
     const [loading, setLoading] = useState(false)
-    const [emailErr, setEmail] = useState('')
-    console.log(emailErr);
+    const [loginSuccess, setLoginSuccess] = useState(false)
 
-    async function onSubmit(data: any) {
+    const onSubmit = async (data: any) => {
+        setLoading(true)
         try {
-            console.log(data.email, data.password);
-            setLoading(true)
             const loginData = await signIn("credentials", {
                 ...data,
                 redirect: false
             })
 
-            if (loginData) {
-                setLoading(false)
-                router.push('/dashboard/home')
+            setLoading(false)
+            if (loginData?.ok) {
+                setLoginSuccess(true)
+            } else {
+                toast.error("Invalid credentials")
             }
-
         } catch (error) {
             setLoading(false)
-            console.log("Network error: ", error);
+            console.error("Network error: ", error)
             toast.error("Something went wrong")
-
         }
     }
 
+    useEffect(() => {
+        if (loginSuccess) {
+            router.push('/admin')
+        }
+    }, [loginSuccess, router])
 
     return (
         <form
             onSubmit={handleSubmit(onSubmit)}
             action={'#'}
             className='space-y-4 md:space-y-6'>
-            <div className="">
+            <div>
                 <TextInput
                     errors={errors}
                     label={'Enter your email'}
@@ -74,8 +70,8 @@ function LoginForm() {
                 className="w-full"
             />
             <div className="text-sm flex gap-1 items-center">
-                <p className="">{"Don't have an account"}</p>
-                <Link className='text-blue-800 font-bold' href={'register'}>Register?</Link>
+                <p>{"Don't have an account?"}</p>
+                <Link className='text-blue-800 font-bold' href={'/register'}>Register?</Link>
             </div>
         </form>
     )

@@ -1,95 +1,79 @@
-import CredentialsProviders from 'next-auth/providers/credentials'
-import { PrismaAdapter } from '@auth/prisma-adapter'
-import db from './db'
-import { compare } from 'bcrypt'
+import type { NextAuthOptions } from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
+import { PrismaClient } from "@prisma/client";
+import * as bcrypt from 'bcrypt';
+import { Session } from 'next-auth';
 
-const authOptions = {
-    adapter: PrismaAdapter(db),
-    secret: process.env.NEXTAUTH_SECRET,
-    session: {
-        strategy: 'jwt'
-    },
-    pages: {
-        signIn: "/login"
-    },
+const prisma = new PrismaClient();
+
+
+type CustomSession = Session & {
+    token: any;
+};
+
+
+export const authOptions: NextAuthOptions = {
     providers: [
-        //@ts-ignore
-        CredentialsProviders({
+        CredentialsProvider({
             name: "Credentials",
             credentials: {
-                email: { label: 'Email', type: "email", placeholder: "Email address" },
+                username: { label: "Username", type: "text", placeholder: "get@example.com" },
                 password: { label: "Password", type: "password" },
             },
             //@ts-ignore
+
             async authorize(credentials) {
-                try {
-                    if (!credentials?.email || !credentials?.password) {
-                        console.log('Please enter details');
-                        return null
 
+                if (credentials) {
+
+                    // Replace this with a database lookup
+                    const user = await prisma.user.findUnique({
+                        where: { email: credentials?.username },
+                    });
+
+                    if (user && user.hashedPassword && await bcrypt.compare(credentials.password, user.hashedPassword)) {
+                        return {
+                            user: {
+                                id: user.id,
+                                name: user.name,
+                                role: user.role,
+                                email: user.email,
+                            },
+                        };
                     }
-                    const existingUser = await db.user.findUnique({
-                        where: {
-                            email: credentials.email
-                        },
-                        select: { // Use select to include specific fields
-                            id: true,
-                            name: true,
-                            email: true,
-                            hashedPassword: true,
-                            role: true // Ensure you select the role here
-                        }
-
-                    })
-
-                    if (!existingUser) {
-                        console.log("User not found");
-                        return
-                    }
-
-
-                    const passwordMatch = await compare(
-                        credentials.password,
-                        existingUser.hashedPassword
-                    )
-
-                    if (!passwordMatch) {
-                        console.log('Password incorrect');
-                        return null
-                    }
-
-                    const user = {
-                        id: existingUser.id,
-                        name: existingUser.name,
-                        email: existingUser.email,
-                        role: existingUser.role
-                    }
-
-                    console.log(user);
-                    return user
-                } catch (error) {
-                    console.log(error);
-
+                    return null;
                 }
             },
-        })
+        }),
     ],
     callbacks: {
-        async session({ session, token }: any) {
-            // Set the role from token to session
-            if (token?.role) {
-                session.user.role = token.role;
-            }
-            return session;
-        },
-        async jwt({ token, user }: any) {
-            // Add user role to the token
+        async jwt({ token, user }) {
             if (user) {
-                token.role = user.role; // Make sure role is set from user
+                token.id = user.id; // Include user ID in token
+                token.email = user.email; // Include user email in token
+                token.name = user.name; // Include user name in token
+                token.role = user.role; // Include user role in token
+                console.log("JWT token updated:", token);
             }
             return token;
+        },
+        async session({ session, token }) {
+            console.log("Token received in session callback:", token);
+            if (token) {
+                session.user = {
+                    id: token.sub?.toString() ?? '', // Add a null check and a default value
+                    email: token.email,
+                    name: token.name,
+                    role: token.role,
+                };
+                session.token = token; // Now valid with the updated type
+                console.log("Session updated:", session);
+            }
+            return session;
         }
-    }
-}
 
-export { authOptions }
+    },
+    session: {
+        strategy: "jwt",
+    },
+};

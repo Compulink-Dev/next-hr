@@ -28,7 +28,7 @@ function Header({ setShowSide }: any) {
 
     // Access the user's role from the session
     const userRole = session?.user?.role || "User";
-    console.log("User Role:", userRole); // Log the user's role for debugging
+    console.log("User Role 2  : ", session); // Log the user's role for debugging
 
     return (
         <div className='bg-slate-100 h-14 flex items-center justify-between px-4'>
@@ -109,7 +109,7 @@ function Header({ setShowSide }: any) {
                                             className='bg-blue-600 hover:bg-blue-400'
                                             onClick={() => signOut({
                                                 redirect: true,
-                                                callbackUrl: "/login"
+                                                callbackUrl: "/"
                                             })}
                                         >
                                             Logout

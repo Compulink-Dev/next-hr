@@ -26,7 +26,7 @@ function DashInventory() {
             title: 'Brands',
             description: 'Create standalone items and services that you buy and sell',
             link: '/brands',
-            linkTitle: "New Bran",
+            linkTitle: "New Brand",
             enabled: true,
             icon: Frame
         },

@@ -9,9 +9,15 @@ import TextareaInput from '../../../inventory/_components/TextArea'
 import { useRouter } from 'next/navigation'
 import SelectInput from '../../../inventory/_components/SelectInput'
 import ImageInput from '@/app/(dashboard)/_components/UploadThing'
+import { useSession } from 'next-auth/react'
 
 
 function Form() {
+
+
+    const { data: session } = useSession()
+
+    const userName = session?.user?.name || 'name'
 
     const {
         register,
@@ -26,6 +32,7 @@ function Form() {
 
 
     async function onSubmit(data: any) {
+        data.name = userName
         setLoading(true)
         try {
             console.log(data);

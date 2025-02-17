@@ -12,15 +12,13 @@ export default withAuth(
                 new URL('/denied', request.url)
             )
         }
-
-
     },
     {
         callbacks: {
-            authorized: ({ token }) => !!token
+            authorized: ({ token }) => !!token,
         },
     }
 )
 
 
-export const config = { matcher: ['/dashboard'] }
+export const config = { matcher: ['/admin'] }
