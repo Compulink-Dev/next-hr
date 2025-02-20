@@ -1,5 +1,6 @@
 "use client";
 
+import { Input } from "@/components/ui/input";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 
@@ -32,23 +33,22 @@ export default function LoginPage() {
         <h2 className="text-2xl font-semibold text-center mb-4">Login</h2>
         {error && <p className="text-red-500 text-sm text-center">{error}</p>}
         <form onSubmit={handleLogin} className="space-y-4">
-          <input
+          <Input
             type="text"
             placeholder="Email"
             value={credentials.username}
             onChange={(e) =>
               setCredentials({ ...credentials, username: e.target.value })
             }
-            className="w-full p-2 border border-gray-300 rounded"
+            className="outline-none"
           />
-          <input
+          <Input
             type="password"
             placeholder="Password"
             value={credentials.password}
             onChange={(e) =>
               setCredentials({ ...credentials, password: e.target.value })
             }
-            className="w-full p-2 border border-gray-300 rounded"
           />
           <button
             type="submit"
