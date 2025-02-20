@@ -1,41 +1,48 @@
-export const dynamic = "force-dynamic"
-import FixedHeader from '@/app/(dashboard)/_components/FixedHeader'
-import React from 'react'
-import DataTable from '../../_components/DataTable'
-import { getData } from '@/lib/apiResponse'
+export const dynamic = "force-dynamic";
+import React from "react";
+import { getData } from "@/lib/apiResponse";
+import FixedHeader from "@/app/(dashboard)/_components/fixedHeader";
+import DataTable from "@/app/(dashboard)/_components/DataTable";
 
 async function ProjectReports() {
+  const projectsReport = await getData("reports/projects");
 
-    const certificate = await getData('projects')
+  const data = projectsReport.map((obj: any) => {
+    return {
+      id: obj.id,
+      name: obj.name,
+      purpose: obj.purpose,
+      destination: obj.destination,
+      startDate: obj.startDate,
+      endDate: obj.endDate,
+      clientId: obj.clientId,
+      status: obj.status,
+      createdAt: obj.createdAt,
+    };
+  });
 
-    const data = certificate.map((obj: any) => {
-        return {
-            id: obj.id,
-            name: obj.name,
-            customer: obj.customer,
-            destination: obj.destination,
-            startDate: obj.startDate,
-            endDate: obj.endDate,
-            description: obj.description,
-            status: obj.status,
-            createdAt: obj.createdAt
+  const columns = [
+    "name",
+    "purpose",
+    "destination",
+    "startDate",
+    "endDate",
+    "createdAt",
+  ];
 
-        }
-    })
-
-    const columns = ['name', 'customer', 'destination', 'startDate', 'endDate', 'description', 'status', 'createdAt']
-
-    return (
-        <div>
-            <FixedHeader
-                link={'dashboard/reports/projects/new'}
-                title='Certificate'
-            />
-            <div className="p-4">
-                <DataTable data={data} columns={columns} updateLink='reports/projects' resourceName='projects' />
-            </div>
-        </div>
-    )
+  return (
+    <div>
+      <FixedHeader link={"/reports/projects/new"} title="projectsReport" />
+      <div className="p-4">
+        <DataTable
+          data={data}
+          columns={columns}
+          updateLink="reports/projects"
+          resourceName="reports/projects"
+        />
+      </div>
+    </div>
+  );
 }
 
-export default ProjectReports
+export default ProjectReports;

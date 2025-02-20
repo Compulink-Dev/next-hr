@@ -1,39 +1,39 @@
-export const dynamic = "force-dynamic"
-import FixedHeader from '@/app/(dashboard)/_components/FixedHeader'
-import React from 'react'
-import DataTable from '../../_components/DataTable'
-import { getData } from '@/lib/apiResponse'
+export const dynamic = "force-dynamic";
+
+import React from "react";
+import { getData } from "@/lib/apiResponse";
+import DataTable from "@/app/(admin)/_components/DataTable";
+import FixedHeader from "@/app/(admin)/_components/fixedHeader";
 
 async function HumanResourceReport() {
+  const hr = await getData("reports/hr");
 
-    const hr = await getData('reports/hr')
+  const data = hr.map((obj: any) => {
+    return {
+      id: obj.id,
+      name: obj.name,
+      loan: obj.loan || "Not available",
+      leave: obj.leave || "Not available",
+      date: obj.date,
+      createdAt: obj.createdAt || "Not available",
+    };
+  });
 
-    const data = hr.map((obj: any) => {
-        return {
-            id: obj.id,
-            name: obj.name,
-            loan: obj.loan,
-            leave: obj.leave,
-            advance: obj.advance,
-            date: obj.date,
-            createdAt: obj.createdAt
+  const columns = ["name", "loan", "leave", "date", "createdAt"];
 
-        }
-    })
-
-    const columns = ['name', 'loan', 'leave', 'advance', 'date', 'createdAt']
-
-    return (
-        <div>
-            <FixedHeader
-                link={'dashboard/reports/hr/new'}
-                title='Human Resource'
-            />
-            <div className="p-4">
-                <DataTable data={data} columns={columns} updateLink='reports/hr' resourceName='hr' />
-            </div>
-        </div>
-    )
+  return (
+    <div>
+      <FixedHeader link={"/reports/hr/new"} title="Human Resource" />
+      <div className="p-4">
+        <DataTable
+          data={data}
+          columns={columns}
+          updateLink="reports/hr"
+          resourceName="reports/hr"
+        />
+      </div>
+    </div>
+  );
 }
 
-export default HumanResourceReport
+export default HumanResourceReport;

@@ -13,7 +13,7 @@ import {
   Warehouse,
 } from "lucide-react";
 import OptionCard from "../../_components/OptionCard";
-import FixedHeader from "@/app/(admin)/_components/fixedHeader";
+import FixedHeader from "@/app/(dashboard)/_components/fixedHeader";
 
 function DashInventory() {
   const optionCards = [
@@ -37,7 +37,7 @@ function DashInventory() {
       title: "Brands",
       description: "Create standalone items and services that you buy and sell",
       link: "/brands",
-      linkTitle: "New Bran",
+      linkTitle: "New Brand",
       enabled: true,
       icon: Frame,
     },

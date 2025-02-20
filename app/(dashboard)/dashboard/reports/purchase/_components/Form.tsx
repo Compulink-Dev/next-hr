@@ -41,7 +41,7 @@ function Form() {
                 toast.success('Purchase created successfully')
                 reset()
                 setLoading(false)
-                router.push('/dashboard/reports/purchase')
+                router.push('/admin/reports/purchase')
             }
         } catch (error) {
             toast.error('Purchase failed to create')
@@ -58,14 +58,14 @@ function Form() {
                     <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
                         <TextInput
                             errors={errors}
-                            label={'Client name'}
-                            name={'customer'}
+                            label={'User name'}
+                            name={'user'}
                             register={register}
                             className='w-full'
                         />
                         <TextInput
                             errors={errors}
-                            label={'Sales name'}
+                            label={'Name'}
                             name={'name'}
                             register={register}
                             className='w-full'
@@ -77,6 +77,13 @@ function Form() {
                             register={register}
                             className='w-full'
                             type='date'
+                        />
+                        <TextInput
+                            errors={errors}
+                            label={'Credit name'}
+                            name={'creditName'}
+                            register={register}
+                            className='w-full'
                         />
                         <TextInput
                             errors={errors}
@@ -101,10 +108,23 @@ function Form() {
                             register={register}
                             className='w-full'
                         />
+                        <TextInput
+                            errors={errors}
+                            label={'Payment Type'}
+                            name={'paymentType'}
+                            register={register}
+                            className='w-full'
+                        />
                         <TextareaInput
                             errors={errors}
                             label={'Status'}
                             name={'status'}
+                            register={register}
+                        />
+                        <TextareaInput
+                            errors={errors}
+                            label={'Description'}
+                            name={'description'}
                             register={register}
                         />
                         <ImageInput

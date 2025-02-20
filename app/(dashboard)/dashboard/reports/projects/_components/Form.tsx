@@ -41,7 +41,7 @@ function Form() {
                 toast.success('Projects created successfully')
                 reset()
                 setLoading(false)
-                router.push('/dashboard/reports/projects')
+                router.push('/admin/reports/projects')
             }
         } catch (error) {
             toast.error('Projects failed to create')
@@ -64,8 +64,8 @@ function Form() {
                         />
                         <TextInput
                             errors={errors}
-                            label={'Customer'}
-                            name={'customer'}
+                            label={'Purpose'}
+                            name={'purpose'}
                             register={register}
                             className='w-full'
                         />
@@ -92,11 +92,12 @@ function Form() {
                             className='w-full'
                             type='date'
                         />
-                        <TextareaInput
+                        <TextInput
                             errors={errors}
-                            label={'Description'}
-                            name={'description'}
+                            label={'Status '}
+                            name={'status'}
                             register={register}
+                            className='w-full'
                         />
                     </div>
                     <SubmitButton

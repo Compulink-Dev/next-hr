@@ -19,8 +19,6 @@ export const authOptions: NextAuthOptions = {
       },
       //@ts-ignore
       async authorize(credentials) {
-        console.log("Credentials received:", credentials);
-
         if (!credentials?.username || !credentials?.password) {
           throw new Error("Missing username or password");
         }
@@ -28,8 +26,6 @@ export const authOptions: NextAuthOptions = {
         const user = await prisma.user.findUnique({
           where: { email: credentials.username },
         });
-
-        console.log("User found:", user);
 
         if (!user || !user.hashedPassword) {
           throw new Error("Invalid credentials");
@@ -39,8 +35,6 @@ export const authOptions: NextAuthOptions = {
           credentials.password,
           user.hashedPassword
         );
-        console.log("Password valid:", isValid);
-
         if (!isValid) {
           throw new Error("Invalid credentials");
         }
@@ -49,38 +43,30 @@ export const authOptions: NextAuthOptions = {
           id: user.id,
           name: user.name,
           email: user.email,
-          role: user.role,
+          role: user.role, // Ensure role is included
         };
       },
     }),
   ],
   callbacks: {
     async jwt({ token, user }) {
-      console.log("JWT callback - user received:", user);
-
       if (user) {
         token.id = user.id;
         token.email = user.email;
         token.name = user.name;
-        token.role = user.role;
+        token.role = user.role; // Store role in token
       }
-
-      console.log("JWT token:", token);
       return token;
     },
     async session({ session, token }) {
-      console.log("Session callback - token received:", token);
-
       if (token.id) {
         session.user = {
           id: token.id,
           email: token.email,
           name: token.name,
-          role: token.role,
+          role: token.role, // Include role in session
         };
       }
-
-      console.log("Session updated:", session);
       return session;
     },
   },

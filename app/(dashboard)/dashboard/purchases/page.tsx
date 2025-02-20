@@ -18,7 +18,7 @@ import {
   Warehouse,
 } from "lucide-react";
 import OptionCard from "./_components/OptionCard";
-import FixedHeader from "@/app/(admin)/_components/fixedHeader";
+import FixedHeader from "../../_components/fixedHeader";
 
 function DashInventory() {
   const optionCards = [
@@ -31,9 +31,9 @@ function DashInventory() {
       icon: UserRound,
     },
     {
-      title: "Sales order",
+      title: "Purchase order",
       description: "Create standalone items and services that you buy and sell",
-      link: "/sales-order",
+      link: "/purchaseorder",
       linkTitle: "New Order",
       enabled: true,
       icon: BadgeDollarSign,
@@ -49,7 +49,7 @@ function DashInventory() {
     {
       title: "Debit Note",
       description: "Create standalone items and services that you buy and sell",
-      link: "/debitnote",
+      link: "/debit-note",
       linkTitle: "New Debit Note",
       enabled: true,
       icon: StickyNote,
@@ -58,10 +58,7 @@ function DashInventory() {
 
   return (
     <div className="">
-      <FixedHeader
-        title="Purchases"
-        link={"/dashboard/purchases/customers/new"}
-      />
+      <FixedHeader link={"/admin/purchases/debit-note/new"} title="Purchases" />
       <div className="p-8 grid grid-col-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {optionCards.map((card, i) => (
           <OptionCard key={i} optionData={card} />

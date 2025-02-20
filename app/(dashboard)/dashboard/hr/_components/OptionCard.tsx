@@ -1,4 +1,3 @@
-import { Shirt } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 
@@ -18,7 +17,7 @@ function OptionCard({ optionData }) {
             {
                 enabled ? (
                     <Link
-                        href={`/dashboard/hr${link}/new`}
+                        href={`/admin/hr${link}/new`}
                         className='bg-blue-600 text-sm text-white hover:bg-blue-400 px-4 py-2 rounded'>
                         {linkTitle}
                     </Link>

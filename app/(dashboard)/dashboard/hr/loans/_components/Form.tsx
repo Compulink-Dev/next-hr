@@ -8,9 +8,15 @@ import SubmitButton from '../../../inventory/_components/SubmitButton'
 import TextareaInput from '../../../inventory/_components/TextArea'
 import { useRouter } from 'next/navigation'
 import ImageInput from '@/app/(dashboard)/_components/UploadThing'
+import { useSession } from 'next-auth/react'
 
 
 function Form() {
+
+    const { data: session } = useSession()
+
+    const userName = session?.user?.name || 'name'
+
 
     const {
         register,
@@ -25,27 +31,35 @@ function Form() {
 
 
     async function onSubmit(data: any) {
+        data.name = userName
         setLoading(true)
         try {
             console.log(data);
-            const response = await fetch('/api/loan', {
+            const response = await fetch('/api/loans', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(data)
             })
+            if (!response.ok) {
+                throw new Error(`Server responded with ${response.status} ${response.statusText}`)
+            }
             if (response.ok) {
                 console.log(response);
                 toast.success('Loan created successfully')
                 reset()
                 setLoading(false)
-                router.push('/dashboard/hr/loans')
+                router.push('/admin/hr/loans')
             }
         } catch (error) {
-            toast.error('Loan failed to create')
+            toast.error('Loan creation in progress')
             console.log(error);
-            setLoading(false)
+            setTimeout(() => {
+                toast.error('Failed to create loan')
+                setLoading(false)
+                window.location.reload()
+            }, 5000) // 5 minutes in milliseconds
         }
     }
 
@@ -110,14 +124,13 @@ function Form() {
                             label={'Installments'}
                             name={'installment'}
                             register={register}
-                            className='w-full'
                             type='number'
                         />
-                        <ImageInput
+                        {/* <ImageInput
                             label={'Attachment'}
                             setImageUrl={setAttachment}
                             imageUrl={attachment}
-                        />
+                        /> */}
                     </div>
                     <SubmitButton
                         isLoading={loading}

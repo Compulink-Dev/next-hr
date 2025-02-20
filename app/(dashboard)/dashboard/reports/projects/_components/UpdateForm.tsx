@@ -41,7 +41,7 @@ function UpdateForm({ initialData }: any) {
                 console.log(response);
                 toast.success('Project updated successfully')
                 reset()
-                router.push('/dashboard/reports/projects/')
+                router.push('/admin/reports/projects/')
                 setLoading(false)
             }
         } catch (error) {
@@ -65,8 +65,8 @@ function UpdateForm({ initialData }: any) {
                         />
                         <TextInput
                             errors={errors}
-                            label={'Customer'}
-                            name={'customer'}
+                            label={'Purpose'}
+                            name={'purpose'}
                             register={register}
                             className='w-full'
                         />
@@ -93,12 +93,7 @@ function UpdateForm({ initialData }: any) {
                             className='w-full'
                             type='date'
                         />
-                        <TextareaInput
-                            errors={errors}
-                            label={'Description'}
-                            name={'description'}
-                            register={register}
-                        />
+
                     </div>
                     <SubmitButton
                         isLoading={loading}

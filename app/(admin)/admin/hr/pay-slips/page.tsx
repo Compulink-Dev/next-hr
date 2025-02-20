@@ -1,8 +1,8 @@
 import { getData } from "@/lib/apiResponse";
 import DataTable from "./_components/DataTable";
-import FixedHeader from "@/app/(dashboard)/_components/FixedHeader";
 import { authOptions } from "@/lib/authOptions";
 import { getServerSession } from "next-auth";
+import FixedHeader from "@/app/(admin)/_components/fixedHeader";
 
 export const dynamic = "force-dynamic";
 

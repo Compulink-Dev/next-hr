@@ -1,44 +1,57 @@
-export const dynamic = "force-dynamic"
-import FixedHeader from '@/app/(dashboard)/_components/FixedHeader'
-import React from 'react'
-import DataTable from '../../_components/DataTable'
-import { getData } from '@/lib/apiResponse'
+export const dynamic = "force-dynamic";
+import React from "react";
+import { getData } from "@/lib/apiResponse";
+import FixedHeader from "@/app/(dashboard)/_components/fixedHeader";
+import DataTable from "@/app/(dashboard)/_components/DataTable";
 
 async function SalesReport() {
+  let salesReport;
 
-    const salesReport = await getData('salesReport')
+  try {
+    // Fetch data from the API
+    salesReport = await getData("reports/sales");
+  } catch (error) {
+    console.error("Error fetching sales report:", error);
+    salesReport = []; // Set to an empty array in case of error
+  }
 
-    const data = salesReport.map((obj: any) => {
-        return {
-            id: obj.id,
-            user: obj.user?.name || 'No-user',
-            name: obj.name,
-            date: obj.date,
-            creditName: obj.creditName,
-            quantity: parseFloat(obj.quantity) || 'Pending',
-            price: parseFloat(obj.price) || 'Pending',
-            description: obj.description,
-            technician: obj.technician,
-            attachment: obj.attachment || 'No-file',
-            status: obj.status,
-            createdAt: obj.createdAt
+  const data = (salesReport || []).map((obj: any) => {
+    return {
+      id: obj.id,
+      name: obj.name,
+      vehicleId: obj.vehicleId,
+      clientId: obj.clientId,
+      productId: obj.productId,
+      location: obj.location,
+      time: obj.time,
+      paymentType: obj.paymentType,
+      amount: obj.amount,
+      createdAt: obj.createdAt,
+    };
+  });
 
-        }
-    })
+  const columns = [
+    "name",
+    "location",
+    "time",
+    "paymentType",
+    "amount",
+    "createdAt",
+  ];
 
-    const columns = ['user', 'name', 'date', 'creditName', 'quantity', 'price', 'description', 'technician', 'attachment', 'status', 'createdAt']
-
-    return (
-        <div>
-            <FixedHeader
-                link={'dashboard/reports/sales/new'}
-                title='Sales Report'
-            />
-            <div className="p-4">
-                <DataTable data={data} columns={columns} updateLink='reports/sales' resourceName='sales' />
-            </div>
-        </div>
-    )
+  return (
+    <div>
+      <FixedHeader link={"/reports/sales/new"} title="Sales Report" />
+      <div className="p-4">
+        <DataTable
+          data={data}
+          columns={columns}
+          updateLink="reports/sales"
+          resourceName="sales"
+        />
+      </div>
+    </div>
+  );
 }
 
-export default SalesReport
+export default SalesReport;

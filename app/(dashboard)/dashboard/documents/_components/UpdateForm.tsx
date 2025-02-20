@@ -25,7 +25,7 @@ function UpdateForm({ initialData }: any) {
         setLoading(true)
         try {
             console.log(data);
-            const response = await fetch(`/api/brands/${initialData.id}`, {
+            const response = await fetch(`/api/documents/${initialData.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -34,13 +34,13 @@ function UpdateForm({ initialData }: any) {
             })
             if (response.ok) {
                 console.log(response);
-                toast.success('Brand updated successfully')
+                toast.success('Document updated successfully')
                 reset()
-                router.push('/dashboard/inventory/brands/')
+                router.push('/admin/documents/')
                 setLoading(false)
             }
         } catch (error) {
-            toast.error('Brand failed to update')
+            toast.error('Document failed to update')
             console.log(error);
             setLoading(false)
         }
@@ -49,12 +49,12 @@ function UpdateForm({ initialData }: any) {
     return (
         <section className="bg-white dark:bg-gray-900">
             <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
-                <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">Update a new Brand</h2>
+                <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">Update a new Document</h2>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
                         <TextInput
                             errors={errors}
-                            label={'Brand name'}
+                            label={'Document name'}
                             name={'name'}
                             register={register}
                         />
