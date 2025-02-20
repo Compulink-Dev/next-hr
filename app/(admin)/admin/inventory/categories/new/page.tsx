@@ -1,18 +1,16 @@
-
-import NewHeader from '@/app/(dashboard)/_components/NewHeader'
-import React from 'react'
-import Form from '../_components/Form'
-
+import NewHeader from "@/app/(admin)/_components/newHeader";
+import React from "react";
+import Form from "../_components/Form";
 
 function NewCategory() {
-    return (
-        <div className=''>
-            <NewHeader title='New Category' link='inventory' />
-            <div className="">
-                <Form />
-            </div>
-        </div>
-    )
+  return (
+    <div className="">
+      <NewHeader title="New Category" link="inventory" />
+      <div className="">
+        <Form />
+      </div>
+    </div>
+  );
 }
 
-export default NewCategory
+export default NewCategory;

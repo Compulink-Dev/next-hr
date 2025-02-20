@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
-function Leave() {
-    return (
-        <div>Leave</div>
-    )
+function Advance() {
+  return <div>Advance</div>;
 }
 
-export default Leave
+export default Advance;

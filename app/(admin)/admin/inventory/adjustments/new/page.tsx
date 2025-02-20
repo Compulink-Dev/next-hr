@@ -1,18 +1,17 @@
 export const dynamic = "force-dynamic";
-
-import NewHeader from '@/app/(dashboard)/_components/NewHeader'
-import React from 'react'
-import HeaderTabs from '../_components/HeaderTabs'
+import React from "react";
+import HeaderTabs from "../_components/HeaderTabs";
+import NewHeader from "@/app/(admin)/_components/newHeader";
 
 function NewAdjustment() {
-    return (
-        <div className=''>
-            <NewHeader title='New Adjustment' link='inventory' />
-            <div>
-                <HeaderTabs />
-            </div>
-        </div>
-    )
+  return (
+    <div className="">
+      <NewHeader title="New Adjustment" link="inventory" />
+      <div>
+        <HeaderTabs />
+      </div>
+    </div>
+  );
 }
 
-export default NewAdjustment
+export default NewAdjustment;

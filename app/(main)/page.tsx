@@ -1,13 +1,7 @@
-import Link from 'next/link'
-import React from 'react'
-import MainLayout from './_components/MainLayout'
+import React from "react";
 
 function HomePage() {
-  return (
-    <MainLayout>
-      <div className=""></div>
-    </MainLayout>
-  )
+  return <div className=""></div>;
 }
 
-export default HomePage
+export default HomePage;
