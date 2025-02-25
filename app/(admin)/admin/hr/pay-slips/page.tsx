@@ -12,15 +12,17 @@ async function PaySlip() {
   const userRole = session?.user?.role;
   const userName = session?.user?.name;
 
-  const data = slip
-    .filter((obj: any) => userRole === "admin" || obj.name === userName)
-    .map((obj: any) => ({
-      id: obj.id,
-      name: obj.name,
-      period: obj.period,
-      attachment: obj.attachment || "No-file",
-      createdAt: obj.createdAt,
-    }));
+  const data = Array.isArray(slip)
+    ? slip
+        .filter((obj: any) => userRole === "admin" || obj.name === userName)
+        .map((obj: any) => ({
+          id: obj.id,
+          name: obj.name,
+          period: obj.period,
+          attachment: obj.attachment || "No-file",
+          createdAt: obj.createdAt,
+        }))
+    : [];
 
   console.log("Payslip", data);
 
