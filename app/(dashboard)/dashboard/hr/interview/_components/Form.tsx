@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -8,21 +9,35 @@ import TextInput from "../../../inventory/_components/TextInput";
 import TextareaInput from "../../../inventory/_components/TextArea";
 import SubmitButton from "../../../inventory/_components/SubmitButton";
 
+type InterviewFormData = {
+  name: string;
+  post: string;
+  qualification: string;
+  training: string;
+  experience: string;
+  packages: string;
+  rating: number;
+  details: string;
+  knowledge: string;
+  attributes: string;
+  comment: string;
+};
+
 function InterviewForm() {
   const { data: session } = useSession();
   const userId = session?.user?.id;
+  const router = useRouter();
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm<InterviewFormData>();
 
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
-  async function onSubmit(data: any) {
+  const onSubmit = async (data: InterviewFormData) => {
     if (!userId) {
       toast.error("User not authenticated");
       return;
@@ -36,7 +51,7 @@ function InterviewForm() {
         body: JSON.stringify({
           ...data,
           userId,
-          rating: Number(data.rating), // Convert rating to a number
+          rating: Number(data.rating) || 1, // Ensure rating is always a number
         }),
       });
 
@@ -48,12 +63,12 @@ function InterviewForm() {
         throw new Error("Failed to create interview assessment");
       }
     } catch (error) {
-      console.log(error);
+      console.error("Error:", error);
       toast.error("Failed to create interview assessment");
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   return (
     <section className="bg-white dark:bg-gray-900">
@@ -68,68 +83,56 @@ function InterviewForm() {
               name="name"
               register={register}
               errors={errors}
-              className="w-full"
             />
             <TextInput
               label="Post Applied For"
               name="post"
               register={register}
               errors={errors}
-              className="w-full"
             />
             <TextInput
               label="Qualification"
               name="qualification"
               register={register}
               errors={errors}
-              className="w-full"
             />
             <TextInput
               label="Training"
               name="training"
               register={register}
               errors={errors}
-              className="w-full"
             />
             <TextInput
               label="Experience"
               name="experience"
               register={register}
               errors={errors}
-              className="w-full"
             />
-
             <TextInput
               label="Salary Package"
               name="packages"
               register={register}
               errors={errors}
-              className="w-full"
             />
             <TextInput
               label="Rating (1-5)"
               name="rating"
               register={register}
               type="number"
-              //@ts-ignore
-              min="1"
-              max="5"
+              errors={errors}
             />
             <TextareaInput
               label="Additional Details"
               name="details"
               register={register}
               errors={errors}
-              className="w-full"
             />
             <TextareaInput
               label="Knowledge & Skills"
               name="knowledge"
               register={register}
               errors={errors}
-              className="w-full"
             />
-
             <TextareaInput
               label="Attributes"
               name="attributes"
