@@ -12,6 +12,7 @@ async function Leave() {
   const session = await getServerSession(authOptions);
   const userRole = session?.user?.role;
   const userName = session?.user?.name;
+  const userId = session?.user?.id;
 
   const data = Array.isArray(leave)
     ? leave
@@ -28,6 +29,7 @@ async function Leave() {
           reason: obj.reason,
           status: obj.status || "pending",
           attachment: obj.attachment || "No-file",
+          user: userId,
           createdAt: obj.createdAt,
         }))
     : [];
