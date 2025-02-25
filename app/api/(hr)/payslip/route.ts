@@ -37,35 +37,12 @@ export async function POST(request: Request) {
 
 export async function GET() {
   try {
-    const session = await getServerSession(authOptions);
+    const payslips = await db.payslip.findMany({
+      orderBy: { createdAt: "desc" },
+      include: { user: true },
+    });
 
-    if (!session) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-    }
-
-    const userRole = session?.user?.role;
-    const userId = session?.user?.id;
-
-    if (!userId && userRole !== "admin") {
-      return NextResponse.json({ message: "User ID missing" }, { status: 400 });
-    }
-
-    let payslips;
-
-    if (userRole === "admin") {
-      // HR/Admin can view all payslips
-      payslips = await db.payslip.findMany({
-        orderBy: { createdAt: "desc" },
-      });
-    } else {
-      // Users can only view their own payslips
-      payslips = await db.payslip.findMany({
-        where: { userId },
-        orderBy: { createdAt: "desc" },
-      });
-    }
-
-    console.log("Payslips : ", payslips);
+    console.log("Payslips fetched: ", payslips); // Add logging
 
     return NextResponse.json(payslips);
   } catch (error) {

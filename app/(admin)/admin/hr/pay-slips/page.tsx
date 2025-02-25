@@ -1,10 +1,9 @@
+export const dynamic = "force-dynamic";
 import { getData } from "@/lib/apiResponse";
 import DataTable from "./_components/DataTable";
 import { authOptions } from "@/lib/authOptions";
 import { getServerSession } from "next-auth";
 import FixedHeader from "@/app/(admin)/_components/fixedHeader";
-
-export const dynamic = "force-dynamic";
 
 async function PaySlip() {
   const slip = await getData("payslip");
@@ -13,17 +12,17 @@ async function PaySlip() {
   const userRole = session?.user?.role;
   const userName = session?.user?.name;
 
-  const data = Array.isArray(slip)
-    ? slip
-        .filter((obj: any) => userRole === "admin" || obj.name === userName)
-        .map((obj: any) => ({
-          id: obj.id,
-          name: obj.name,
-          period: obj.period,
-          attachment: obj.attachment || "No-file",
-          createdAt: obj.createdAt,
-        }))
-    : [];
+  const data = slip
+    .filter((obj: any) => userRole === "admin" || obj.name === userName)
+    .map((obj: any) => ({
+      id: obj.id,
+      name: obj.name,
+      period: obj.period,
+      attachment: obj.attachment || "No-file",
+      createdAt: obj.createdAt,
+    }));
+
+  console.log("Payslip", data);
 
   return (
     <div>
