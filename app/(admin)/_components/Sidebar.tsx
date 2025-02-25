@@ -74,10 +74,12 @@ const menuItems: MenuItem[] = [
     icon: User2,
     children: [
       { title: "Loans", path: "/admin/hr/loans" },
+      { title: "Leave", path: "/admin/hr/leave" },
       { title: "Payslips", path: "/admin/hr/pay-slips" },
       { title: "Employees", path: "/admin/hr/employees", roles: ["admin"] },
       { title: "Certification", path: "/admin/hr/certification" },
       { title: "Training", path: "/admin/hr/training" },
+      { title: "Interview", path: "/admin/hr/interview" },
     ],
   },
   {

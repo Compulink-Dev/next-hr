@@ -1,13 +1,15 @@
 export const dynamic = "force-dynamic";
-import React from "react";
+// app/(admin)/employee/page.tsx
+import React, { useEffect, useState } from "react";
 import { getData } from "@/lib/apiResponse";
-import DataTable from "@/app/(admin)/_components/DataTable";
-import FixedUserHeader from "@/app/(admin)/_components/fixedUserHeader";
+import DataTable from "./_components/DataTable";
+import FixedHeader from "@/app/(admin)/_components/fixedHeader";
 
 async function Employee() {
-  const employee = await getData("employees");
+  // Fetch employee data from your API
+  const employees = await getData("employees");
 
-  const data = employee.map((obj: any) => {
+  const data = employees.map((obj: any) => {
     return {
       id: obj.id,
       name: obj.name,
@@ -34,7 +36,7 @@ async function Employee() {
 
   return (
     <div>
-      <FixedUserHeader link={"/hr/employees/new"} title="Employee" />
+      <FixedHeader link={"/hr/employees/new"} title="Employee" />
       <div className="p-4">
         <DataTable
           data={data}

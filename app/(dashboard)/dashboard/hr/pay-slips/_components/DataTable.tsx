@@ -1,11 +1,13 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Edit } from "lucide-react";
+import { Download, Edit, Printer } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
 import DeleteButton from "../../../inventory/adjustments/_components/DeleteButton";
+import EditButton from "@/components/EditButton";
+import DownloadButton from "../../leave/_components/DownloadButton";
 
 function DataTable({ data = [], columns = [], updateLink, resourceName }: any) {
   const { data: session } = useSession();
@@ -57,25 +59,41 @@ function DataTable({ data = [], columns = [], updateLink, resourceName }: any) {
                 <td className="px-6 py-4 text-right flex gap-2 items-center">
                   {userRole === "admin" ? (
                     <>
-                      <Link
-                        href={`/admin/${updateLink}/update/${item.id}`}
-                        className="text-blue-600 hover:text-blue-400 flex items-center gap-1"
-                      >
-                        <Edit />
+                      <Link href={`/admin/${updateLink}/update/${item.id}`}>
+                        <EditButton />
                         <span>Edit</span>
                       </Link>
                       <DeleteButton id={item.id} endpoint={resourceName} />
                     </>
                   ) : item.attachment !== "No-file" ? (
-                    <a
-                      href={item.attachment}
-                      download
-                      className="text-blue-600 hover:text-blue-400"
-                    >
-                      Download
-                    </a>
+                    <div className="flex items-center gap-2">
+                      <div
+                        onClick={() => {
+                          if (
+                            item.attachment &&
+                            item.attachment !== "No-file"
+                          ) {
+                            const printWindow = window.open(
+                              item.attachment,
+                              "_blank"
+                            );
+                            if (printWindow) {
+                              printWindow.onload = () => {
+                                printWindow.print();
+                              };
+                            }
+                          } else {
+                            alert("No attachment available to print.");
+                          }
+                        }}
+                      >
+                        <DownloadButton />
+                      </div>
+                    </div>
                   ) : (
-                    <span>{item.attachment}</span>
+                    <div className="">
+                      <span>{item.attachment}</span>
+                    </div>
                   )}
                 </td>
               </tr>

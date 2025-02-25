@@ -5,7 +5,7 @@ import { getData } from "@/lib/apiResponse";
 
 //@ts-ignore
 async function UpdateLoan({ params: { id } }) {
-  const data = await getData(`loan/${id}`);
+  const data = await getData(`loans/${id}`);
   return (
     <div className="">
       <NewHeader title="Update Loan" link="hr/loans" />

@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
 import DeleteButton from "../admin/inventory/adjustments/_components/DeleteButton";
+import EditButton from "@/components/EditButton";
 
 function DataTable({ data = [], columns = [], updateLink, resourceName }: any) {
   const { data: session, status } = useSession();
@@ -56,12 +57,8 @@ function DataTable({ data = [], columns = [], updateLink, resourceName }: any) {
                 ))}
                 {userRole === "admin" ? (
                   <td className="px-6 py-4 text-right flex gap-2 items-center">
-                    <Link
-                      href={`/admin/${updateLink}/update/${item.id}`}
-                      className="text-blue-600 hover:text-blue-400 flex items-center gap-1"
-                    >
-                      <Edit />
-                      <span className="">Edit</span>
+                    <Link href={`/admin/${updateLink}/update/${item.id}`}>
+                      <EditButton />
                     </Link>
                     <DeleteButton id={item.id} endpoint={resourceName} />
                   </td>

@@ -1,6 +1,6 @@
 import { getData } from "@/lib/apiResponse";
-import FixedHeader from "@/app/(dashboard)/_components/fixedHeader";
-import DataTable from "@/app/(dashboard)/_components/DataTable";
+import FixedUserHeader from "@/app/(dashboard)/_components/fixedUserHeader";
+import DataTable from "./_components/DataTable";
 import { authOptions } from "@/lib/authOptions";
 import { getServerSession } from "next-auth";
 
@@ -28,7 +28,7 @@ async function PaySlip() {
 
   return (
     <div>
-      <FixedHeader link="/hr/pay-slips/new" title="Payslip" />
+      <FixedUserHeader link="/hr/pay-slips/new" title="Payslip" />
       <div className="p-4">
         <DataTable
           data={data}

@@ -15,7 +15,8 @@ import {
 } from "@/components/ui/dialog";
 import Link from "next/link";
 import React, { useState } from "react";
-import DeleteButton from "../../../inventory/adjustments/_components/DeleteButton";
+import DeleteButton from "@/components/DeleteButton";
+import EditButton from "@/components/EditButton";
 
 interface Loan {
   id: number;
@@ -85,14 +86,10 @@ function DataTable({ data = [], columns = [], updateLink, resourceName }: any) {
                 <td className="px-6 py-4 text-right flex gap-2 items-center">
                   {userRole === "admin" ? (
                     <>
-                      <Link
-                        href={`/admin/${updateLink}/update/${item.id}`}
-                        className="text-blue-600 hover:text-blue-400 flex items-center gap-1"
-                      >
-                        <Edit />
-                        <span>Edit</span>
+                      <Link href={`/admin/${updateLink}/update/${item.id}`}>
+                        <EditButton />
                       </Link>
-                      <DeleteButton id={item.id} endpoint={resourceName} />
+                      <DeleteButton id={item.id} endpoint={"loans"} />
                     </>
                   ) : item.attachment !== "No-file" ? (
                     <Dialog>

@@ -17,6 +17,7 @@ async function Training() {
   const data = training
     .filter((obj: any) => userRole === "admin" || obj.name === userName) // Only show user's own payslip if not admin
     .map((obj: any) => ({
+      id: obj.id,
       name: obj.name,
       startDate: obj.startDate,
       endDate: obj.endDate,

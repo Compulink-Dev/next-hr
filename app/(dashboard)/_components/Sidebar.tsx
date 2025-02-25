@@ -17,6 +17,7 @@ import {
   Book,
   Webhook,
   Minimize2,
+  CalendarCheck,
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
@@ -71,14 +72,16 @@ const menuItems: MenuItem[] = [
     ],
   },
   {
-    title: "H.R",
+    title: "Employee",
     icon: User2,
     children: [
-      { title: "Loans", path: "/dashboard/hr/loans" },
       { title: "Payslips", path: "/dashboard/hr/pay-slips" },
+      { title: "Leave", path: "/dashboard/hr/leave" },
+      { title: "Loans", path: "/dashboard/hr/loans" },
       { title: "Employees", path: "/dashboard/hr/employees", roles: ["admin"] },
       { title: "Certification", path: "/dashboard/hr/certification" },
       { title: "Training", path: "/dashboard/hr/training" },
+      { title: "Interview", path: "/dashboard/hr/interview" },
     ],
   },
   {
@@ -100,6 +103,19 @@ const menuItems: MenuItem[] = [
       { title: "H.R", path: "/dashboard/reports/hr" },
       // { title: "Payments", path: "/dashboard/reports/payments" },
       { title: "Projects", path: "/dashboard/reports/projects" },
+    ],
+  },
+  {
+    title: "Projects",
+    icon: CalendarCheck,
+    children: [
+      { title: "Project", path: "/dashboard/projects/project" },
+      {
+        title: "Requisition",
+        path: "/dashboard/projects/requisition",
+        roles: ["admin"],
+      },
+      { title: "Job Cards", path: "/dashboard/projects/job-card" },
     ],
   },
   { title: "Integrations", path: "/dashboard/integrations", icon: Cable },

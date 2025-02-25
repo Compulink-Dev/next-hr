@@ -9,7 +9,7 @@ import FixedHeader from "@/app/(admin)/_components/fixedHeader";
 async function Loans() {
   const session = await getServerSession(authOptions);
 
-  const loan = await getData("loan");
+  const loan = await getData("loans");
 
   const userRole = session?.user?.role;
   const userID = session?.user?.id;

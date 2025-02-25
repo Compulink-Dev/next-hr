@@ -1,9 +1,9 @@
 "use client";
-import { Delete, Edit, Trash } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
-import DeleteButton from "../dashboard/inventory/adjustments/_components/DeleteButton";
+import EditButton from "@/components/EditButton";
+import DeleteButton from "@/components/DeleteButton";
 
 function DataTable({ data = [], columns = [], updateLink, resourceName }: any) {
   const { data: session, status } = useSession();
@@ -55,23 +55,15 @@ function DataTable({ data = [], columns = [], updateLink, resourceName }: any) {
                 ))}
                 {userRole === "admin" ? (
                   <td className="px-6 py-4 text-right flex gap-2 items-center">
-                    <Link
-                      href={`/dashboard/${updateLink}/update/${item.id}`}
-                      className="text-blue-600 hover:text-blue-400 flex items-center gap-1"
-                    >
-                      <Edit />
-                      <span className="">Edit</span>
+                    <Link href={`/dashboard/${updateLink}/update/${item.id}`}>
+                      <EditButton />
                     </Link>
                     <DeleteButton id={item.id} endpoint={resourceName} />
                   </td>
                 ) : (
                   <td className="px-6 py-4 text-right flex gap-2 items-center">
-                    <Link
-                      href={`/dashboard/${updateLink}/update/${item.id}`}
-                      className="text-blue-600 hover:text-blue-400 flex items-center gap-1"
-                    >
-                      <Edit />
-                      <span className="">Edit</span>
+                    <Link href={`/dashboard/${updateLink}/update/${item.id}`}>
+                      <EditButton />
                     </Link>
                     <DeleteButton id={item.id} endpoint={resourceName} />
                   </td>

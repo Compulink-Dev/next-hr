@@ -173,6 +173,7 @@ model User {
   FleetReport    FleetReport[]
   HrReport       HrReport[]
   ProjectsReport ProjectsReport[]
+  Interview      Interview[]
 }
 
 model Purchase {
@@ -216,8 +217,8 @@ model Leave {
   name       String?
   type       String
   source     String?
-  from       String
-  to         String
+  from       DateTime
+  to         DateTime
   duration   String
   contact    String?
   reason     String?
@@ -272,7 +273,7 @@ model FleetInvoice {
   userId      String   @db.ObjectId
   user        User     @relation(fields: [userId], references: [id])
   createdAt   DateTime @default(now())
-  updateAt    DateTime @updatedAt
+  updatedAt   DateTime @updatedAt
 }
 
 model Vehicle {
@@ -432,6 +433,25 @@ model Certification {
   status      String?
   createdAt   DateTime  @default(now())
   updateAt    DateTime  @updatedAt
+}
+
+model Interview {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  post          String?
+  qualification String
+  training      String
+  experience    String
+  details       String
+  knowledge     String
+  attributes    String
+  packages      String
+  rating        Int
+  comment       String
+  userId        String   @db.ObjectId
+  user          User     @relation(fields: [userId], references: [id])
+  createdAt     DateTime @default(now())
+  updateAt      DateTime @updatedAt
 }
 
 model Training {

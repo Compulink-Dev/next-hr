@@ -1,10 +1,10 @@
 export const dynamic = "force-dynamic";
 import React from "react";
 import { getData } from "@/lib/apiResponse";
-import DataTable from "@/app/(admin)/_components/DataTable";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 import FixedHeader from "@/app/(admin)/_components/fixedHeader";
+import DataTable from "./_components/DataTable";
 
 async function Certification() {
   const certificate = await getData("certification");

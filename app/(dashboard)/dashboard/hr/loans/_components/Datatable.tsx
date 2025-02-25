@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Edit } from "lucide-react";
+import { Edit, View } from "lucide-react";
 import { useSession } from "next-auth/react";
 import {
   Dialog,
@@ -16,6 +16,8 @@ import {
 import Link from "next/link";
 import React, { useState } from "react";
 import DeleteButton from "../../../inventory/adjustments/_components/DeleteButton";
+import EditButton from "@/components/EditButton";
+import ViewButton from "@/components/ViewButton";
 
 interface Loan {
   id: number;
@@ -85,23 +87,17 @@ function DataTable({ data = [], columns = [], updateLink, resourceName }: any) {
                 <td className="px-6 py-4 text-right flex gap-2 items-center">
                   {userRole === "admin" ? (
                     <>
-                      <Link
-                        href={`/admin/${updateLink}/update/${item.id}`}
-                        className="text-blue-600 hover:text-blue-400 flex items-center gap-1"
-                      >
-                        <Edit />
-                        <span>Edit</span>
+                      <Link href={`/admin/${updateLink}/update/${item.id}`}>
+                        <EditButton />
                       </Link>
                       <DeleteButton id={item.id} endpoint={resourceName} />
                     </>
-                  ) : item.attachment !== "No-file" ? (
+                  ) : item.status === "Approved" &&
+                    item.attachment !== "No-file" ? (
                     <Dialog>
                       <DialogTrigger asChild>
-                        <button
-                          onClick={() => handleDownloadClick(item)}
-                          className="text-blue-600 hover:text-blue-400"
-                        >
-                          View
+                        <button onClick={() => handleDownloadClick(item)}>
+                          <ViewButton />
                         </button>
                       </DialogTrigger>
                       {isOpen && selectedLoan && (
@@ -112,101 +108,56 @@ function DataTable({ data = [], columns = [], updateLink, resourceName }: any) {
                               View loan details below.
                             </DialogDescription>
                           </DialogHeader>
-                          <div className="grid gap-4 py-4">
-                            <div className="grid grid-cols-4 items-center gap-4">
+                          <div className="space-y-4">
+                            <div className="flex gap-2 items-center">
                               <Label htmlFor="loan-type" className="text-right">
-                                Loan Type
+                                Type
                               </Label>
-                              <Input
-                                id="loan-type"
-                                value={selectedLoan.type}
-                                className="col-span-3"
-                                disabled
-                              />
+                              <Label className="">{selectedLoan.type}</Label>
                             </div>
-                            <div className="grid grid-cols-4 items-center gap-4">
-                              <Label
-                                htmlFor="loan-amount"
-                                className="text-right"
-                              >
-                                Loan Amount
+                            <div className="flex gap-2 items-center">
+                              <Label htmlFor="loan-type" className="text-right">
+                                Amount
                               </Label>
-                              <Input
-                                id="loan-amount"
-                                value={selectedLoan.amount}
-                                className="col-span-3"
-                                disabled
-                              />
+                              <Label className="">{selectedLoan.amount}</Label>
                             </div>
-                            <div className="grid grid-cols-4 items-center gap-4">
-                              <Label
-                                htmlFor="loan-repayment"
-                                className="text-right"
-                              >
-                                Loan Repayment
+                            <div className="flex gap-2 items-center">
+                              <Label htmlFor="loan-type" className="text-right">
+                                Repayment
                               </Label>
-                              <Input
-                                id="loan-repayment"
-                                value={selectedLoan.repayment}
-                                className="col-span-3"
-                                disabled
-                              />
+                              <Label className="">
+                                {selectedLoan.repayment}
+                              </Label>
                             </div>
-                            <div className="grid grid-cols-4 items-center gap-4">
-                              <Label
-                                htmlFor="loan-repayment"
-                                className="text-right"
-                              >
-                                Loan Repayments
+                            <div className="flex gap-2 items-center">
+                              <Label htmlFor="loan-type" className="text-right">
+                                Repayments
                               </Label>
-                              <Input
-                                id="loan-repayment"
-                                value={selectedLoan.repayments}
-                                className="col-span-3"
-                                disabled
-                              />
+                              <Label className="">
+                                {selectedLoan.repayments}
+                              </Label>
                             </div>
-                            <div className="grid grid-cols-4 items-center gap-4">
-                              <Label
-                                htmlFor="loan-interest"
-                                className="text-right"
-                              >
-                                Loan Interest
+                            <div className="flex gap-2 items-center">
+                              <Label htmlFor="loan-type" className="text-right">
+                                Interest
                               </Label>
-                              <Input
-                                id="loan-interest"
-                                value={selectedLoan.interest}
-                                className="col-span-3"
-                                disabled
-                              />
+                              <Label className="">
+                                {selectedLoan.interest}
+                              </Label>
                             </div>
-                            <div className="grid grid-cols-4 items-center gap-4">
-                              <Label
-                                htmlFor="loan-interest"
-                                className="text-right"
-                              >
-                                Loan Installment
+                            <div className="flex gap-2 items-center">
+                              <Label htmlFor="loan-type" className="text-right">
+                                Installment
                               </Label>
-                              <Input
-                                id="loan-interest"
-                                value={selectedLoan.installment}
-                                className="col-span-3"
-                                disabled
-                              />
+                              <Label className="">
+                                {selectedLoan.installment}
+                              </Label>
                             </div>
-                            <div className="grid grid-cols-4 items-center gap-4">
-                              <Label
-                                htmlFor="loan-status"
-                                className="text-right"
-                              >
-                                Loan Status
+                            <div className="flex gap-2 items-center">
+                              <Label htmlFor="loan-type" className="text-right">
+                                Status
                               </Label>
-                              <Input
-                                id="loan-status"
-                                value={selectedLoan.status}
-                                className="col-span-3"
-                                disabled
-                              />
+                              <Label className="">{selectedLoan.status}</Label>
                             </div>
                           </div>
                           <DialogFooter>
@@ -218,7 +169,12 @@ function DataTable({ data = [], columns = [], updateLink, resourceName }: any) {
                       )}
                     </Dialog>
                   ) : (
-                    <span>{item.attachment}</span>
+                    <>
+                      <Link href={`/admin/${updateLink}/update/${item.id}`}>
+                        <EditButton />
+                      </Link>
+                      <DeleteButton id={item.id} endpoint={resourceName} />
+                    </>
                   )}
                 </td>
               </tr>

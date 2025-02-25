@@ -1,6 +1,6 @@
 export const dynamic = "force-dynamic";
 import React from "react";
-import DataTable from "@/app/(admin)/_components/DataTable";
+import DataTable from "./_components/DataTable";
 import { getData } from "@/lib/apiResponse";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
@@ -17,6 +17,7 @@ async function Training() {
   const data = training
     .filter((obj: any) => userRole === "admin" || obj.name === userName) // Only show user's own payslip if not admin
     .map((obj: any) => ({
+      id: obj.id,
       name: obj.name,
       startDate: obj.startDate,
       endDate: obj.endDate,

@@ -4,11 +4,11 @@ import UpdateForm from "../../_components/UpdateForm";
 import { getData } from "@/lib/apiResponse";
 
 //@ts-ignore
-async function UpdateCategory({ params: { id } }) {
-  const data = await getData(`categories/${id}`);
+async function UpdateTraining({ params: { id } }) {
+  const data = await getData(`training/${id}`);
   return (
     <div className="">
-      <NewHeader title="Update Category" link="inventory/categories" />
+      <NewHeader title="Update Training" link="hr/training" />
       <div className="">
         <UpdateForm initialData={data} />
       </div>
@@ -16,4 +16,4 @@ async function UpdateCategory({ params: { id } }) {
   );
 }
 
-export default UpdateCategory;
+export default UpdateTraining;

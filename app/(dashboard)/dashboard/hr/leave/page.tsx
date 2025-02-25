@@ -2,7 +2,7 @@ export const dynamic = "force-dynamic";
 import React from "react";
 import { getData } from "@/lib/apiResponse";
 import FixedHeader from "@/app/(dashboard)/_components/fixedHeader";
-import DataTable from "@/app/(dashboard)/_components/DataTable";
+import DataTable from "./_components/DataTable";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 
@@ -25,7 +25,7 @@ async function Leave() {
       duration: obj.duration,
       contact: obj.contact,
       reason: obj.reason,
-      status: obj.status || "Pending",
+      status: obj.status || "pending",
       attachment: obj.attachment || "No-file",
       createdAt: obj.createdAt,
     }));
@@ -55,15 +55,15 @@ async function Leave() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 p-4">
         <div className="p-4 bg-green-100 rounded shadow-md text-center">
           <h2 className="text-lg font-bold">Approved</h2>
-          <p className="text-2xl">{countLoansByStatus("Approved")}</p>
+          <p className="text-2xl">{countLoansByStatus("approved")}</p>
         </div>
         <div className="p-4 bg-yellow-100 rounded shadow-md text-center">
           <h2 className="text-lg font-bold">Pending</h2>
-          <p className="text-2xl">{countLoansByStatus("Pending")}</p>
+          <p className="text-2xl">{countLoansByStatus("pending")}</p>
         </div>
         <div className="p-4 bg-red-100 rounded shadow-md text-center">
           <h2 className="text-lg font-bold">Rejected</h2>
-          <p className="text-2xl">{countLoansByStatus("Rejected")}</p>
+          <p className="text-2xl">{countLoansByStatus("rejected")}</p>
         </div>
       </div>
 

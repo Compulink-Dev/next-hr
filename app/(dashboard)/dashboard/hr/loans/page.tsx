@@ -4,11 +4,11 @@ import { getData } from "@/lib/apiResponse";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 import FixedHeader from "@/app/(dashboard)/_components/fixedHeader";
-import DataTable from "@/app/(dashboard)/_components/DataTable";
+import DataTable from "./_components/Datatable";
 async function Loans() {
   const session = await getServerSession(authOptions);
 
-  const loan = await getData("loan");
+  const loan = await getData("loans");
 
   const userRole = session?.user?.role;
   const userID = session?.user?.id;

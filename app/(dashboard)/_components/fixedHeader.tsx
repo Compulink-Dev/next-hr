@@ -25,7 +25,7 @@ async function FixedHeader({ link, title }: { link: string; title: string }) {
         <ChevronDown className="w-4 h-4 pl-1" />
       </Button>
       <div className="flex items-center gap-2">
-        {userRole === "admin" && (
+        {userRole === "user" && (
           <Link
             href={`/dashboard/${link}`}
             className="bg-blue-600 hover:bg-blue-500 p-2 rounded-md flex items-center text-white text-sm"
