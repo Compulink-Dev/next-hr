@@ -6,20 +6,19 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 
 async function PaySlip() {
-  const slip = await getData("payslip");
-  const session = await getServerSession(authOptions); // Use getServerSession to fetch session server-side
-
-  const userRole = session?.user?.role;
-  const userName = session?.user?.name;
+  const slip = (await getData("payslip")) || []; // Ensure slip is always an array
+  console.log("Payslip data:", slip);
 
   if (!Array.isArray(slip)) {
-    console.error("Invalid payslip data:", slip);
     return <div>Error loading payslips</div>;
   }
 
-  // Filter payslip data based on user role
+  const session = await getServerSession(authOptions);
+  const userRole = session?.user?.role;
+  const userName = session?.user?.name;
+
   const data = slip
-    .filter((obj: any) => userRole === "admin" || obj.name === userName) // Only show user's own payslip if not admin
+    .filter((obj: any) => userRole === "admin" || obj.name === userName)
     .map((obj: any) => ({
       id: obj.id,
       name: obj.name,
@@ -28,15 +27,13 @@ async function PaySlip() {
       createdAt: obj.createdAt,
     }));
 
-  const columns = ["name", "period", "attachment", "createdAt"];
-
   return (
     <div>
       <FixedUserHeader link="/hr/pay-slips/new" title="Payslip" />
       <div className="p-4">
         <DataTable
           data={data}
-          columns={columns}
+          columns={["name", "period", "attachment", "createdAt"]}
           updateLink="hr/pay-slips"
           resourceName="payslip"
         />

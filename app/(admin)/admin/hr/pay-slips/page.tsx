@@ -13,18 +13,17 @@ async function PaySlip() {
   const userRole = session?.user?.role;
   const userName = session?.user?.name;
 
-  // Filter payslip data based on user role
-  const data = slip
-    .filter((obj: any) => userRole === "admin" || obj.name === userName) // Only show user's own payslip if not admin
-    .map((obj: any) => ({
-      id: obj.id,
-      name: obj.name,
-      period: obj.period,
-      attachment: obj.attachment || "No-file",
-      createdAt: obj.createdAt,
-    }));
-
-  const columns = ["name", "period", "attachment", "createdAt"];
+  const data = Array.isArray(slip)
+    ? slip
+        .filter((obj: any) => userRole === "admin" || obj.name === userName)
+        .map((obj: any) => ({
+          id: obj.id,
+          name: obj.name,
+          period: obj.period,
+          attachment: obj.attachment || "No-file",
+          createdAt: obj.createdAt,
+        }))
+    : [];
 
   return (
     <div>
@@ -32,7 +31,7 @@ async function PaySlip() {
       <div className="p-4">
         <DataTable
           data={data}
-          columns={columns}
+          columns={["name", "period", "attachment", "createdAt"]}
           updateLink="hr/pay-slips"
           resourceName="payslip"
         />
