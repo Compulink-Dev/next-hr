@@ -1,10 +1,9 @@
+export const dynamic = "force-dynamic";
 import { getData } from "@/lib/apiResponse";
 import FixedUserHeader from "@/app/(dashboard)/_components/fixedUserHeader";
 import DataTable from "./_components/DataTable";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/options";
-
-export const dynamic = "force-dynamic";
+import { authOptions } from "@/lib/authOptions";
 
 async function PaySlip() {
   const slip = await getData("payslip");
