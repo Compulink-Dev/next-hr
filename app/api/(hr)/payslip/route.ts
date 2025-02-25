@@ -39,7 +39,6 @@ export async function GET() {
   try {
     const payslips = await db.payslip.findMany({
       orderBy: { createdAt: "desc" },
-      include: { user: true },
     });
 
     console.log("Payslips fetched: ", payslips); // Add logging
