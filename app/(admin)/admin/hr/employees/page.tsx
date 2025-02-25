@@ -9,19 +9,21 @@ async function Employee() {
   // Fetch employee data from your API
   const employees = await getData("employees");
 
-  const data = employees.map((obj: any) => {
-    return {
-      id: obj.id,
-      name: obj.name,
-      email: obj.email,
-      phone: obj.phone,
-      address: obj.address,
-      title: obj.title,
-      appliedDate: obj.appliedDate,
-      status: obj.status,
-      createdAt: obj.createdAt,
-    };
-  });
+  const data = Array.isArray(employees)
+    ? employees.map((obj: any) => {
+        return {
+          id: obj.id,
+          name: obj.name,
+          email: obj.email,
+          phone: obj.phone,
+          address: obj.address,
+          title: obj.title,
+          appliedDate: obj.appliedDate,
+          status: obj.status,
+          createdAt: obj.createdAt,
+        };
+      })
+    : [];
 
   const columns = [
     "name",

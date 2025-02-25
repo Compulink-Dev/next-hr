@@ -7,19 +7,21 @@ import DataTable from "@/app/(dashboard)/_components/DataTable";
 async function Employee() {
   const employee = await getData("employees");
 
-  const data = employee.map((obj: any) => {
-    return {
-      id: obj.id,
-      name: obj.name,
-      email: obj.email,
-      phone: obj.phone,
-      address: obj.address,
-      title: obj.title,
-      appliedDate: obj.appliedDate,
-      status: obj.status,
-      createdAt: obj.createdAt,
-    };
-  });
+  const data = Array.isArray(employee)
+    ? employee.map((obj: any) => {
+        return {
+          id: obj.id,
+          name: obj.name,
+          email: obj.email,
+          phone: obj.phone,
+          address: obj.address,
+          title: obj.title,
+          appliedDate: obj.appliedDate,
+          status: obj.status,
+          createdAt: obj.createdAt,
+        };
+      })
+    : [];
 
   const columns = [
     "name",
