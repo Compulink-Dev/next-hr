@@ -12,6 +12,11 @@ async function PaySlip() {
   const userRole = session?.user?.role;
   const userName = session?.user?.name;
 
+  if (!Array.isArray(slip)) {
+    console.error("Invalid payslip data:", slip);
+    return <div>Error loading payslips</div>;
+  }
+
   // Filter payslip data based on user role
   const data = slip
     .filter((obj: any) => userRole === "admin" || obj.name === userName) // Only show user's own payslip if not admin
