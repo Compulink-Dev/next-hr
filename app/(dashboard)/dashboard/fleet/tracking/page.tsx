@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import Map from "./_components/Map";
 import FixedUserHeader from "@/app/(admin)/_components/fixedUserHeader";
+import { Button } from "@/components/ui/button";
 
 interface TrackingData {
   latitude: number;
@@ -60,13 +60,9 @@ const VehicleTrackingPage = ({ params }: { params: { vehicleId: string } }) => {
     <div>
       <FixedUserHeader />
       <div className="p-4">
-        <button
-          onClick={handleGetCurrentLocation}
-          className="px-4 py-2 bg-blue-500 text-white rounded-md mb-4"
-          disabled={loading}
-        >
+        <Button onClick={handleGetCurrentLocation} disabled={loading}>
           {loading ? "Getting Location..." : "Get Current Location"}
-        </button>
+        </Button>
         <Map data={trackingData} />
       </div>
     </div>
