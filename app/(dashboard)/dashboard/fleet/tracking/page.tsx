@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Map from "./_components/Map";
 import FixedUserHeader from "@/app/(admin)/_components/fixedUserHeader";
 import { Button } from "@/components/ui/button";
+import Map from "./_components/Mapping";
 
 interface TrackingData {
   latitude: number;
