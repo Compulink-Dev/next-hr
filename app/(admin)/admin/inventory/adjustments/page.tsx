@@ -1,8 +1,8 @@
 export const dynamic = "force-dynamic";
 import React from "react";
 import { getData } from "@/lib/apiResponse";
-import DataTable from "./_components/DataTable";
 import FixedHeader from "@/app/(admin)/_components/fixedHeader";
+import DataTable from "@/app/(admin)/_components/DataTable";
 
 async function Adjustments() {
   const addAdjustmentsData = getData("adjustments/add");
@@ -13,7 +13,7 @@ async function Adjustments() {
     transferAdjustmentsData,
   ]);
 
-  const data = addAdjustments.map((obj: any) => {
+  const data = (addAdjustments || []).map((obj: any) => {
     return {
       id: obj.id,
       referenceNumber: obj.referenceNumber,
@@ -22,7 +22,7 @@ async function Adjustments() {
     };
   });
 
-  const transfer = transferAdjustments.map((obj: any) => {
+  const transfer = (transferAdjustments || []).map((obj: any) => {
     return {
       id: obj.id,
       referenceNumber: obj.referenceNumber,

@@ -1,9 +1,9 @@
 export const dynamic = "force-dynamic";
 import { getData } from "@/lib/apiResponse";
-import DataTable from "./_components/DataTable";
 import { getServerSession } from "next-auth";
 import FixedHeader from "@/app/(admin)/_components/fixedHeader";
 import { authOptions } from "@/lib/authOptions";
+import DataTable from "@/app/(admin)/_components/DataTable";
 
 async function PaySlip() {
   const slip = await getData("payslip");
@@ -35,6 +35,7 @@ async function PaySlip() {
           columns={["name", "period", "attachment", "createdAt"]}
           updateLink="hr/pay-slips"
           resourceName="payslip"
+          filter="name"
         />
       </div>
     </div>

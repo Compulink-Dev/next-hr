@@ -1,10 +1,10 @@
 export const dynamic = "force-dynamic";
 import React from "react";
-import DataTable from "./_components/DataTable";
 import { getData } from "@/lib/apiResponse";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 import FixedHeader from "@/app/(admin)/_components/fixedHeader";
+import DataTable from "@/app/(admin)/_components/DataTable";
 
 async function Training() {
   const training = await getData("training");
@@ -15,21 +15,23 @@ async function Training() {
   const userName = session?.user?.name;
 
   const data = training
-    .filter((obj: any) => userRole === "admin" || obj.name === userName) // Only show user's own payslip if not admin
-    .map((obj: any) => ({
-      id: obj.id,
-      name: obj.name,
-      startDate: obj.startDate,
-      endDate: obj.endDate,
-      duration: parseFloat(obj.duration) || "On-going",
-      image: obj.image || "No-image",
-      description: obj.description,
-      price: parseFloat(obj.price) || "No-price",
-      modality: obj.modality,
-      attachment: obj.attachment || "No-file",
-      status: obj.status,
-      createdAt: obj.createdAt,
-    }));
+    ? training
+        .filter((obj: any) => userRole === "admin" || obj.name === userName) // Only show user's own payslip if not admin
+        .map((obj: any) => ({
+          id: obj.id,
+          name: obj.name,
+          startDate: obj.startDate,
+          endDate: obj.endDate,
+          duration: parseFloat(obj.duration) || "On-going",
+          image: obj.image || "No-image",
+          description: obj.description,
+          price: parseFloat(obj.price) || "No-price",
+          modality: obj.modality,
+          attachment: obj.attachment || "No-file",
+          status: obj.status,
+          createdAt: obj.createdAt,
+        }))
+    : [];
 
   const columns = [
     "name",
@@ -53,6 +55,7 @@ async function Training() {
           columns={columns}
           updateLink="hr/training"
           resourceName="training"
+          filter="name"
         />
       </div>
     </div>

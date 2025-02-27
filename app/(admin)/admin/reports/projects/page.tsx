@@ -7,7 +7,7 @@ import DataTable from "@/app/(admin)/_components/DataTable";
 async function ProjectReports() {
   const projectsReport = await getData("reports/projects");
 
-  const data = projectsReport.map((obj: any) => {
+  const data = (projectsReport || []).map((obj: any) => {
     return {
       id: obj.id,
       name: obj.name,

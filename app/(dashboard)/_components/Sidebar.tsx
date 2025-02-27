@@ -88,8 +88,9 @@ const menuItems: MenuItem[] = [
     title: "Fleet",
     icon: BusFront,
     children: [
+      { title: "Logs", path: "/dashboard/fleet/logs" },
       { title: "Vehicles", path: "/dashboard/fleet/vehicles" },
-      { title: "Drivers", path: "/dashboard/fleet/drivers", roles: ["admin"] },
+      { title: "Drivers", path: "/dashboard/fleet/drivers" },
       { title: "Tracking", path: "/dashboard/fleet/tracking" },
     ],
   },
@@ -118,7 +119,7 @@ const menuItems: MenuItem[] = [
       { title: "Job Cards", path: "/dashboard/projects/job-card" },
     ],
   },
-  { title: "Integrations", path: "/dashboard/integrations", icon: Cable },
+  // { title: "Integrations", path: "/dashboard/integrations", icon: Cable },
   { title: "Documents", path: "/dashboard/documents", icon: Book },
 ];
 

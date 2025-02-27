@@ -1,10 +1,10 @@
 export const dynamic = "force-dynamic";
 import React from "react";
 import { getData } from "@/lib/apiResponse";
-import DataTable from "./_components/Datatable";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 import FixedHeader from "@/app/(admin)/_components/fixedHeader";
+import DataTable from "@/app/(admin)/_components/DataTable";
 
 async function Loans() {
   const session = await getServerSession(authOptions);
@@ -87,6 +87,7 @@ async function Loans() {
           columns={columns}
           updateLink="hr/loans"
           resourceName="loan"
+          filter="status"
         />
       </div>
     </div>

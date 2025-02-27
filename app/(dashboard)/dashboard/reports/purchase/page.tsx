@@ -7,7 +7,7 @@ import DataTable from "@/app/(dashboard)/_components/DataTable";
 async function PurchaseReports() {
   const purchase = await getData("reports/purchase");
 
-  const data = purchase.map((obj: any) => {
+  const data = (purchase || []).map((obj: any) => {
     return {
       id: obj.id,
       user: obj.user?.name || "No-user",

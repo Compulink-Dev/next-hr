@@ -2,7 +2,7 @@ export const dynamic = "force-dynamic";
 import FixedHeader from "@/app/(admin)/_components/fixedHeader";
 import React from "react";
 import { getData } from "@/lib/apiResponse";
-import DataTable from "../adjustments/_components/DataTable";
+import DataTable from "@/app/(admin)/_components/DataTable";
 
 async function Categories() {
   const categories = await getData("categories");

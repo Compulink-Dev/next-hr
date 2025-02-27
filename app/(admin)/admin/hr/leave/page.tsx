@@ -1,10 +1,10 @@
 export const dynamic = "force-dynamic";
 import React from "react";
 import { getData } from "@/lib/apiResponse";
-import DataTable from "./_components/DataTable";
 import FixedUserHeader from "@/app/(admin)/_components/fixedHeader";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
+import DataTable from "@/app/(admin)/_components/DataTable";
 
 async function Leave() {
   const leave = await getData("leave");
@@ -78,6 +78,7 @@ async function Leave() {
           columns={columns}
           updateLink="hr/leave"
           resourceName="leave"
+          filter="status"
         />
       </div>
     </div>

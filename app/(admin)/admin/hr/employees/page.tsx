@@ -2,8 +2,8 @@ export const dynamic = "force-dynamic";
 // app/(admin)/employee/page.tsx
 import React, { useEffect, useState } from "react";
 import { getData } from "@/lib/apiResponse";
-import DataTable from "./_components/DataTable";
 import FixedHeader from "@/app/(admin)/_components/fixedHeader";
+import DataTable from "@/app/(admin)/_components/DataTable";
 
 async function Employee() {
   // Fetch employee data from your API
@@ -45,6 +45,7 @@ async function Employee() {
           columns={columns}
           updateLink="hr/employees"
           resourceName="employees"
+          filter="name"
         />
       </div>
     </div>

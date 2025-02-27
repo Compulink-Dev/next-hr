@@ -1,124 +1,188 @@
 "use client";
+
+import * as React from "react";
+import {
+  ColumnDef,
+  SortingState,
+  VisibilityState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import { ArrowUpDown, ChevronDown, MoreVertical } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Edit } from "lucide-react";
-import { useSession } from "next-auth/react";
+import { Input } from "@/components/ui/input";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
-import DeleteButton from "../../../inventory/adjustments/_components/DeleteButton";
+import EditButton from "@/components/EditButton";
+import DeleteButton from "@/components/DeleteButton";
+import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
+import ViewOption from "@/app/(dashboard)/_components/ViewOption";
 
-function DataTable({ data = [], columns = [], updateLink, resourceName }: any) {
-  const { data: session } = useSession();
-  const userRole = session?.user?.role;
-  const userName = session?.user?.name;
-  const [loading, setLoading] = useState(false);
-  const router = useRouter();
+export default function DataTable({
+  data,
+  columns,
+  updateLink,
+  resourceName,
+  filter,
+  userRole,
+}: any) {
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
 
-  console.log("Vehicle Role : ", userRole);
+  const tableColumns: ColumnDef<any>[] = columns.map((col: any) => ({
+    accessorKey: col,
+    header: () => (
+      <Button
+        variant="ghost"
+        onClick={() =>
+          table
+            .getColumn(col)
+            ?.toggleSorting(table.getColumn(col)?.getIsSorted() === "asc")
+        }
+      >
+        {col.charAt(0).toUpperCase() + col.slice(1)}
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
+    cell: ({ row }: any) => <div>{row.getValue(col)}</div>,
+  }));
 
-  const handleApply = async (vehicleId: string, nweStatus: string) => {
-    try {
-      const res = await fetch(`/api/vehicles/${vehicleId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ status: nweStatus }),
-      });
-      if (res.ok) {
-        router.refresh(); // Refresh the page to show updated status
-      } else {
-        const errorData = await res.json();
-        console.error("Failed to apply for vehicle", errorData);
-      }
-    } catch (error) {
-      console.error("Error in handleApply:", error);
-    }
-  };
+  const table = useReactTable({
+    data,
+    columns: tableColumns,
+    onSortingChange: setSorting,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
+    state: { sorting, columnVisibility },
+  });
 
   return (
-    <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-      {data.length > 0 ? (
-        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-              {columns.map((item: any, i: any) => (
-                <th key={i} scope="col" className="px-6 py-3">
-                  {item}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((item: any) => (
-              <tr
-                key={item.id}
-                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+    <div className="w-full">
+      <div className="flex items-center py-4">
+        <Input
+          placeholder="Filter logs..."
+          className="max-w-sm"
+          onChange={(event) =>
+            table.getColumn(`${filter}`)?.setFilterValue(event.target.value)
+          }
+        />
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="ml-auto">
+              Columns <ChevronDown className="ml-2 h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            {table.getAllColumns().map((column) => (
+              <DropdownMenuCheckboxItem
+                key={column.id}
+                checked={column.getIsVisible()}
+                onCheckedChange={(value) => column.toggleVisibility(!!value)}
               >
-                {columns.map((columnName: any, i: any) => (
-                  <td
-                    key={i}
-                    className="px-6 py-4 font-medium text-gray-900 dark:text-white"
-                  >
-                    {columnName.includes(".") ? (
-                      columnName
-                        .split(".")
-                        .reduce((obj: any, key: any) => obj[key], item)
-                    ) : columnName === "imageUrl" ? (
-                      <img
-                        src={item.imageUrl}
-                        alt=""
-                        className="w-10 h-10 object-cover rounded-full"
-                      />
-                    ) : columnName === "createdAt" ||
-                      columnName === "updatedAt" ? (
-                      new Date(item[columnName]).toLocaleDateString()
-                    ) : (
-                      item[columnName]
-                    )}
-                  </td>
-                ))}
-                <td className="px-6 py-4 text-right flex gap-2 items-center">
-                  {userRole === "admin" ? (
-                    <>
-                      <Link
-                        href={`/admin/${updateLink}/update/${item.id}`}
-                        className="text-blue-600 hover:text-blue-400 flex items-center gap-1"
-                      >
-                        <Edit />
-                        <span>Edit</span>
-                      </Link>
-                      <DeleteButton id={item.id} endpoint={resourceName} />
-                    </>
-                  ) : item.status === "Available" &&
-                    !data.some((v: any) => v.assignedUser === userName) ? (
-                    <button
-                      onClick={() => handleApply(item.id, "In Transit")}
-                      className="text-blue-600 hover:text-blue-400"
-                    >
-                      Apply
-                    </button>
-                  ) : item.status === "In Transit" &&
-                    item.assignedUser === userName ? (
-                    <button
-                      onClick={() => handleApply(item.id, "Available")}
-                      className="text-green-600 hover:text-green-400"
-                    >
-                      Mark as Available
-                    </button>
-                  ) : null}
-                </td>
-              </tr>
+                {column.id}
+              </DropdownMenuCheckboxItem>
             ))}
-          </tbody>
-        </table>
-      ) : (
-        <div className="text-sm text-center py-8">
-          There is no data to display
-        </div>
-      )}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+      <div className="rounded-md border">
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </TableHead>
+                ))}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow key={row.id}>
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
+                  ))}
+                  <TableCell className="text-center">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost">
+                          <MoreVertical className="h-5 w-5" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem asChild>
+                          <p className="p-2">No Action</p>
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+      <div className="flex items-center justify-end space-x-2 py-4">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+        >
+          Previous
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => table.nextPage()}
+          disabled={!table.getCanNextPage()}
+        >
+          Next
+        </Button>
+      </div>
     </div>
   );
 }
-
-export default DataTable;

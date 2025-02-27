@@ -89,6 +89,7 @@ const menuItems: MenuItem[] = [
       { title: "Vehicles", path: "/admin/fleet/vehicles" },
       { title: "Drivers", path: "/admin/fleet/drivers", roles: ["admin"] },
       { title: "Tracking", path: "/admin/fleet/tracking" },
+      { title: "Invoices", path: "/admin/fleet/invoices" },
     ],
   },
   {
@@ -103,7 +104,7 @@ const menuItems: MenuItem[] = [
       { title: "Projects", path: "/admin/reports/projects" },
     ],
   },
-  { title: "Integrations", path: "/admin/integrations", icon: Cable },
+  // { title: "Integrations", path: "/admin/integrations", icon: Cable },
   { title: "Documents", path: "/admin/documents", icon: Book },
 ];
 

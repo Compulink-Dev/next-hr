@@ -11,79 +11,90 @@ function DataTable({ data = [], columns = [], updateLink, resourceName }: any) {
   const { data: session } = useSession();
   const userRole = session?.user?.role;
   const userName = session?.user?.name;
-  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  console.log("Vehicle Role : ", userRole);
+  const [applying, setApplying] = useState<string | null>(null);
 
-  const handleApply = async (vehicleId: string, nweStatus: string) => {
+  const handleApply = async (vehicleId: string, newStatus: string) => {
+    if (!session?.user?.id) {
+      console.error("User is not authenticated");
+      return;
+    }
+
     try {
+      setApplying(vehicleId);
       const res = await fetch(`/api/vehicles/${vehicleId}`, {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ status: nweStatus }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: newStatus, userId: session.user.id }),
       });
-      if (res.ok) {
-        router.refresh(); // Refresh the page to show updated status
-      } else {
-        const errorData = await res.json();
-        console.error("Failed to apply for vehicle", errorData);
-      }
+
+      if (!res.ok) throw new Error("Failed to update vehicle status");
+
+      router.refresh();
     } catch (error) {
-      console.error("Error in handleApply:", error);
+      console.error(error);
+    } finally {
+      setApplying(null);
+    }
+  };
+
+  const handleCreateVehicle = async () => {
+    if (!session?.user?.id) {
+      console.error("User is not authenticated");
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/vehicles", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: "Vehicle Name",
+          licensePlate: "XYZ123",
+          status: "Available",
+          userId: session.user.id,
+        }),
+      });
+
+      if (!res.ok) throw new Error("Failed to create vehicle");
+
+      router.refresh();
+    } catch (error) {
+      console.error(error);
     }
   };
 
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
       {data.length > 0 ? (
-        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              {columns.map((item: any, i: any) => (
-                <th key={i} scope="col" className="px-6 py-3">
-                  {item}
+              {columns.map((col: string, i: number) => (
+                <th key={i} className="px-6 py-3">
+                  {col}
                 </th>
               ))}
+              <th className="px-6 py-3">Actions</th>
             </tr>
           </thead>
           <tbody>
             {data.map((item: any) => (
-              <tr
-                key={item.id}
-                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-              >
-                {columns.map((columnName: any, i: any) => (
-                  <td
-                    key={i}
-                    className="px-6 py-4 font-medium text-gray-900 dark:text-white"
-                  >
-                    {columnName.includes(".") ? (
-                      columnName
-                        .split(".")
-                        .reduce((obj: any, key: any) => obj[key], item)
-                    ) : columnName === "imageUrl" ? (
-                      <img
-                        src={item.imageUrl}
-                        alt=""
-                        className="w-10 h-10 object-cover rounded-full"
-                      />
-                    ) : columnName === "createdAt" ||
-                      columnName === "updatedAt" ? (
-                      new Date(item[columnName]).toLocaleDateString()
-                    ) : (
-                      item[columnName]
-                    )}
+              <tr key={item.id} className="bg-white border-b dark:bg-gray-800">
+                {columns.map((col: string, i: number) => (
+                  <td key={i} className="px-6 py-4">
+                    {col.includes(".")
+                      ? col.split(".").reduce((obj, key) => obj?.[key], item)
+                      : item[col]}
                   </td>
                 ))}
-                <td className="px-6 py-4 text-right flex gap-2 items-center">
+                <td className="px-6 py-4 flex gap-2 items-center">
                   {userRole === "admin" ? (
                     <>
                       <Link
                         href={`/admin/${updateLink}/update/${item.id}`}
-                        className="text-blue-600 hover:text-blue-400 flex items-center gap-1"
+                        className="text-blue-600 flex items-center gap-1"
                       >
                         <Edit />
                         <span>Edit</span>
@@ -94,17 +105,21 @@ function DataTable({ data = [], columns = [], updateLink, resourceName }: any) {
                     !data.some((v: any) => v.assignedUser === userName) ? (
                     <button
                       onClick={() => handleApply(item.id, "In Transit")}
-                      className="text-blue-600 hover:text-blue-400"
+                      className="text-blue-600"
+                      disabled={applying === item.id}
                     >
-                      Apply
+                      {applying === item.id ? "Processing..." : "Apply"}
                     </button>
                   ) : item.status === "In Transit" &&
                     item.assignedUser === userName ? (
                     <button
                       onClick={() => handleApply(item.id, "Available")}
-                      className="text-green-600 hover:text-green-400"
+                      className="text-green-600"
+                      disabled={applying === item.id}
                     >
-                      Mark as Available
+                      {applying === item.id
+                        ? "Processing..."
+                        : "Mark as Available"}
                     </button>
                   ) : null}
                 </td>
@@ -113,9 +128,7 @@ function DataTable({ data = [], columns = [], updateLink, resourceName }: any) {
           </tbody>
         </table>
       ) : (
-        <div className="text-sm text-center py-8">
-          There is no data to display
-        </div>
+        <div className="text-sm text-center py-8">No data available</div>
       )}
     </div>
   );

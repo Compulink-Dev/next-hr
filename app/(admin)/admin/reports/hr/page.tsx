@@ -8,7 +8,7 @@ import FixedHeader from "@/app/(admin)/_components/fixedHeader";
 async function HumanResourceReport() {
   const hr = await getData("reports/hr");
 
-  const data = hr.map((obj: any) => {
+  const data = (hr || []).map((obj: any) => {
     return {
       id: obj.id,
       name: obj.name,

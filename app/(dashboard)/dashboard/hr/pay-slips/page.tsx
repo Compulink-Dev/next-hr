@@ -34,6 +34,7 @@ async function PaySlip() {
           columns={["name", "period", "attachment", "createdAt"]}
           updateLink="hr/pay-slips"
           resourceName="payslip"
+          filter={"period"}
         />
       </div>
     </div>
