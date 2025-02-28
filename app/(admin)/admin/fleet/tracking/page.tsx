@@ -1,7 +1,5 @@
 "use client";
-
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import Map from "./_components/Map";
 import FixedUserHeader from "@/app/(admin)/_components/fixedUserHeader";
 

@@ -17,10 +17,12 @@ import {
   Book,
   Webhook,
   Minimize2,
+  CalendarCheck,
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import SubscriptionCard from "@/app/(dashboard)/_components/SubscriptionCard";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 interface MenuItem {
   title: string;
@@ -104,6 +106,19 @@ const menuItems: MenuItem[] = [
       { title: "Projects", path: "/admin/reports/projects" },
     ],
   },
+  {
+    title: "Projects",
+    icon: CalendarCheck,
+    children: [
+      { title: "Project", path: "/dashboard/projects/project" },
+      {
+        title: "Requisition",
+        path: "/dashboard/projects/requisition",
+        roles: ["admin"],
+      },
+      { title: "Job Cards", path: "/dashboard/projects/job-card" },
+    ],
+  },
   // { title: "Integrations", path: "/admin/integrations", icon: Cable },
   { title: "Documents", path: "/admin/documents", icon: Book },
 ];
@@ -147,7 +162,7 @@ const Sidebar: React.FC<{
     >
       <div className="flex items-center justify-between">
         <div className="flex gap-2 items-center p-4">
-          <Webhook />
+          <Image src={"/compulink.png"} alt="Logo" width={30} height={30} />
           <p>Compulink</p>
         </div>
         <Button onClick={() => setShowSide(false)} className="md:hidden">
