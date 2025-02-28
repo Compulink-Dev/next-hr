@@ -72,12 +72,12 @@ async function Documents() {
               <Filter size={14} />
               Filter
             </Button>
-            <Button variant={"outline"} className="flex items-center gap-1">
-              <Plus size={14} />
-              <Link href={"/dashboard/documents/new"}>
+            <Link href={"/dashboard/documents/new"}>
+              <Button variant={"outline"} className="flex items-center gap-1">
+                <Plus size={14} />
                 <span className="">Create</span>
-              </Link>
-            </Button>
+              </Button>
+            </Link>
           </div>
         </div>
         <Separator className="w-full my-2.5" />

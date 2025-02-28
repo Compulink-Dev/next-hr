@@ -32,9 +32,17 @@ export async function POST(request: Request) {
 
 export async function GET(request: Request) {
   try {
-    const document = await db.document.findMany({});
+    const documents = await db.document.findMany();
+    const categorizedDocuments = {
+      all: documents,
+      technical: documents.filter((doc: any) => doc.category === "technical"),
+      sales: documents.filter((doc: any) => doc.category === "sales"),
+      networks: documents.filter((doc: any) => doc.category === "networks"),
+      software: documents.filter((doc: any) => doc.category === "software"),
+      accounts: documents.filter((doc: any) => doc.category === "accounts"),
+    };
 
-    return NextResponse.json(document);
+    return NextResponse.json(categorizedDocuments);
   } catch (error) {
     console.log(error);
     return NextResponse.json(
