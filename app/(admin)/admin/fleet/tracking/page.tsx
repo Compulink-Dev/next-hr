@@ -1,6 +1,7 @@
 "use client";
+import dynamic from "next/dynamic";
 import { useState, useEffect } from "react";
-import Map from "./_components/Map";
+
 import FixedUserHeader from "@/app/(admin)/_components/fixedUserHeader";
 
 interface TrackingData {
@@ -8,6 +9,7 @@ interface TrackingData {
   longitude: number;
   timestamp: string;
 }
+const Map = dynamic(() => import("./_components/Map"), { ssr: false });
 
 const VehicleTrackingPage = ({ params }: { params: { vehicleId: string } }) => {
   const [trackingData, setTrackingData] = useState<TrackingData[]>([]);
