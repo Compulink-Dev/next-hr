@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"; // Add this at the top of your page file
+
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Filter, Plus } from "lucide-react";
