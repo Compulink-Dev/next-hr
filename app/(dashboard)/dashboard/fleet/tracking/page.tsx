@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import FixedUserHeader from "@/app/(admin)/_components/fixedUserHeader";
 import { Button } from "@/components/ui/button";
-import Map from "./_components/Mapping";
+import Map from "./_components/Map";
 
 interface TrackingData {
   latitude: number;
@@ -60,7 +60,11 @@ const VehicleTrackingPage = ({ params }: { params: { vehicleId: string } }) => {
     <div>
       <FixedUserHeader />
       <div className="p-4">
-        <Button onClick={handleGetCurrentLocation} disabled={loading}>
+        <Button
+          className="mb-4 bg-blue-700 text-white hover:bg-blue-400"
+          onClick={handleGetCurrentLocation}
+          disabled={loading}
+        >
           {loading ? "Getting Location..." : "Get Current Location"}
         </Button>
         <Map data={trackingData} />
