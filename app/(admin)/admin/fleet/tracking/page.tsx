@@ -76,7 +76,6 @@ const VehicleTrackingPage = ({ params }: { params: { vehicleId: string } }) => {
         >
           {loading ? "Getting Location..." : "Get Current Location"}
         </button>
-        <Map data={trackingData} />
       </div>
     </div>
   );
