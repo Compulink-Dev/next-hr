@@ -32,7 +32,7 @@ async function ProjectReports() {
 
   return (
     <div>
-      <FixedHeader link={"/reports/projects/new"} title="projectsReport" />
+      <FixedHeader link={"/reports/projects/new"} title="Report" />
       <div className="p-4">
         <DataTable
           data={data}
