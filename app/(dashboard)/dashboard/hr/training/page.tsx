@@ -7,7 +7,7 @@ import FixedHeader from "@/app/(dashboard)/_components/fixedHeader";
 import DataTable from "@/app/(dashboard)/_components/DataTable";
 
 async function Training() {
-  const training = await getData("training");
+  const training = (await getData("training")) || [];
 
   const session = await getServerSession(authOptions); // Use getServerSession to fetch session server-side
 

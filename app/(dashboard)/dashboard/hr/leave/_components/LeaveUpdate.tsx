@@ -38,7 +38,7 @@ function UpdateStatusForm({ initialData }: any) {
         console.log(response);
         toast.success("Leave updated successfully");
         reset();
-        router.push("/admin/hr/leave/");
+        router.push("/dashboard/hr/leave/");
         setLoading(false);
       }
     } catch (error) {

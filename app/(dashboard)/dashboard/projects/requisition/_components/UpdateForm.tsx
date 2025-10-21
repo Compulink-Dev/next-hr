@@ -29,7 +29,7 @@ function UpdateForm({ initialData }: any) {
         setLoading(true)
         try {
             console.log(data);
-            const response = await fetch(`/api/fleetInvoice/${initialData.id}`, {
+            const response = await fetch(`/api/projects/requisitions/${initialData.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -38,9 +38,9 @@ function UpdateForm({ initialData }: any) {
             })
             if (response.ok) {
                 console.log(response);
-                toast.success('Invoice updated successfully')
+                toast.success('Requisition updated successfully')
                 reset()
-                router.push('/dashboard/fleet/invoices/')
+                router.push('/dashboard/projects/requisition')
                 setLoading(false)
             }
         } catch (error) {
@@ -54,27 +54,28 @@ function UpdateForm({ initialData }: any) {
     return (
         <section className="bg-white dark:bg-gray-900">
             <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
-                <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">Update a tracking</h2>
+                <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">Update Requisition</h2>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
                         <TextInput
                             errors={errors}
-                            label={"Driver's name"}
+                            label={'Name'}
                             name={'name'}
                             register={register}
                             className='w-full'
                         />
-                        <TextInput
+                        <TextareaInput
                             errors={errors}
-                            label={'Location'}
-                            name={'location'}
+                            label={'Purpose'}
+                            name={'purpose'}
                             register={register}
                             className='w-full'
                         />
                         <TextInput
                             errors={errors}
-                            label={'Time'}
-                            name={'time'}
+                            label={'Amount'}
+                            name={'amount'}
+                            type='number'
                             register={register}
                             className='w-full'
                         />

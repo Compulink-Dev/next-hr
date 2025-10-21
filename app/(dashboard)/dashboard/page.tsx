@@ -4,6 +4,7 @@ import HomeLayout from "../_components/home-layout";
 import { Line } from "react-chartjs-2";
 import { Bar } from "react-chartjs-2";
 import { Doughnut } from "react-chartjs-2";
+import OverviewStats from "./_components/OverviewStats";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -93,24 +94,9 @@ const fleetData = {
 function Admin() {
   return (
     <HomeLayout>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {/* Inventory Card */}
-        <div className="bg-white shadow rounded-lg p-4">
-          <h2 className="text-xl font-semibold mb-2">Inventory</h2>
-          <p>Current Stock: 120</p>
-        </div>
-
-        {/* Sales Card */}
-        <div className="bg-white shadow rounded-lg p-4">
-          <h2 className="text-xl font-semibold mb-2">Total Sales</h2>
-          <p>$ 35,000</p>
-        </div>
-
-        {/* HR Card */}
-        <div className="bg-white shadow rounded-lg p-4">
-          <h2 className="text-xl font-semibold mb-2">Human Resources</h2>
-          <p>Active Employees: 25</p>
-        </div>
+      {/* Live KPI cards */}
+      <div className="mb-4">
+        <OverviewStats />
       </div>
 
       <div className="flex gap-2">

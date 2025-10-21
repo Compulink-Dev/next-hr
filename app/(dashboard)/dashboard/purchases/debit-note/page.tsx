@@ -4,45 +4,35 @@ import { getData } from "@/lib/apiResponse";
 import FixedHeader from "@/app/(dashboard)/_components/fixedHeader";
 import DataTable from "@/app/(dashboard)/_components/DataTable";
 
-async function Customer() {
-  const customers = await getData("customers");
+async function DebitNotes() {
+  const notes = await getData("debitnote");
 
-  const data = customers.map((obj: any) => {
+  const data = (notes || []).map((obj: any) => {
     return {
       id: obj.id,
       name: obj.name,
-      phone: obj.phone,
-      email: obj.email,
-      address: obj.address,
-      company: obj.company,
-      notes: obj.notes,
       createdAt: obj.createdAt,
     };
   });
 
   const columns = [
     "name",
-    "phone",
-    "email",
-    "address",
-    "company",
-    "notes",
     "createdAt",
   ];
 
   return (
     <div>
-      <FixedHeader link={"admin/purchases/debit-note/new"} title="Customers" />
+      <FixedHeader link={"/dashboard/purchases/debit-note/new"} title="Debit Notes" />
       <div className="p-4">
         <DataTable
           data={data}
           columns={columns}
-          updateLink="purchases/debit-note"
-          resourceName="purchases"
+          updateLink="purchases/debit-note/update"
+          resourceName="debit notes"
         />
       </div>
     </div>
   );
 }
 
-export default Customer;
+export default DebitNotes;

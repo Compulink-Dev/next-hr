@@ -17,14 +17,14 @@ export async function GET(
   }
 
   try {
-    // Fetch tracking data for the given vehicle ID
     const trackingData = await db.tracking.findMany({
       where: {
-        vehicleId: Number(vehicleId),
+        vehicleId: vehicleId, // vehicleId is an ObjectId stored as string in Prisma schema
       },
       orderBy: {
-        timestamp: "desc", // Order by most recent first
+        timestamp: "desc",
       },
+      take: 100,
     });
 
     return NextResponse.json(trackingData);

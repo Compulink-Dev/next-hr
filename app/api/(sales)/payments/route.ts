@@ -5,19 +5,24 @@ export async function POST(request: Request) {
     try {
         const data = await request.json()
 
-        const customer = await db.customer.create({
+        const payment = await db.payments.create({
             data: {
                 name: data.name,
-                phone: data.phone,
-                email: data.email,
-                address: data.address,
-                company: data.company,
-                notes: data.notes,
+                price: parseFloat(data.price),
             },
         })
-        console.log(customer);
+        console.log(payment);
 
-        return NextResponse.json(customer)
+        // Auto-create PaymentsReport entry
+        await db.paymentsReport.create({
+            data: {
+                name: payment.name ?? 'Payment',
+                invoiceNo: payment.id, // using payment id as reference string
+                paymentId: payment.id,
+            },
+        });
+
+        return NextResponse.json(payment)
     } catch (error) {
         console.log(error);
         return NextResponse.json({
@@ -32,13 +37,13 @@ export async function POST(request: Request) {
 
 export async function GET(request: Request) {
     try {
-        const customer = await db.customer.findMany({
+        const payments = await db.payments.findMany({
             orderBy: {
                 createdAt: 'desc'
             }
         })
 
-        return NextResponse.json(customer)
+        return NextResponse.json(payments)
     } catch (error) {
         console.log(error);
         return NextResponse.json({

@@ -28,8 +28,12 @@ function Form() {
     async function onSubmit(data: any) {
         setLoading(true)
         try {
-            console.log(data);
-            const response = await fetch('/api/fleetInvoice', {
+            const payload = {
+                vehicleId: data.vehicleId,
+                latitude: parseFloat(data.latitude),
+                longitude: parseFloat(data.longitude)
+            }
+            const response = await fetch('/api/tracking', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -38,10 +42,10 @@ function Form() {
             })
             if (response.ok) {
                 console.log(response);
-                toast.success('Invoice created successfully')
+                toast.success('Tracking point recorded')
                 reset()
                 setLoading(false)
-                router.push('/dashboard/fleet/invoices')
+                router.push('/dashboard/fleet/tracking')
             }
         } catch (error) {
             toast.error('Invoice failed to create')
@@ -57,42 +61,31 @@ function Form() {
                 <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">Add tracking</h2>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
-                        <TextInput
+                        <SelectInput
                             errors={errors}
-                            label={"Driver's name"}
-                            name={'name'}
+                            label={'Vehicle'}
+                            name={'vehicleId'}
                             register={register}
                             className='w-full'
+                            options={[]}
                         />
                         <TextInput
                             errors={errors}
-                            label={'Location'}
-                            name={'location'}
+                            label={'Latitude'}
+                            name={'latitude'}
                             register={register}
-                            className='w-full'
-                        />
-                        <TextInput
-                            errors={errors}
-                            label={'Time'}
-                            name={'time'}
-                            type='time'
-                            register={register}
-                            className='w-full'
-                        />
-                        <TextInput
-                            errors={errors}
-                            label={'Payment Type'}
-                            name={'paymentType'}
-                            register={register}
-                            className='w-full'
-                        />
-                        <TextInput
-                            errors={errors}
-                            label={'Amount'}
-                            name={'amount'}
                             type='number'
-                            register={register}
+                            className='w-full'
                         />
+                        <TextInput
+                            errors={errors}
+                            label={'Longitude'}
+                            name={'longitude'}
+                            register={register}
+                            type='number'
+                            className='w-full'
+                        />
+                        
                         {/* <ImageInput
                             label={'Attachment'}
                             setImageUrl={setImageUrl}

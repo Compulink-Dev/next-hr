@@ -1,9 +1,17 @@
+// app/api/(hr)/employees/route.ts
 export const dynamic = "force-dynamic";
 import db from "@/lib/db";
 import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/authOptions";
+import bcrypt from 'bcrypt'
 
 export async function POST(request: Request) {
   try {
+    const session = await getServerSession(authOptions);
+    if (!session || session.user?.role !== "admin") {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
     const data = await request.json();
 
     // Create a new employee in the database
@@ -17,7 +25,15 @@ export async function POST(request: Request) {
         appliedDate: data.appliedDate,
         status: data.status,
         user: {
-          connect: { email: data.email }, // Assuming data.userId is provided
+          connectOrCreate: {
+            where: { email: data.email },
+            create: {
+              name: data.name,
+              email: data.email,
+              role: "employee",
+              hashedPassword: await bcrypt.hash("defaultPassword123", 10), // Use hashedPassword instead of password
+            },
+          },
         },
       },
     });
@@ -39,6 +55,10 @@ export async function POST(request: Request) {
 // GET - Fetch all employees
 export async function GET(request: Request) {
   try {
+    const session = await getServerSession(authOptions);
+    if (!session || (session.user?.role !== "admin" && session.user?.role !== "hr")) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
     const employees = await db.employee.findMany({
       orderBy: {
         createdAt: "desc",

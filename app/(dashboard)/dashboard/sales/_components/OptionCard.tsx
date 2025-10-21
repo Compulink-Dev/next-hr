@@ -18,7 +18,7 @@ function OptionCard({ optionData }) {
             {
                 enabled ? (
                     <Link
-                        href={`/admin/sales${link}/new`}
+                        href={`/dashboard/sales${link}/new`}
                         className='bg-blue-600 text-sm text-white hover:bg-blue-400 px-4 py-2 rounded'>
                         {linkTitle}
                     </Link>

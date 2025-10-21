@@ -17,11 +17,27 @@ import { formatDate } from "@/lib/utils";
 import ViewButton from "@/components/ViewButton";
 import EditButton from "@/components/EditButton";
 import DownloadButton from "./DownloadButton";
+import StatusUpdateButton from "./StatusUpdateButton";
 
 function DataTable({ data = [], columns = [], updateLink, resourceName }: any) {
   const { data: session } = useSession();
   const userRole = session?.user?.role;
   const [selectedItem, setSelectedItem] = useState<any>(null);
+
+  // Helper function to get status styling
+  const getStatusStyle = (status: string) => {
+    const statusLower = status.toLowerCase();
+    switch (statusLower) {
+      case "approved":
+        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
+      case "rejected":
+        return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200";
+      case "pending":
+        return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200";
+      default:
+        return "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300";
+    }
+  };
 
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -34,6 +50,9 @@ function DataTable({ data = [], columns = [], updateLink, resourceName }: any) {
                   {item}
                 </th>
               ))}
+              <th scope="col" className="px-6 py-3">
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -48,7 +67,15 @@ function DataTable({ data = [], columns = [], updateLink, resourceName }: any) {
                     scope="row"
                     className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                   >
-                    {columnName.includes(".") ? (
+                    {columnName === "status" ? (
+                      <span
+                        className={`px-2.5 py-1 rounded-full text-xs font-medium ${getStatusStyle(
+                          item.status
+                        )}`}
+                      >
+                        {item.status}
+                      </span>
+                    ) : columnName.includes(".") ? (
                       columnName
                         .split(".")
                         .reduce((obj: any, key: any) => obj[key], item)
@@ -69,67 +96,102 @@ function DataTable({ data = [], columns = [], updateLink, resourceName }: any) {
                   </td>
                 ))}
                 <td className="px-6 py-4 text-right flex gap-2 items-center">
-                  {userRole === "user" ? (
+                  {/* HR & Admin Actions */}
+                  {(userRole === "hr" || userRole === "admin") && (
+                    <>
+                      <Link href={`/dashboard/${updateLink}/view/${item.id}`}>
+                        <ViewButton />
+                      </Link>
+                      <StatusUpdateButton
+                        id={item.id}
+                        currentStatus={item.status}
+                        endpoint={`${resourceName}/leave`}
+                      />
+                      {item.attachment !== "No-file" && (
+                        <a href={item.attachment} download>
+                          <DownloadButton />
+                        </a>
+                      )}
+                    </>
+                  )}
+
+                  {/* User Actions */}
+                  {userRole === "user" && (
                     <>
                       {item.status === "pending" ? (
-                        <div className="flex items-center gap-2">
+                        <>
                           <Link
                             href={`/dashboard/${updateLink}/update/${item.id}`}
                           >
                             <EditButton />
                           </Link>
                           <DeleteButton id={item.id} endpoint={resourceName} />
-                        </div>
+                        </>
                       ) : (
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <div onClick={() => setSelectedItem(item)}>
-                              <ViewButton />
-                            </div>
-                          </DialogTrigger>
-                          <DialogContent className="sm:max-w-[600px]">
-                            <DialogHeader>
-                              <DialogTitle>Leave Information</DialogTitle>
-                              <DialogDescription>
-                                Detailed information about the leave request.
-                              </DialogDescription>
-                            </DialogHeader>
-                            <div className="grid gap-4 py-4">
-                              <p>
-                                <strong>Name:</strong> {selectedItem?.name}
-                              </p>
-                              <p>
-                                <strong>Status:</strong> {selectedItem?.status}
-                              </p>
-                              <p>
-                                <strong>Start Date:</strong>{" "}
-                                {formatDate(selectedItem?.from)}
-                              </p>
-                              <p>
-                                <strong>End Date:</strong>{" "}
-                                {formatDate(selectedItem?.to)}
-                              </p>
-                              <p>
-                                <strong>Reason:</strong>{" "}
-                                {selectedItem?.reason || "Not provided"}
-                              </p>
-                            </div>
-                            <DialogFooter>
-                              <Button variant="secondary">Close</Button>
-                            </DialogFooter>
-                          </DialogContent>
-                        </Dialog>
+                        <>
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <div onClick={() => setSelectedItem(item)}>
+                                <ViewButton />
+                              </div>
+                            </DialogTrigger>
+                            <DialogContent className="sm:max-w-[600px]">
+                              <DialogHeader>
+                                <DialogTitle>Leave Information</DialogTitle>
+                                <DialogDescription>
+                                  Detailed information about your leave request.
+                                </DialogDescription>
+                              </DialogHeader>
+                              <div className="grid gap-4 py-4">
+                                <p>
+                                  <strong>Type:</strong> {selectedItem?.type}
+                                </p>
+                                <p>
+                                  <strong>Status:</strong>{" "}
+                                  <span
+                                    className={`px-2.5 py-1 rounded-full text-xs font-medium ${getStatusStyle(
+                                      selectedItem?.status
+                                    )}`}
+                                  >
+                                    {selectedItem?.status}
+                                  </span>
+                                </p>
+                                <p>
+                                  <strong>Start Date:</strong>{" "}
+                                  {formatDate(selectedItem?.from)}
+                                </p>
+                                <p>
+                                  <strong>End Date:</strong>{" "}
+                                  {formatDate(selectedItem?.to)}
+                                </p>
+                                <p>
+                                  <strong>Duration:</strong>{" "}
+                                  {selectedItem?.duration}
+                                </p>
+                                <p>
+                                  <strong>Reason:</strong>{" "}
+                                  {selectedItem?.reason || "Not provided"}
+                                </p>
+                              </div>
+                              <DialogFooter>
+                                <Button variant="secondary">Close</Button>
+                              </DialogFooter>
+                            </DialogContent>
+                          </Dialog>
+                          {item.status === "rejected" && (
+                            <DeleteButton
+                              id={item.id}
+                              endpoint={resourceName}
+                            />
+                          )}
+                        </>
                       )}
-                      {item.status === "rejected" && (
-                        <DeleteButton id={item.id} endpoint={resourceName} />
+                      {item.attachment !== "No-file" && (
+                        <a href={item.attachment} download>
+                          <DownloadButton />
+                        </a>
                       )}
                     </>
-                  ) : item.attachment !== "No-file" ? (
-                    <a href={item.attachment} download>
-                      <DownloadButton />
-                    </a>
-                  ) : (
-                    <span>{item.attachment}</span>
                   )}
                 </td>
               </tr>

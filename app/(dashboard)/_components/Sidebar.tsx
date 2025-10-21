@@ -13,7 +13,6 @@ import {
   User2,
   BusFront,
   FileBarChart,
-  Cable,
   Book,
   Webhook,
   Minimize2,
@@ -37,7 +36,7 @@ const menuItems: MenuItem[] = [
   {
     title: "Inventory",
     icon: BaggageClaim,
-    roles: ["dashboard"],
+    roles: ["admin", "procurement"],
     children: [
       { title: "Item", path: "/dashboard/inventory/items" },
       { title: "Categories", path: "/dashboard/inventory/categories" },
@@ -46,10 +45,10 @@ const menuItems: MenuItem[] = [
       { title: "Warehouse", path: "/dashboard/inventory/warehouse" },
       { title: "Adjustments", path: "/dashboard/inventory/adjustments" },
       { title: "Suppliers", path: "/dashboard/inventory/suppliers" },
-      //   {
-      //     title: "Mobile Development",
-      //     path: "/services/mobile-development",
-      //     roles: ["dashboard", "developer"],  // Restricted to dashboard and developer
+      // {
+      //   title: "Mobile Development",
+      //   path: "/services/mobile-development",
+      //   roles: ["admin", "developer"], // Restricted to dashboard and developer
       // },
     ],
   },
@@ -59,6 +58,13 @@ const menuItems: MenuItem[] = [
     children: [
       { title: "Customers", path: "/dashboard/sales/customers" },
       { title: "Sales Order", path: "/dashboard/sales/sales-order" },
+      { title: "Leads", path: "/dashboard/sales/leads" },
+      { title: "Deals", path: "/dashboard/sales/deals" },
+      { title: "Pipeline", path: "/dashboard/sales/pipeline" },
+      { title: "Tasks", path: "/dashboard/sales/tasks" },
+      { title: "Campaigns", path: "/dashboard/sales/campaigns" },
+      { title: "Analytics", path: "/dashboard/sales/analytics" },
+      { title: "Receipts", path: "/dashboard/sales/receipts" },
       { title: "Credit Note", path: "/dashboard/sales/credit-note" },
     ],
   },
@@ -163,7 +169,7 @@ const Sidebar: React.FC<{
       <div className="flex items-center justify-between">
         <div className="flex gap-2 items-center p-4">
           <Webhook />
-          <p>Compulink</p>
+          <p>Corporate ERP</p>
         </div>
         <Button onClick={() => setShowSide(false)} className="md:hidden">
           <Minimize2 className="h-5 w-5" />

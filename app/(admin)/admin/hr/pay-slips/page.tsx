@@ -14,7 +14,10 @@ async function PaySlip() {
 
   const data = Array.isArray(slip)
     ? slip
-        .filter((obj: any) => userRole === "admin" || obj.name === userName)
+        .filter(
+          (obj: any) =>
+            userRole === "admin" || userRole === "hr" || obj.name === userName
+        )
         .map((obj: any) => ({
           id: obj.id,
           name: obj.name,

@@ -1,14 +1,16 @@
 export const dynamic = "force-dynamic";
 import React from "react";
-import { getData } from "@/lib/apiResponse";
+import { getDataWithStatus } from "@/lib/apiResponse";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 import FixedHeader from "@/app/(dashboard)/_components/fixedHeader";
-import DataTable from "@/app/(dashboard)/_components/DataTable";
+import DataTable from "./_components/Datatable";
+import UserDataTable from "./_components/UserDataTable";
+import Forbidden from "@/components/Forbidden";
 async function Loans() {
   const session = await getServerSession(authOptions);
 
-  const loan = await getData("loans");
+  const { data: loan, status } = await getDataWithStatus("loans");
 
   const userRole = session?.user?.role;
   const userID = session?.user?.id;
@@ -18,7 +20,7 @@ async function Loans() {
   const response = Array.isArray(loan)
     ? loan
         .filter((obj: any) => {
-          if (userRole === "admin") {
+          if (userRole === "hr") {
             return true; // admins can see all data
           } else {
             return obj.userId === userID; // non-admins can only see their own data
@@ -27,6 +29,7 @@ async function Loans() {
         .map((obj: any) => {
           return {
             id: obj.id,
+            userId: obj.userId,
             payment: obj.payment,
             type: obj.type,
             amount: parseFloat(obj.amount),
@@ -59,6 +62,14 @@ async function Loans() {
     "createdAt",
   ];
 
+  if (status === 401 || status === 403) {
+    return (
+      <div className="p-6">
+        <Forbidden message="You don’t have permission to view Loans." />
+      </div>
+    );
+  }
+
   return (
     <div>
       <FixedHeader link={"/hr/loans/new"} title="Loan" />
@@ -81,12 +92,21 @@ async function Loans() {
 
       {/* Data Table */}
       <div className="p-4">
-        <DataTable
-          data={response}
-          columns={columns}
-          updateLink="hr/loans"
-          resourceName="loan"
-        />
+        {userRole === "hr" ? (
+          <DataTable
+            data={response}
+            columns={columns}
+            updateLink="hr/loans"
+            resourceName="loans"
+          />
+        ) : (
+          <UserDataTable
+            data={response}
+            columns={columns}
+            updateLink="hr/loans"
+            resourceName="loans"
+          />
+        )}
       </div>
     </div>
   );

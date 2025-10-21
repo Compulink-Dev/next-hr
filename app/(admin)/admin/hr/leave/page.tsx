@@ -4,7 +4,7 @@ import { getData } from "@/lib/apiResponse";
 import FixedUserHeader from "@/app/(admin)/_components/fixedHeader";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
-import DataTable from "@/app/(admin)/_components/DataTable";
+import DataTable from "./_components/DataTable";
 
 async function Leave() {
   const leave = await getData("leave");

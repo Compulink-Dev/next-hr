@@ -19,7 +19,7 @@ async function Loans() {
   const response = Array.isArray(loan)
     ? loan
         .filter((obj: any) => {
-          if (userRole === "admin") {
+          if (userRole === "admin" || userRole === "hr") {
             return true; // admins can see all data
           } else {
             return obj.userId === userID; // non-admins can only see their own data

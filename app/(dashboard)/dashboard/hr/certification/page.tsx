@@ -7,7 +7,7 @@ import FixedHeader from "@/app/(dashboard)/_components/fixedHeader";
 import DataTable from "@/app/(dashboard)/_components/DataTable";
 
 async function Certification() {
-  const certificate = await getData("certification");
+  const certificate = (await getData("certification")) || [];
 
   const session = await getServerSession(authOptions); // Use getServerSession to fetch session server-side
 

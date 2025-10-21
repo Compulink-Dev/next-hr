@@ -5,13 +5,13 @@ import { NextResponse } from "next/server";
 export async function GET(request: Request, { params: { id } }) {
     try {
 
-        const customer = await db.customer.findUnique({
+        const payment = await db.payments.findUnique({
             where: {
                 id
             }
         })
 
-        return NextResponse.json(customer)
+        return NextResponse.json(payment)
     } catch (error) {
         console.log(error);
         return NextResponse.json({
@@ -26,19 +26,19 @@ export async function GET(request: Request, { params: { id } }) {
 //@ts-ignore
 export async function PUT(request: Request, { params: { id } }) {
     try {
-        const { name, description } = await request.json()
-        const customer = await db.customer.update({
+        const { name, price } = await request.json()
+        const payment = await db.payments.update({
             where: {
                 id
             },
             data: {
                 name,
-                description
+                price: parseFloat(price),
             }
         })
-        console.log(customer);
+        console.log(payment);
 
-        return NextResponse.json(customer)
+        return NextResponse.json(payment)
     } catch (error) {
         console.log(error);
         return NextResponse.json({
@@ -52,7 +52,9 @@ export async function PUT(request: Request, { params: { id } }) {
 
 export async function DELETE(req: Request, { params }: { params: { id: string } }) {
     try {
-        await db.customer.delete({
+        // Remove related reports first
+        await db.paymentsReport.deleteMany({ where: { paymentId: params.id } });
+        await db.payments.delete({
             where: {
                 id: params.id
             }

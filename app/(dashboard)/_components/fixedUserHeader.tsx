@@ -12,11 +12,13 @@ import { getServerSession } from "next-auth";
 import Link from "next/link";
 import React from "react";
 
-async function FixedUserHeader({ link, title }: { link: string; title: string }) {
+async function FixedUserHeader({ link, title }: { link: any; title: string }) {
   const session = await getServerSession(authOptions);
   const userRole = session?.user?.role;
 
   console.log("Server User Role:", userRole);
+
+  const buildHref = (l: string) => (l.startsWith("/") ? l : `/dashboard/${l}`);
 
   return (
     <div className="flex items-center justify-between p-4 bg-slate-50">
@@ -27,7 +29,7 @@ async function FixedUserHeader({ link, title }: { link: string; title: string })
       <div className="flex items-center gap-2">
         {userRole !== "user" && (
           <Link
-            href={`/dashboard/${link}`}
+            href={buildHref(link)}
             className="bg-blue-600 hover:bg-blue-500 p-2 rounded-md flex items-center text-white text-sm"
           >
             <Plus className="w-3 h-3" />

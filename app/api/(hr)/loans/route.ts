@@ -50,12 +50,25 @@ export async function POST(request: Request) {
 
 export async function GET(request: Request) {
     try {
-        const loans = await db.loans.findMany({
-            orderBy: {
-                createdAt: 'desc'
-            }
-        })
-
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    const isAdminOrHr = session.user?.role === "admin" || session.user?.role === "hr";
+    const loans = await db.loans.findMany({
+      where: isAdminOrHr ? {} : { userId: session.user.id },
+      orderBy: {
+        createdAt: "desc",
+      },
+      include: {
+        user: {
+          select: {
+            name: true,
+            email: true,
+          },
+        },
+      },
+    });
         return NextResponse.json(loans)
     } catch (error) {
         console.log(error);

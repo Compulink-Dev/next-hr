@@ -1,36 +1,64 @@
 export const dynamic = "force-dynamic";
 import React from "react";
-import { getData } from "@/lib/apiResponse";
+import { getDataWithStatus } from "@/lib/apiResponse";
 import FixedHeader from "@/app/(dashboard)/_components/fixedHeader";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
-import DataTable from "@/app/(dashboard)/_components/DataTable";
+import HrDataTable from "./_components/DataTable";
+import UserDataTable from "./_components/UserDataTable";
+import Forbidden from "@/components/Forbidden";
 
 async function Leave() {
-  const leave = await getData("leave");
+  const { data: leave, status } = await getDataWithStatus("leave");
 
   const session = await getServerSession(authOptions);
   const userRole = session?.user?.role;
   const userName = session?.user?.name;
 
-  const data = Array.isArray(leave)
-    ? leave
-        .filter((obj: any) => userRole === "admin" || obj.name === userName) // Only show user's own payslip if not admin
-        .map((obj: any) => ({
-          id: obj.id,
-          name: obj.name,
-          type: obj.type,
-          source: obj.source,
-          from: obj.from,
-          to: obj.to,
-          duration: obj.duration,
-          contact: obj.contact,
-          reason: obj.reason,
-          status: obj.status || "pending",
-          attachment: obj.attachment || "No-file",
-          createdAt: obj.createdAt,
-        }))
-    : [];
+  // Helper function to process MongoDB data
+  const processMongoData = (data: any) => {
+    if (!Array.isArray(data)) return [];
+
+    return data.map((obj: any) => {
+      // Handle MongoDB _id field
+      const id = obj._id?.$oid || obj.id || obj._id;
+
+      // Handle MongoDB date fields
+      const from = obj.from?.$date ? new Date(obj.from.$date) : obj.from;
+      const to = obj.to?.$date ? new Date(obj.to.$date) : obj.to;
+      const createdAt = obj.createdAt?.$date
+        ? new Date(obj.createdAt.$date)
+        : obj.createdAt;
+
+      // Handle user relation
+      const userName = obj.user?.name || obj.name;
+
+      return {
+        id,
+        name: userName,
+        type: obj.type,
+        source: obj.source,
+        from,
+        to,
+        duration: obj.duration,
+        contact: obj.contact,
+        reason: obj.reason,
+        status: obj.status || "pending",
+        attachment: obj.attachment || "No-file",
+        createdAt,
+      };
+    });
+  };
+
+  // Process and filter data
+  const processedData = processMongoData(leave);
+
+  const data = processedData.filter((obj: any) => {
+    if (userRole === "hr" || userRole === "admin") {
+      return true; // HR and Admin see all records
+    }
+    return obj.name === userName; // Regular users only see their own
+  });
 
   const countLoansByStatus = (status: string) =>
     data?.filter((loan: any) => loan.status === status).length;
@@ -48,6 +76,27 @@ async function Leave() {
     "attachment",
     "createdAt",
   ];
+
+  const userColumns = [
+    "type",
+    "source",
+    "from",
+    "to",
+    "duration",
+    "contact",
+    "reason",
+    "status",
+    "attachment",
+    "createdAt",
+  ];
+
+  if (status === 401 || status === 403) {
+    return (
+      <div className="p-6">
+        <Forbidden message="You don't have permission to view Leave records." />
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -71,13 +120,23 @@ async function Leave() {
 
       {/* Data Table */}
       <div className="p-4">
-        <DataTable
-          data={data}
-          columns={columns}
-          updateLink="hr/leave"
-          resourceName="leave"
-          filter={"status"}
-        />
+        {userRole === "hr" || userRole === "admin" ? (
+          <HrDataTable
+            data={data}
+            columns={columns}
+            updateLink="hr/leave"
+            resourceName="leave"
+            filter={"status"}
+          />
+        ) : (
+          <UserDataTable
+            data={data}
+            columns={userColumns}
+            updateLink="hr/leave"
+            resourceName="leave"
+            filter={"status"}
+          />
+        )}
       </div>
     </div>
   );

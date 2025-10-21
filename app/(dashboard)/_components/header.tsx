@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { BellDot, History, Menu, Plus, Settings, Users2 } from "lucide-react";
+import { BellDot, History, Menu, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { signOut, useSession } from "next-auth/react";
 import { generateInitials } from "@/lib/initials";
@@ -22,10 +22,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"; // ShadCN Dialog import
 import SearchInput from "./SearchInput";
+import { usePathname } from "next/navigation";
 
-function Header({ setShowSide }: any) {
+function Header({ setShowSide }: { setShowSide: (v: boolean) => void }) {
   const { data: session, status } = useSession();
-  const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
+  const pathname = usePathname();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   if (status === "loading") {
     return <p className="text-xs text-slate-500">Loading user...</p>;
@@ -33,127 +35,130 @@ function Header({ setShowSide }: any) {
 
   const username = session?.user?.name?.split(" ")[0] || undefined;
   const initial = generateInitials(username);
+  const role = session?.user?.role || "user";
 
-  const userRole = session?.user?.role || "User";
+  const navLinks = [
+    { title: "Dashboard", href: "/dashboard" },
+    { title: "Inventory", href: "/dashboard/inventory" },
+    { title: "Sales", href: "/dashboard/sales" },
+    { title: "Purchases", href: "/dashboard/purchases" },
+    { title: "HR", href: "/dashboard/hr" },
+    { title: "Fleet", href: "/dashboard/fleet" },
+    { title: "Projects", href: "/dashboard/projects" },
+    { title: "Reports", href: "/dashboard/reports" },
+    { title: "Documents", href: "/dashboard/documents" },
+  ];
 
-  // Open the confirmation dialog
-  const openModal = () => setIsModalOpen(true);
-
-  // Close the confirmation dialog
   const closeModal = () => setIsModalOpen(false);
-
-  // Handle logout after confirmation
   const handleLogout = () => {
-    signOut({
-      redirect: true,
-      callbackUrl: "/",
-    });
-    closeModal(); // Close the modal after logout
+    signOut({ redirect: true, callbackUrl: "/" });
+    closeModal();
   };
 
   return (
-    <div className="bg-slate-100 h-14 flex items-center justify-between px-4">
-      <div className="hidden md:flex items-center gap-4">
-        <History className="w-4 h-4 text-slate-500" />
-        <SearchInput />
-      </div>
-      <Button
-        onClick={() => setShowSide(true)}
-        variant={"ghost"}
-        className="flex md:hidden hover:text-slate-400"
-      >
-        <Menu className="w-5 h-5" />
-      </Button>
-      <div className="flex md:hidden">
-        <SearchInput />
-      </div>
-      <div className="flex items-center gap-3 ">
-        <div className="items-center gap-2 hidden md:flex ">
-          <button className="bg-blue-600 hover:bg-blue-400 p-1 rounded-lg text-white">
-            <Plus className="h-4 w-4" />
-          </button>
-          <button className=" hover:bg-slate-300 p-1.5 rounded-lg border-l border-slate-300">
-            <Users2 className="h-4 w-4" />
-          </button>
-          <button className=" hover:bg-slate-300 p-1.5 rounded-lg">
-            <BellDot className="h-4 w-4" />
-          </button>
-          <button className=" hover:bg-slate-300 p-1.5 rounded-lg border-r border-slate-300">
-            <Settings className="h-4 w-4" />
-          </button>
+    <header className="bg-white/80 dark:bg-gray-900/60 backdrop-blur border-b border-gray-200 dark:border-gray-800">
+      <div className="h-14 px-4 flex items-center gap-4">
+        {/* Mobile: open sidebar */}
+        <Button
+          onClick={() => setShowSide(true)}
+          variant="ghost"
+          className="md:hidden text-gray-600 dark:text-gray-300"
+        >
+          <Menu className="w-5 h-5" />
+        </Button>
+
+        {/* Brand */}
+        <Link href="/dashboard" className="hidden md:inline-flex items-center text-sm font-semibold text-gray-900 dark:text-white">
+          Corporate ERP
+        </Link>
+
+        {/* Search */}
+        <div className="hidden md:flex items-center gap-3">
+          <History className="w-4 h-4 text-slate-500" />
+          <SearchInput />
         </div>
-        <div className="flex items-center">
-          {session?.user?.image ? (
-            <Image
-              src={session.user.image} // Use the user's image if available
-              alt=""
-              height={96}
-              width={96}
-              className="w-8 h-8 rounded-full border border-slate-800"
-            />
-          ) : (
-            <Button
-              variant={"ghost"}
-              className=" items-center hover:bg-slate-300 hidden md:flex gap-1"
-            >
-              {username}
-            </Button>
-          )}
-          {session?.user?.name ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button className="hover:bg-slate-300 rounded-full bg-blue-500">
-                  <span className="">{initial}</span>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56">
-                <DropdownMenuLabel>My Profile</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <div className="w-full p-8 flex flex-col gap-4">
-                  <DropdownMenuItem>
-                    <Link href={"/profile"}>Profile</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Link href={"/profile"}>Settings</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Link href={"/profile"}>Subscriptions</Link>
-                  </DropdownMenuItem>
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button className="bg-blue-600 hover:bg-blue-400">
-                        Logout
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="bg-white p-4 rounded-lg">
-                      <DialogHeader>
-                        <DialogTitle>Confirm Logout</DialogTitle>
-                      </DialogHeader>
-                      <p>Are you sure you want to log out?</p>
-                      <div className="mt-4 flex gap-4">
-                        <Button
-                          variant="outline"
-                          className="border-slate-700"
-                          onClick={closeModal}
-                        >
-                          Cancel
-                        </Button>
-                        <Button
-                          className="bg-blue-600 text-white"
-                          onClick={handleLogout}
-                        >
-                          Logout
-                        </Button>
-                      </div>
-                    </DialogContent>
-                  </Dialog>
-                </div>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ) : null}
+
+        {/* Center nav */}
+        <nav className="hidden lg:block ml-4">
+          <ul className="flex items-center gap-3 text-sm">
+            {navLinks.map((link) => {
+              const active = pathname === link.href || pathname.startsWith(link.href + "/");
+              return (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className={`${active ? "text-blue-600 dark:text-blue-400" : "text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"} px-2 py-1 rounded-md`}
+                  >
+                    {link.title}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+
+        {/* Right section */}
+        <div className="ml-auto flex items-center gap-2">
+          <Button variant="ghost" className="hidden md:inline-flex hover:bg-gray-100 dark:hover:bg-gray-800">
+            <BellDot className="h-5 w-5" />
+          </Button>
+          <Button variant="ghost" className="hidden md:inline-flex hover:bg-gray-100 dark:hover:bg-gray-800">
+            <Settings className="h-5 w-5" />
+          </Button>
+
+          {/* User */}
+          <div className="flex items-center">
+            {session?.user?.image ? (
+              <Image src={session.user.image} alt="" height={32} width={32} className="w-8 h-8 rounded-full border border-slate-300" />
+            ) : username ? (
+              <Button variant="ghost" className="hidden md:inline-flex hover:bg-gray-100 dark:hover:bg-gray-800">
+                {username}
+              </Button>
+            ) : null}
+
+            {session?.user?.name ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button className="hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full bg-blue-600 text-white">
+                    <span>{initial}</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56">
+                  <DropdownMenuLabel>My Profile</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <div className="w-full p-4 flex flex-col gap-2">
+                    <DropdownMenuItem>
+                      <Link href="/profile">Profile</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Link href="/profile">Settings</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Link href="/profile">Subscriptions</Link>
+                    </DropdownMenuItem>
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button className="bg-blue-600 hover:bg-blue-500">Logout</Button>
+                      </DialogTrigger>
+                      <DialogContent className="bg-white dark:bg-gray-900">
+                        <DialogHeader>
+                          <DialogTitle>Confirm Logout</DialogTitle>
+                        </DialogHeader>
+                        <p>Are you sure you want to log out?</p>
+                        <div className="mt-4 flex gap-4">
+                          <Button variant="outline" className="border-slate-700" onClick={closeModal}>Cancel</Button>
+                          <Button className="bg-blue-600 text-white" onClick={handleLogout}>Logout</Button>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
+                  </div>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : null}
+          </div>
         </div>
       </div>
-    </div>
+    </header>
   );
 }
 

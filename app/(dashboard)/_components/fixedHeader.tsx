@@ -16,7 +16,17 @@ async function FixedHeader({ link, title }: { link: string; title: string }) {
   const session = await getServerSession(authOptions);
   const userRole = session?.user?.role;
 
-  console.log("Server User Role:", userRole);
+  // Sanitize link to support absolute paths (starting with "/") or dashboard-relative segments
+  const buildHref = (l: string) => {
+    // Remove any leading slashes and always prefix with /dashboard/
+    const cleanPath = l.replace(/^\/+/, "");
+    return `/dashboard/${cleanPath}`;
+  };
+
+  const buildNewHref = (l: string) => {
+    const base = buildHref(l);
+    return base.endsWith("/new") ? base : `${base}/new`;
+  };
 
   return (
     <div className="flex items-center justify-between p-4 bg-slate-50">
@@ -25,9 +35,9 @@ async function FixedHeader({ link, title }: { link: string; title: string }) {
         <ChevronDown className="w-4 h-4 pl-1" />
       </Button>
       <div className="flex items-center gap-2">
-        {userRole === "user" && (
+        {(userRole === "hr" || userRole === "admin") && (
           <Link
-            href={`/dashboard/${link}`}
+            href={buildNewHref(link)}
             className="bg-blue-600 hover:bg-blue-500 p-2 rounded-md flex items-center text-white text-sm"
           >
             <Plus className="w-3 h-3" />

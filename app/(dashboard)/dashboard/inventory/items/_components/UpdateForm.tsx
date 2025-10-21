@@ -41,7 +41,7 @@ function UpdateForm({ initialData, category, unit, brand, warehouse, supplier }:
                 console.log(response);
                 toast.success('Item updated successfully')
                 reset()
-                router.push('/admin/inventory/items')
+                router.push('/dashboard/inventory/items')
                 setLoading(false)
             }
         } catch (error) {

@@ -39,6 +39,8 @@ import EditButton from "@/components/EditButton";
 import DeleteButton from "@/components/DeleteButton";
 import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
 
+import toast from "react-hot-toast";
+
 export default function DataTable({
   data,
   columns,
@@ -46,6 +48,7 @@ export default function DataTable({
   resourceName,
   filter,
   userRole,
+  actionsConfig,
 }: any) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnVisibility, setColumnVisibility] =
@@ -66,7 +69,29 @@ export default function DataTable({
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
-    cell: ({ row }: any) => <div>{row.getValue(col)}</div>,
+    cell: ({ row }: any) => {
+      const value = row.getValue(col);
+      // Special rendering for requisitions
+      if (actionsConfig?.resource === 'projects/requisitions') {
+        if (col === 'status') {
+          const status = String(value || '').toLowerCase();
+          const cls = status === 'approved'
+            ? 'bg-green-100 text-green-800'
+            : status === 'rejected'
+            ? 'bg-red-100 text-red-800'
+            : 'bg-yellow-100 text-yellow-800';
+          return <span className={`px-2 py-1 rounded text-xs font-medium ${cls}`}>{value}</span>;
+        }
+        if (col === 'name') {
+          return (
+            <Link href={`/dashboard/${updateLink}/` + row.original.id} className="text-blue-600 hover:underline">
+              {value}
+            </Link>
+          );
+        }
+      }
+      return <div>{value}</div>;
+    },
   }));
 
   const table = useReactTable({
@@ -148,6 +173,71 @@ export default function DataTable({
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
+                        {/* Custom actions for specific resources */}
+                        {actionsConfig?.resource === 'projects/requisitions' && (
+                          <div className="px-4 py-2 space-y-1">
+                            {row.original.attachment ? (
+                              <a
+                                className="text-sm text-blue-600 hover:underline block"
+                                href={row.original.attachment}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                Open attachment
+                              </a>
+                            ) : null}
+                            {actionsConfig?.admin && (
+                              <div className="flex items-center gap-2 pt-2">
+                                <Button
+                                  size="sm"
+                                  className="bg-green-600 hover:bg-green-500 text-white"
+                                  onClick={async () => {
+                                    try {
+                                      const res = await fetch(`/api/projects/requisitions/${row.original.id}/status`, {
+                                        method: 'PUT',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({ status: 'approved' })
+                                      });
+                                      if (res.ok) {
+                                        toast.success('Requisition approved');
+                                        window.location.reload();
+                                      } else {
+                                        toast.error('Failed to approve');
+                                      }
+                                    } catch (e) {
+                                      toast.error('Failed to approve');
+                                    }
+                                  }}
+                                >
+                                  Approve
+                                </Button>
+                                <Button
+                                  size="sm"
+                                  variant="destructive"
+                                  onClick={async () => {
+                                    try {
+                                      const res = await fetch(`/api/projects/requisitions/${row.original.id}/status`, {
+                                        method: 'PUT',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({ status: 'rejected' })
+                                      });
+                                      if (res.ok) {
+                                        toast.success('Requisition rejected');
+                                        window.location.reload();
+                                      } else {
+                                        toast.error('Failed to reject');
+                                      }
+                                    } catch (e) {
+                                      toast.error('Failed to reject');
+                                    }
+                                  }}
+                                >
+                                  Reject
+                                </Button>
+                              </div>
+                            )}
+                          </div>
+                        )}
                         <DropdownMenuItem asChild>
                           {userRole === "admin" ? (
                             <div className="px-6 py-4 text-right flex  gap-2 items-center">

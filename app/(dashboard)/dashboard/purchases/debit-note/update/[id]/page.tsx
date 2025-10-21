@@ -4,11 +4,11 @@ import UpdateForm from "../../_components/UpdateForm";
 import { getData } from "@/lib/apiResponse";
 
 //@ts-ignore
-async function UpdatePurchase({ params: { id } }) {
-  const data = await getData(`purchases/${id}`);
+async function UpdateDebitNote({ params: { id } }) {
+  const data = await getData(`debitnote/${id}`);
   return (
     <div className="">
-      <NewHeader title="Update Purchase" link="sales/purchases" />
+      <NewHeader title="Update Debit Note" link="purchases/debit-note" />
       <div className="">
         <UpdateForm initialData={data} />
       </div>
@@ -16,4 +16,4 @@ async function UpdatePurchase({ params: { id } }) {
   );
 }
 
-export default UpdatePurchase;
+export default UpdateDebitNote;

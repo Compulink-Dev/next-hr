@@ -1,10 +1,15 @@
 import db from "@/lib/db";
 import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/authOptions";
 
 //@ts-ignore
 export async function GET(request: Request, { params: { id } }) {
     try {
-
+        const session = await getServerSession(authOptions);
+        if (!session || (session.user?.role !== "admin" && session.user?.role !== "hr")) {
+            return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+        }
         const employee = await db.employee.findUnique({
             where: {
                 id
@@ -26,6 +31,10 @@ export async function GET(request: Request, { params: { id } }) {
 //@ts-ignore
 export async function PUT(request: Request, { params: { id } }) {
     try {
+        const session = await getServerSession(authOptions);
+        if (!session || session.user?.role !== "admin") {
+            return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+        }
         const data = await request.json()
         const employee = await db.employee.update({
             where: {
@@ -58,6 +67,10 @@ export async function PUT(request: Request, { params: { id } }) {
 
 export async function DELETE(req: Request, { params }: { params: { id: string } }) {
     try {
+        const session = await getServerSession(authOptions);
+        if (!session || session.user?.role !== "admin") {
+            return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+        }
         await db.employee.delete({
             where: {
                 id: params.id

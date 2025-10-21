@@ -19,7 +19,7 @@ model Category {
   description String?
   Item        Item[]
   createdAt   DateTime @default(now())
-  updateAt    DateTime @updatedAt
+  updatedAt   DateTime @updatedAt
 }
 
 model Unit {
@@ -28,7 +28,7 @@ model Unit {
   abbreviation String
   Item         Item[]
   createdAt    DateTime @default(now())
-  updateAt     DateTime @updatedAt
+  updatedAt    DateTime @updatedAt
 }
 
 model Brand {
@@ -36,7 +36,7 @@ model Brand {
   name      String
   Item      Item[]
   createdAt DateTime @default(now())
-  updateAt  DateTime @updatedAt
+  updatedAt DateTime @updatedAt
 }
 
 model Warehouse {
@@ -46,7 +46,7 @@ model Warehouse {
   description   String?
   warehouseType String
   createdAt     DateTime @default(now())
-  updateAt      DateTime @updatedAt
+  updatedAt     DateTime @updatedAt
   stockQty      Int      @default(0)
   Item          Item[]
 }
@@ -64,7 +64,7 @@ model Supplier {
   notes              String?
   Item               Item[]
   createdAt          DateTime             @default(now())
-  updateAt           DateTime             @updatedAt
+  updatedAt          DateTime             @updatedAt
   AddStockAdjustment AddStockAdjustment[]
 }
 
@@ -77,7 +77,7 @@ model Customer {
   company        String?
   notes          String?
   createdAt      DateTime         @default(now())
-  updateAt       DateTime         @updatedAt
+  updatedAt      DateTime         @updatedAt
   JobCard        JobCard[]
   SalesReport    SalesReport[]
   ProjectsReport ProjectsReport[]
@@ -94,21 +94,21 @@ model SalesOrder {
   vat         Float?
   total       Float
   createdAt   DateTime @default(now())
-  updateAt    DateTime @updatedAt
+  updatedAt   DateTime @updatedAt
 }
 
 model Shipment {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String
   createdAt DateTime @default(now())
-  updateAt  DateTime @updatedAt
+  updatedAt DateTime @updatedAt
 }
 
 model SalesInvoice {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String
   createdAt DateTime @default(now())
-  updateAt  DateTime @updatedAt
+  updatedAt DateTime @updatedAt
 }
 
 model Payments {
@@ -116,7 +116,7 @@ model Payments {
   name           String
   price          Float
   createdAt      DateTime         @default(now())
-  updateAt       DateTime         @updatedAt
+  updatedAt      DateTime         @updatedAt
   PaymentsReport PaymentsReport[]
 }
 
@@ -124,14 +124,14 @@ model CreditNotes {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String
   createdAt DateTime @default(now())
-  updateAt  DateTime @updatedAt
+  updatedAt DateTime @updatedAt
 }
 
 model DebitNotes {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String
   createdAt DateTime @default(now())
-  updateAt  DateTime @updatedAt
+  updatedAt DateTime @updatedAt
 }
 
 model PurchaseOrder {
@@ -145,43 +145,56 @@ model PurchaseOrder {
   vat         Float
   total       Float
   createdAt   DateTime @default(now())
-  updateAt    DateTime @updatedAt
+  updatedAt   DateTime @updatedAt
 }
 
 model User {
-  id             String           @id @default(auto()) @map("_id") @db.ObjectId
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
   name           String?
-  email          String?          @unique
+  email          String?   @unique
   emailVerified  DateTime?
   image          String?
   hashedPassword String?
   role           String?
-  createdAt      DateTime         @default(now())
-  updateAt       DateTime         @updatedAt
-  userId         String?          @db.ObjectId
-  Loans          Loans[]
-  Reports        Reports[]
-  Leave          Leave[]
-  Payslip        Payslip[]
-  Employee       Employee[]
-  FleetInvoice   FleetInvoice[]
-  Vehicle        Vehicle[]
-  Driver         Driver[]
-  JobCard        JobCard[]
-  SalesReport    SalesReport[]
-  PurchaseReport PurchaseReport[]
-  FleetReport    FleetReport[]
-  HrReport       HrReport[]
-  ProjectsReport ProjectsReport[]
-  Interview      Interview[]
-  Log            Log[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  userId         String?   @db.ObjectId
+
+  // Relations
+  companies                 Company[]
+  leads                     Lead[]
+  Loans                     Loans[]
+  Reports                   Reports[]
+  Leave                     Leave[]
+  Payslip                   Payslip[]
+  Employee                  Employee[]
+  FleetInvoice              FleetInvoice[]
+  Vehicle                   Vehicle[]
+  Driver                    Driver[]
+  JobCard                   JobCard[]
+  SalesReport               SalesReport[]
+  PurchaseReport            PurchaseReport[]
+  FleetReport               FleetReport[]
+  HrReport                  HrReport[]
+  ProjectsReport            ProjectsReport[]
+  Interview                 Interview[]
+  Log                       Log[]
+  createdInterviewAccesses  InterviewAccess[] @relation("InterviewAccessCreator")
+  assignedInterviewAccesses InterviewAccess[] @relation("InterviewAccessAssignee")
+  Review                    Review[]
+  Document                  Document[]
+  Deal                      Deal[]
+  Campaign                  Campaign[]
+  Task                      Task[]
+  requisitionsRequested     Requisition[]     @relation("RequisitionRequester")
+  requisitionsApproved      Requisition[]     @relation("RequisitionApprover")
 }
 
 model Purchase {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String
   createdAt DateTime @default(now())
-  updateAt  DateTime @updatedAt
+  updatedAt DateTime @updatedAt
 }
 
 model Reports {
@@ -190,7 +203,7 @@ model Reports {
   userId    String   @db.ObjectId
   user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
-  updateAt  DateTime @updatedAt
+  updatedAt DateTime @updatedAt
 }
 
 model Loans {
@@ -209,7 +222,7 @@ model Loans {
   userId      String     @db.ObjectId
   user        User       @relation(fields: [userId], references: [id])
   createdAt   DateTime   @default(now())
-  updateAt    DateTime   @updatedAt
+  updatedAt   DateTime   @updatedAt
   HRReport    HrReport[]
 }
 
@@ -228,7 +241,7 @@ model Leave {
   userId     String     @db.ObjectId
   user       User       @relation(fields: [userId], references: [id])
   createdAt  DateTime   @default(now())
-  updateAt   DateTime   @updatedAt
+  updatedAt  DateTime   @updatedAt
   HRReport   HrReport[]
 }
 
@@ -242,7 +255,7 @@ model Payslip {
   userId     String   @db.ObjectId
   user       User     @relation(fields: [userId], references: [id])
   createdAt  DateTime @default(now())
-  updateAt   DateTime @updatedAt
+  updatedAt  DateTime @updatedAt
 }
 
 model Employee {
@@ -259,7 +272,7 @@ model Employee {
   userId        String          @db.ObjectId
   user          User            @relation(fields: [userId], references: [id])
   createdAt     DateTime        @default(now())
-  updateAt      DateTime        @updatedAt
+  updatedAt     DateTime        @updatedAt
 }
 
 model FleetInvoice {
@@ -302,11 +315,11 @@ model Vehicle {
   vehicleLicense  String
   mileage         Float
   status          String
-  transitStart    DateTime? // Nullable, only set when "In Transit"
-  transitEnd      DateTime? // Nullable, set when returning to "Available"
-  transitDuration Int? // Nullable, store in minutes or seconds
+  transitStart    DateTime?
+  transitEnd      DateTime?
+  transitDuration Int?
   createdAt       DateTime       @default(now())
-  updateAt        DateTime       @updatedAt
+  updatedAt       DateTime       @updatedAt
   userId          String?        @db.ObjectId
   user            User?          @relation(fields: [userId], references: [id])
   Driver          Driver[]
@@ -326,7 +339,7 @@ model Driver {
   userId        String?  @db.ObjectId
   user          User?    @relation(fields: [userId], references: [id])
   createdAt     DateTime @default(now())
-  updateAt      DateTime @updatedAt
+  updatedAt     DateTime @updatedAt
 }
 
 model Integration {
@@ -336,17 +349,27 @@ model Integration {
   attachment String
   category   String
   createdAt  DateTime @default(now())
-  updateAt   DateTime @updatedAt
+  updatedAt  DateTime @updatedAt
+}
+
+enum Visibility {
+  private
+  shared
+  org
 }
 
 model Document {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  id         String     @id @default(auto()) @map("_id") @db.ObjectId
   name       String
   subTitle   String
   attachment String
   category   String
-  createdAt  DateTime @default(now())
-  updateAt   DateTime @updatedAt
+  visibility Visibility @default(private)
+  sharedWith String[]
+  userId     String     @db.ObjectId
+  user       User       @relation(fields: [userId], references: [id])
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
 }
 
 model Item {
@@ -379,7 +402,7 @@ model Item {
   TransferStockAdjustment TransferStockAdjustment[]
   AddStockAdjustment      AddStockAdjustment[]
   createdAt               DateTime                  @default(now())
-  updateAt                DateTime                  @updatedAt
+  updatedAt               DateTime                  @updatedAt
   SalesReport             SalesReport[]
   PaymentsReport          PaymentsReport[]
 }
@@ -396,7 +419,7 @@ model AddStockAdjustment {
   item                 Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
   itemId               String   @db.ObjectId
   createdAt            DateTime @default(now())
-  updateAt             DateTime @updatedAt
+  updatedAt            DateTime @updatedAt
 }
 
 model TransferStockAdjustment {
@@ -410,7 +433,7 @@ model TransferStockAdjustment {
   receivingWarehouseId String   @db.ObjectId
   notes                String?
   createdAt            DateTime @default(now())
-  updateAt             DateTime @updatedAt
+  updatedAt            DateTime @updatedAt
 }
 
 model JobCard {
@@ -429,7 +452,7 @@ model JobCard {
   userId        String   @db.ObjectId
   user          User     @relation(fields: [userId], references: [id])
   createdAt     DateTime @default(now())
-  updateAt      DateTime @updatedAt
+  updatedAt     DateTime @updatedAt
 }
 
 model Certification {
@@ -447,26 +470,55 @@ model Certification {
   attachment  String?
   status      String?
   createdAt   DateTime  @default(now())
-  updateAt    DateTime  @updatedAt
+  updatedAt   DateTime  @updatedAt
 }
 
 model Interview {
-  id            String   @id @default(auto()) @map("_id") @db.ObjectId
-  name          String
-  post          String?
-  qualification String
-  training      String
-  experience    String
-  details       String
-  knowledge     String
-  attributes    String
-  packages      String
-  rating        Int
-  comment       String
-  userId        String   @db.ObjectId
-  user          User     @relation(fields: [userId], references: [id])
-  createdAt     DateTime @default(now())
-  updateAt      DateTime @updatedAt
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  name              String
+  post              String?
+  qualification     String?
+  training          String?
+  experience        String?
+  details           String?
+  knowledge         String?
+  attributes        String?
+  packages          String?
+  rating            Int?
+  comment           String?
+  userId            String   @db.ObjectId
+  user              User     @relation(fields: [userId], references: [id])
+  Review            Review[]
+  assignedPanelists String[]
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model Review {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  interviewId String    @db.ObjectId
+  interview   Interview @relation(fields: [interviewId], references: [id])
+  panelistId  String    @db.ObjectId
+  panelist    User      @relation(fields: [panelistId], references: [id])
+  rating      Int
+  comment     String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model InterviewAccess {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  code         String   @unique
+  createdById  String   @db.ObjectId
+  createdBy    User     @relation(name: "InterviewAccessCreator", fields: [createdById], references: [id])
+  assignedTo   User?    @relation(name: "InterviewAccessAssignee", fields: [assignedToId], references: [id])
+  assignedToId String?  @db.ObjectId
+  expiresAt    DateTime
+  used         Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([createdById])
 }
 
 model Training {
@@ -484,7 +536,7 @@ model Training {
   attachment  String?
   status      String?
   createdAt   DateTime  @default(now())
-  updateAt    DateTime  @updatedAt
+  updatedAt   DateTime  @updatedAt
 }
 
 model SalesReport {
@@ -503,7 +555,134 @@ model SalesReport {
   userId      String    @db.ObjectId
   user        User      @relation(fields: [userId], references: [id])
   createdAt   DateTime  @default(now())
-  updateAt    DateTime  @updatedAt
+  updatedAt   DateTime  @updatedAt
+}
+
+// Sales CRM enums
+enum LeadStatus {
+  new
+  contacted
+  qualified
+  unqualified
+  converted
+}
+
+enum DealStatus {
+  open
+  won
+  lost
+}
+
+enum TaskStatus {
+  open
+  in_progress
+  done
+}
+
+enum EntityType {
+  company
+  lead
+  deal
+  campaign
+}
+
+// Sales CRM models
+model Company {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  website     String?
+  email       String?
+  phone       String?
+  address     String?
+  description String?
+  ownerId     String?  @db.ObjectId
+  owner       User?    @relation(fields: [ownerId], references: [id])
+  leads       Lead[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  Deal        Deal[]
+}
+
+model PipelineStage {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  name  String
+  order Int
+  Deal  Deal[]
+}
+
+model Lead {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String?
+  phone     String?
+  source    String?
+  status    LeadStatus @default(new)
+  companyId String?    @db.ObjectId
+  company   Company?   @relation(fields: [companyId], references: [id])
+  ownerId   String?    @db.ObjectId
+  owner     User?      @relation(fields: [ownerId], references: [id])
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  Deal      Deal[]
+}
+
+model Deal {
+  id          String         @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  amount      Float
+  status      DealStatus     @default(open)
+  probability Int?
+  closeDate   String?
+  stageId     String?        @db.ObjectId
+  stage       PipelineStage? @relation(fields: [stageId], references: [id])
+  companyId   String?        @db.ObjectId
+  company     Company?       @relation(fields: [companyId], references: [id])
+  leadId      String?        @db.ObjectId
+  lead        Lead?          @relation(fields: [leadId], references: [id])
+  ownerId     String?        @db.ObjectId
+  owner       User?          @relation(fields: [ownerId], references: [id])
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+}
+
+model Campaign {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  type      String?
+  channel   String?
+  status    String   @default("active")
+  startDate String?
+  endDate   String?
+  budget    Float?
+  ownerId   String?  @db.ObjectId
+  owner     User?    @relation(fields: [ownerId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Task {
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String?
+  dueDate     String?
+  status      TaskStatus @default(open)
+  entityType  EntityType
+  entityId    String
+  ownerId     String?    @db.ObjectId
+  owner       User?      @relation(fields: [ownerId], references: [id])
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model AnalyticsEvent {
+  id         String     @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  metric     String
+  value      Float
+  entityType EntityType
+  entityId   String
+  context    String?
+  createdAt  DateTime   @default(now())
 }
 
 model PurchaseReport {
@@ -521,7 +700,7 @@ model PurchaseReport {
   userId      String   @db.ObjectId
   user        User     @relation(fields: [userId], references: [id])
   createdAt   DateTime @default(now())
-  updateAt    DateTime @updatedAt
+  updatedAt   DateTime @updatedAt
 }
 
 model FleetReport {
@@ -535,7 +714,7 @@ model FleetReport {
   vehicleId   String?  @db.ObjectId
   vehicle     Vehicle? @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
   createdAt   DateTime @default(now())
-  updateAt    DateTime @updatedAt
+  updatedAt   DateTime @updatedAt
 }
 
 model HrReport {
@@ -549,7 +728,7 @@ model HrReport {
   userId    String   @db.ObjectId
   user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
-  updateAt  DateTime @updatedAt
+  updatedAt DateTime @updatedAt
 }
 
 model PaymentsReport {
@@ -561,7 +740,7 @@ model PaymentsReport {
   paymentId String?   @db.ObjectId
   payment   Payments? @relation(fields: [paymentId], references: [id], onDelete: Cascade)
   createdAt DateTime  @default(now())
-  updateAt  DateTime  @updatedAt
+  updatedAt DateTime  @updatedAt
 }
 
 model ProjectsReport {
@@ -577,7 +756,23 @@ model ProjectsReport {
   userId      String    @db.ObjectId
   user        User      @relation(fields: [userId], references: [id])
   createdAt   DateTime  @default(now())
-  updateAt    DateTime  @updatedAt
+  updatedAt   DateTime  @updatedAt
+}
+
+model Requisition {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  purpose     String
+  amount      Float
+  status      String   @default("pending")
+  attachment  String?
+  projectId   String?  @db.ObjectId
+  requestedBy String   @db.ObjectId
+  requester   User     @relation(name: "RequisitionRequester", fields: [requestedBy], references: [id])
+  approvedBy  String?  @db.ObjectId
+  approver    User?    @relation(name: "RequisitionApprover", fields: [approvedBy], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Tracking {

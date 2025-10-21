@@ -1,18 +1,20 @@
+// app/(dashboard)/hr/employees/page.tsx
 export const dynamic = "force-dynamic";
 import React from "react";
-import { getData } from "@/lib/apiResponse";
+import { getDataWithStatus } from "@/lib/apiResponse";
 import FixedHeader from "@/app/(dashboard)/_components/fixedHeader";
 import DataTable from "@/app/(dashboard)/_components/DataTable";
+import Forbidden from "@/components/Forbidden";
 
 async function Employee() {
-  const employee = await getData("employees");
+  const { data: employee, status } = await getDataWithStatus("employees");
 
   const data = Array.isArray(employee)
     ? employee.map((obj: any) => {
         return {
           id: obj.id,
-          name: obj.name,
-          email: obj.email,
+          name: obj.user?.name || obj.name, // Use user name if available
+          email: obj.user?.email || obj.email, // Use user email if available
           phone: obj.phone,
           address: obj.address,
           title: obj.title,
@@ -33,6 +35,14 @@ async function Employee() {
     "status",
     "createdAt",
   ];
+
+  if (status === 401 || status === 403) {
+    return (
+      <div className="p-6">
+        <Forbidden message="You don't have permission to view Employees." />
+      </div>
+    );
+  }
 
   return (
     <div>

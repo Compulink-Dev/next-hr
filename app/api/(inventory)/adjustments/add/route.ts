@@ -1,7 +1,8 @@
 export const dynamic = "force-dynamic";
 import db from "@/lib/db";
 import { NextResponse } from "next/server";
-import { parse } from "path";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 
 export async function POST(request: Request) {
     try {
@@ -57,6 +58,30 @@ export async function POST(request: Request) {
 
             }
         })
+
+        // Auto-create a PurchaseReport entry (used here as stock movement log)
+        try {
+            const session = await getServerSession(authOptions);
+            const userId = (session as any)?.user?.id as string | undefined;
+            const quantity = parseInt(data.addStockQty);
+            const description = `Add ${quantity} of ${itemToUpdate?.name ?? 'item'} to ${warehouse?.name ?? 'warehouse'} (ref ${data.referenceNumber})`;
+            if (userId) {
+                await db.purchaseReport.create({
+                    data: {
+                        name: 'Stock Addition',
+                        date: new Date().toISOString(),
+                        quantity,
+                        price: 0,
+                        description,
+                        technician: (session as any)?.user?.name ?? 'system',
+                        paymentType: 'N/A',
+                        userId,
+                    }
+                });
+            }
+        } catch (e) {
+            console.error('Failed to create PurchaseReport for stock addition:', e);
+        }
 
         return NextResponse.json(adjustment)
     } catch (error) {

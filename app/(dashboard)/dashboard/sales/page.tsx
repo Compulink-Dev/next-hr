@@ -23,23 +23,79 @@ function DashInventory() {
   const optionCards = [
     {
       title: "Customers",
-      description: "Create standalone items and services that you buy and sell",
+      description: "Manage your customer contacts",
       link: "/customers",
       linkTitle: "New Customer",
       enabled: true,
       icon: CircleUserRound,
     },
     {
+      title: "Companies",
+      description: "Accounts/organizations you work with",
+      link: "/companies",
+      linkTitle: "New Company",
+      enabled: true,
+      icon: Component,
+    },
+    {
+      title: "Leads",
+      description: "Capture and qualify potential customers",
+      link: "/leads",
+      linkTitle: "New Lead",
+      enabled: true,
+      icon: User,
+    },
+    {
+      title: "Deals",
+      description: "Track opportunities and outcomes",
+      link: "/deals",
+      linkTitle: "New Deal",
+      enabled: true,
+      icon: BadgeDollarSign,
+    },
+    {
+      title: "Pipeline",
+      description: "Configure pipeline stages",
+      link: "/pipeline",
+      linkTitle: "New Stage",
+      enabled: true,
+      icon: List,
+    },
+    {
+      title: "Campaigns",
+      description: "Run and track campaigns",
+      link: "/campaigns",
+      linkTitle: "New Campaign",
+      enabled: true,
+      icon: Notebook,
+    },
+    {
+      title: "Tasks",
+      description: "Plan and execute activities",
+      link: "/tasks",
+      linkTitle: "New Task",
+      enabled: true,
+      icon: StickyNote,
+    },
+    {
+      title: "Analytics",
+      description: "Sales insights and metrics",
+      link: "/analytics",
+      linkTitle: "New Event",
+      enabled: true,
+      icon: Cog,
+    },
+    {
       title: "Sales order",
-      description: "Create standalone items and services that you buy and sell",
-      link: "/salesorder",
+      description: "Create sales orders",
+      link: "/sales-order",
       linkTitle: "New Order",
       enabled: true,
       icon: BadgeDollarSign,
     },
     {
       title: "Invoices",
-      description: "Create standalone items and services that you buy and sell",
+      description: "Create and manage invoices",
       link: "/invoices",
       linkTitle: "New Invoice",
       enabled: true,
@@ -47,8 +103,8 @@ function DashInventory() {
     },
     {
       title: "Credit Note",
-      description: "Create standalone items and services that you buy and sell",
-      link: "/creditnote",
+      description: "Issue credit notes",
+      link: "/credit-note",
       linkTitle: "New Credit Note",
       enabled: true,
       icon: StickyNote,
@@ -57,7 +113,7 @@ function DashInventory() {
 
   return (
     <div className="">
-      <FixedHeader link={"/admin/sales/items/new"} title="New Item" />
+      <FixedHeader link={"/dashboard/sales/invoices/new"} title="Sales" />
       <div className="p-8 grid grid-col-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {optionCards.map((card, i) => (
           <OptionCard key={i} optionData={card} />

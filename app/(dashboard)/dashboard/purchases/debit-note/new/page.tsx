@@ -2,10 +2,10 @@ import NewHeader from "@/app/(dashboard)/_components/newHeader";
 import React from "react";
 import Form from "../_components/Form";
 
-function NewCustomer() {
+function NewDebitNote() {
   return (
     <div className="">
-      <NewHeader title="New Debit Order" link="purchases/debit-note" />
+      <NewHeader title="New Debit Note" link="purchases/debit-note" />
       <div className="">
         <Form />
       </div>
@@ -13,4 +13,4 @@ function NewCustomer() {
   );
 }
 
-export default NewCustomer;
+export default NewDebitNote;

@@ -16,8 +16,6 @@ function Form() {
 
   const userName = session?.user?.name || "name";
 
-  console.log("Username :", userName);
-
   const {
     register,
     handleSubmit,

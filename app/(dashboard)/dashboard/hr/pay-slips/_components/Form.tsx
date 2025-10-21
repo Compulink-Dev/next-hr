@@ -8,10 +8,16 @@ import { useRouter } from "next/navigation";
 import ImageInput from "@/app/(dashboard)/_components/UploadThing";
 import { useSession } from "next-auth/react";
 
+interface User {
+  id: string;
+  name: string;
+  role?: string;
+}
+
 function Form() {
   const { data: session } = useSession();
 
-  // const userName = session?.user?.name || 'name'
+  console.log("");
 
   const {
     register,
@@ -19,25 +25,32 @@ function Form() {
     reset,
     formState: { errors },
   } = useForm();
-
   const [attachment, setAttachment] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const [users, setUsers] = useState<{ id: string; name: string }[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
 
-  // Fetch users from the backend
+  // Fetch users from the backend, excluding admin and HR roles
   useEffect(() => {
     async function fetchUsers() {
       try {
-        const response = await fetch("/api/user"); // Adjust API endpoint as needed
+        const response = await fetch("/api/user");
         if (response.ok) {
-          const usersData = await response.json();
-          setUsers(usersData);
+          const usersData: User[] = await response.json();
+
+          console.log(usersData);
+
+          // Filter out users with admin or HR roles
+          const filteredUsers = usersData.filter(
+            (user) => user.role !== "admin" && user.role !== "hr"
+          );
+          setUsers(filteredUsers);
         } else {
           toast.error("Failed to fetch users");
         }
       } catch (error) {
         console.error("Error fetching users:", error);
+        toast.error("Error fetching users");
       }
     }
 
@@ -45,30 +58,25 @@ function Form() {
   }, []);
 
   async function onSubmit(data: any) {
-    console.log("Submitted Data Before Assignment:", data); // Log raw data from the form
-
     if (!data.userId) {
       toast.error("Please select a user");
       return;
     }
 
-    const selectedUser = users.find((user) => user.id === data.userId); // Find the selected user object
-
+    const selectedUser = users.find((user) => user.id === data.userId);
     if (!selectedUser) {
       toast.error("Selected user not found");
       return;
     }
 
-    // Attach user name and attachment to the data object
     const updatedData = {
       ...data,
-      name: selectedUser.name, // Assign the selected user's name
-      attachment, // Add attachment to the payload
+      name: selectedUser.name,
+      attachment,
     };
 
     setLoading(true);
     try {
-      console.log(data);
       const response = await fetch("/api/payslip", {
         method: "POST",
         headers: {
@@ -77,15 +85,16 @@ function Form() {
         body: JSON.stringify(updatedData),
       });
       if (response.ok) {
-        console.log(response);
-        toast.success("Slip created successfully");
+        toast.success("Payslip created successfully");
         reset();
-        setLoading(false);
-        router.push("/admin/hr/pay-slips");
+        router.push("/dashboard/hr/pay-slips");
+      } else {
+        toast.error("Failed to create payslip");
       }
     } catch (error) {
-      toast.error("Slip failed to create");
-      console.log(error);
+      toast.error("Payslip failed to create");
+      console.error(error);
+    } finally {
       setLoading(false);
     }
   }
@@ -137,7 +146,7 @@ function Form() {
               imageUrl={attachment}
             />
           </div>
-          <SubmitButton isLoading={loading} title="Payslip" />
+          <SubmitButton isLoading={loading} title="Create Payslip" />
         </form>
       </div>
     </section>

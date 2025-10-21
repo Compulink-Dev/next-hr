@@ -1,34 +1,53 @@
 import toast from "react-hot-toast";
 
+export async function makeApiRequest(
+  setLoading: (loading: boolean) => void,
+  url: string,
+  data: any = {},
+  resourceName: string,
+  reset: () => void,
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'POST'
+) {
+  try {
+    setLoading(true);
+    const options: RequestInit = {
+      method,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
 
-
-//@ts-ignore
-export async function makeApiRequest(setLoading, url, data, resourceName, reset) {
-
-    try {
-        console.log(data);
-        setLoading(true)
-        const response = await fetch(`${process.env.URL}/api/${url}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-        if (response.ok) {
-            console.log(response);
-            toast.success(`${resourceName} created successfully`)
-            reset()
-            setLoading(false)
-        }
-        else {
-            setLoading(false)
-            toast.error('Something went wrong')
-        }
-    } catch (error) {
-        console.log(error);
-        setLoading(false)
-        toast.error('Something went wrong')
+    // Only add body for non-GET requests
+    if (method !== 'GET') {
+      options.body = JSON.stringify(data);
     }
-}
 
+    const response = await fetch(`/api/${url}`, options);
+
+    if (!response.ok) {
+      if (response.status === 401) {
+        toast.error('Unauthorized. Please sign in.');
+      } else if (response.status === 403) {
+        toast.error('Forbidden. You do not have permission to perform this action.');
+      } else {
+        toast.error('Request failed');
+      }
+      throw new Error('Request failed');
+    }
+
+    const responseData = await response.json();
+    
+    if (method !== 'GET') {
+      toast.success(`${resourceName} updated successfully`);
+      reset();
+    }
+
+    return responseData; // Return the response data
+  } catch (error) {
+    console.log(error);
+    toast.error('Something went wrong');
+    throw error; // Re-throw the error for handling in the calling function
+  } finally {
+    setLoading(false);
+  }
+}

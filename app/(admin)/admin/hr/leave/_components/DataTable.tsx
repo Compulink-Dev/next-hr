@@ -1,13 +1,28 @@
 "use client";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
+import DeleteButton from "../../../inventory/adjustments/_components/DeleteButton";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { formatDate } from "@/lib/utils";
+import ViewButton from "@/components/ViewButton";
 import EditButton from "@/components/EditButton";
-import DeleteButton from "@/components/DeleteButton";
+import DownloadButton from "./DownloadButton";
+import StatusUpdateButton from "./StatusUpdateButton";
 
 function DataTable({ data = [], columns = [], updateLink, resourceName }: any) {
   const { data: session } = useSession();
   const userRole = session?.user?.role;
+  const [selectedItem, setSelectedItem] = useState<any>(null);
 
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -20,6 +35,9 @@ function DataTable({ data = [], columns = [], updateLink, resourceName }: any) {
                   {item}
                 </th>
               ))}
+              <th scope="col" className="px-6 py-3">
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -45,31 +63,115 @@ function DataTable({ data = [], columns = [], updateLink, resourceName }: any) {
                         className="w-10 h-10 object-cover rounded-full"
                       />
                     ) : columnName === "createdAt" ||
-                      columnName === "updatedAt" ? (
-                      new Date(item[columnName]).toLocaleDateString()
+                      columnName === "updatedAt" ||
+                      columnName === "to" ||
+                      columnName === "from" ? (
+                      formatDate(item[columnName])
                     ) : (
                       item[columnName]
                     )}
                   </td>
                 ))}
                 <td className="px-6 py-4 text-right flex gap-2 items-center">
-                  {userRole === "admin" ? (
+                  {/* HR Actions */}
+                  {userRole === "admin" && (
                     <>
-                      <Link href={`/admin/${updateLink}/update/${item.id}`}>
-                        <EditButton />
+                      <Link href={`/admin/${updateLink}/view/${item.id}`}>
+                        <ViewButton />
                       </Link>
-                      <DeleteButton id={item.id} endpoint={"leave"} />
+                      <StatusUpdateButton
+                        id={item.id}
+                        currentStatus={item.status}
+                        endpoint={`${resourceName}`}
+                      />
+                      {item.attachment !== "No-file" && (
+                        <a href={item.attachment} download>
+                          <DownloadButton />
+                        </a>
+                      )}
                     </>
-                  ) : item.attachment !== "No-file" ? (
-                    <a
-                      href={item.attachment}
-                      download
-                      className="text-blue-600 hover:text-blue-400"
-                    >
-                      Download
-                    </a>
-                  ) : (
-                    <span>{item.attachment}</span>
+                  )}
+
+                  {/* User Actions */}
+                  {userRole === "user" && (
+                    <>
+                      {item.status === "pending" ? (
+                        <>
+                          <Link href={`/admin/${updateLink}/update/${item.id}`}>
+                            <EditButton />
+                          </Link>
+                          <DeleteButton id={item.id} endpoint={resourceName} />
+                        </>
+                      ) : (
+                        <>
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <div onClick={() => setSelectedItem(item)}>
+                                <ViewButton />
+                              </div>
+                            </DialogTrigger>
+                            <DialogContent className="sm:max-w-[600px]">
+                              <DialogHeader>
+                                <DialogTitle>Leave Information</DialogTitle>
+                                <DialogDescription>
+                                  Detailed information about your leave request.
+                                </DialogDescription>
+                              </DialogHeader>
+                              <div className="grid gap-4 py-4">
+                                <p>
+                                  <strong>Type:</strong> {selectedItem?.type}
+                                </p>
+                                <p>
+                                  <strong>Status:</strong>{" "}
+                                  <span
+                                    className={`${
+                                      selectedItem?.status === "approved"
+                                        ? "text-green-500"
+                                        : selectedItem?.status === "rejected"
+                                        ? "text-red-500"
+                                        : "text-yellow-500"
+                                    }`}
+                                  >
+                                    {selectedItem?.status}
+                                  </span>
+                                </p>
+                                <p>
+                                  <strong>Start Date:</strong>{" "}
+                                  app/(dashboard)/dashboard/hr/leave/view
+                                  {formatDate(selectedItem?.from)}
+                                </p>
+                                <p>
+                                  <strong>End Date:</strong>{" "}
+                                  {formatDate(selectedItem?.to)}
+                                </p>
+                                <p>
+                                  <strong>Duration:</strong>{" "}
+                                  {selectedItem?.duration}
+                                </p>
+                                <p>
+                                  <strong>Reason:</strong>{" "}
+                                  {selectedItem?.reason || "Not provided"}
+                                </p>
+                              </div>
+                              <DialogFooter>
+                                <Button variant="secondary">Close</Button>
+                              </DialogFooter>
+                            </DialogContent>
+                          </Dialog>
+                          {item.status === "rejected" && (
+                            <DeleteButton
+                              id={item.id}
+                              endpoint={resourceName}
+                            />
+                          )}
+                        </>
+                      )}
+                      {item.attachment !== "No-file" && (
+                        <a href={item.attachment} download>
+                          <DownloadButton />
+                        </a>
+                      )}
+                    </>
                   )}
                 </td>
               </tr>

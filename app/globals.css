@@ -105,3 +105,11 @@
     @apply bg-background text-foreground;
   }
 }
+
+.button{
+  @apply bg-blue-600 
+}
+
+.button:hover{
+  @apply hover:bg-blue-800
+}

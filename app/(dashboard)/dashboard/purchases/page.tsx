@@ -33,7 +33,7 @@ function DashInventory() {
     {
       title: "Purchase order",
       description: "Create standalone items and services that you buy and sell",
-      link: "/purchaseorder",
+      link: "/purchase-order",
       linkTitle: "New Order",
       enabled: true,
       icon: BadgeDollarSign,
@@ -58,7 +58,7 @@ function DashInventory() {
 
   return (
     <div className="">
-      <FixedHeader link={"/admin/purchases/debit-note/new"} title="Purchases" />
+      <FixedHeader link={"/dashboard/purchases/purchase-order/new"} title="Purchases" />
       <div className="p-8 grid grid-col-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {optionCards.map((card, i) => (
           <OptionCard key={i} optionData={card} />

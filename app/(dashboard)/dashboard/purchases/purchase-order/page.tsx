@@ -3,48 +3,50 @@ import React from "react";
 import { getData } from "@/lib/apiResponse";
 import FixedHeader from "@/app/(dashboard)/_components/fixedHeader";
 import DataTable from "@/app/(dashboard)/_components/DataTable";
-async function Customer() {
-  const customers = await getData("customers");
+async function PurchaseOrders() {
+  const orders = await getData("purchaseorder");
 
-  const data = customers.map((obj: any) => {
+  const data = (orders || []).map((obj: any) => {
     return {
       id: obj.id,
       name: obj.name,
-      phone: obj.phone,
-      email: obj.email,
-      address: obj.address,
-      company: obj.company,
-      notes: obj.notes,
+      quantity: obj.quantity,
+      unit: obj.unit,
+      price: obj.price,
+      discount: obj.discount,
+      vat: obj.vat,
+      total: obj.total,
       createdAt: obj.createdAt,
     };
   });
 
   const columns = [
     "name",
-    "phone",
-    "email",
-    "address",
-    "company",
-    "notes",
+    "quantity",
+    "unit",
+    "price",
+    "discount",
+    "vat",
+    "total",
     "createdAt",
   ];
 
   return (
     <div>
       <FixedHeader
-        link={"admin/purchases/purchase-order/new"}
-        title="Purchase Order"
+        link={"/dashboard/purchases/purchase-order/new"}
+        title="Purchase Orders"
       />
       <div className="p-4">
         <DataTable
           data={data}
           columns={columns}
-          updateLink="purchases/purchase-order"
-          resourceName="purchases"
+          updateLink="purchases/purchase-order/update"
+          resourceName="purchase orders"
         />
       </div>
     </div>
   );
 }
 
-export default Customer;
+export default PurchaseOrders;
