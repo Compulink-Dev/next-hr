@@ -1,3 +1,4 @@
+// app/(dashboard)/inventory/items/page.tsx
 export const dynamic = "force-dynamic";
 import React from "react";
 import { getData } from "@/lib/apiResponse";
@@ -6,12 +7,22 @@ import DataTable from "@/app/(dashboard)/_components/DataTable";
 
 async function Items() {
   try {
-    const items = await getData("items");
+    let items = [];
+    try {
+      items = await getData("items");
+    } catch (error) {
+      console.error("Failed to fetch items:", error);
+      items = [];
+    }
 
     if (!items || !Array.isArray(items)) {
-      // Handle the case where items are undefined, null, or not an array
       console.error("Items data is either undefined or not an array");
-      return <div className="p-4">No items available</div>;
+      return (
+        <div>
+          <FixedHeader link={"/inventory/items/new"} title="Items" />
+          <div className="p-4">No items available</div>
+        </div>
+      );
     }
 
     const data = items.map((obj: any) => {
@@ -35,8 +46,8 @@ async function Items() {
         dimensions: obj.dimensions,
         taxRate: obj.taxRate,
         notes: obj.notes,
-        categoryName: obj.category.name,
-        warehouse: obj.warehouse.name,
+        categoryName: obj.category?.name || "N/A",
+        warehouse: obj.warehouse?.name || "N/A",
       };
     });
 
@@ -44,27 +55,20 @@ async function Items() {
       "imageUrl",
       "name",
       "description",
-      "categoryId",
       "sku",
       "barcode",
       "quantity",
-      "unitId",
-      "brandId",
-      "supplierId",
-      "warehouseId",
       "sellingPrice",
       "buyingPrice",
       "reOrderPoint",
       "weight",
-      "dimensions",
       "taxRate",
-      "notes",
       "categoryName",
       "warehouse",
     ];
 
     return (
-      <div className="">
+      <div>
         <FixedHeader link={"/inventory/items/new"} title="Items" />
         <div className="p-4">
           <DataTable
@@ -78,7 +82,12 @@ async function Items() {
     );
   } catch (error) {
     console.error("Failed to fetch items:", error);
-    return <div>Failed to load items. Please try again later.</div>;
+    return (
+      <div>
+        <FixedHeader link={"/inventory/items/new"} title="Items" />
+        <div className="p-4">Failed to load items. Please try again later.</div>
+      </div>
+    );
   }
 }
 

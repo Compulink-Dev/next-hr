@@ -1,3 +1,4 @@
+// app/api/(projects)/requisitions/route.ts
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
@@ -19,13 +20,21 @@ export async function POST(request: Request) {
       );
     }
 
+    // Validate projectId if provided - it should be a valid ObjectID
+    if (projectId && !isValidObjectId(projectId)) {
+      return NextResponse.json(
+        { error: "Invalid project ID format" },
+        { status: 400 }
+      );
+    }
+
     const reqn = await db.requisition.create({
       data: {
         name,
         purpose,
         amount: parseFloat(amount),
         attachment: attachment ?? null,
-        projectId: projectId ?? null,
+        projectId: projectId && isValidObjectId(projectId) ? projectId : null,
         requestedBy: session.user.id,
       },
     });
@@ -38,6 +47,11 @@ export async function POST(request: Request) {
       { status: 500 }
     );
   }
+}
+
+// Helper function to validate MongoDB ObjectID
+function isValidObjectId(id: string): boolean {
+  return /^[0-9a-fA-F]{24}$/.test(id);
 }
 
 export async function GET() {
@@ -58,6 +72,9 @@ export async function GET() {
         approver: {
           select: { name: true, email: true },
         },
+        project: { // Include project details if needed
+          select: { name: true }
+        }
       },
       orderBy: { createdAt: "desc" },
     });

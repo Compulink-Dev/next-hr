@@ -8,7 +8,7 @@ import DataTable from "@/app/(dashboard)/_components/DataTable";
 async function Warehouse() {
   const warehouse = await getData("warehouse");
 
-  const data = warehouse.map((obj: any) => {
+  const data = (warehouse ?? []).map((obj: any) => {
     return {
       id: obj.id,
       name: obj.name,

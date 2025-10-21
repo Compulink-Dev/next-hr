@@ -7,7 +7,7 @@ import DataTable from "@/app/(dashboard)/_components/DataTable";
 async function Units() {
   const units = await getData("units");
 
-  const data = units.map((obj: any) => {
+  const data = (units ?? []).map((obj: any) => {
     return {
       id: obj.id,
       name: obj.name,
