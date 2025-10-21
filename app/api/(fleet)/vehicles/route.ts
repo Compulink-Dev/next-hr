@@ -1,5 +1,7 @@
 export const dynamic = "force-dynamic";
+import { authOptions } from "@/lib/authOptions";
 import db from "@/lib/db";
+import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
@@ -35,22 +37,28 @@ export async function POST(request: Request) {
   }
 }
 
-export async function GET(request: Request) {
+export async function GET() {
   try {
-    const vehicle = await db.vehicle.findMany({
-      orderBy: {
-        createdAt: "desc",
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const vehicles = await db.vehicle.findMany({
+      select: {
+        id: true,
+        name: true,
+        numberPlate: true,
+        // include other fields you need
       },
+      orderBy: { name: "asc" },
     });
 
-    return NextResponse.json(vehicle);
+    return NextResponse.json(vehicles);
   } catch (error) {
-    console.log(error);
+    console.error("Vehicles API error:", error);
     return NextResponse.json(
-      {
-        error,
-        message: "Failed to get vehicle",
-      },
+      { error: "Failed to fetch vehicles" },
       { status: 500 }
     );
   }

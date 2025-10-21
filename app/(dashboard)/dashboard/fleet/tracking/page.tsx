@@ -1,73 +1,62 @@
-"use client";
-import React, { useEffect, useMemo, useState } from "react";
+import React from "react";
 import Mapping from "./_components/Mapping";
 
 export const dynamic = "force-dynamic";
-export const revalidate = 0;
 
 type Vehicle = { id: string; name: string; numberPlate: string };
-
 type Track = { latitude: number; longitude: number; timestamp: string };
 
-export default function TrackingPage() {
-  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
-  const [vehicleId, setVehicleId] = useState<string>("");
-  const [tracks, setTracks] = useState<Track[]>([]);
-  const [loading, setLoading] = useState(false);
+async function getVehicles(): Promise<Vehicle[]> {
+  try {
+    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/vehicles`, {
+      cache: "no-store",
+    });
+    return res.json();
+  } catch (error) {
+    return [];
+  }
+}
 
-  useEffect(() => {
-    let abort = new AbortController();
-    async function loadVehicles() {
-      try {
-        const res = await fetch("/api/vehicles", { signal: abort.signal });
-        const data = await res.json();
-        setVehicles(data || []);
-        if (data?.length && !vehicleId) setVehicleId(data[0].id);
-      } catch (_) {}
-    }
-    loadVehicles();
-    return () => abort.abort();
-  }, []);
-
-  useEffect(() => {
-    if (!vehicleId) return;
-    let abort = new AbortController();
-    async function loadTracks() {
-      setLoading(true);
-      try {
-        const res = await fetch(`/api/tracking/${vehicleId}`, {
-          signal: abort.signal,
-        });
-        const data = await res.json();
-        setTracks(
-          (data || []).map((d: any) => ({
-            latitude: d.latitude,
-            longitude: d.longitude,
-            timestamp: d.timestamp,
-          }))
-        );
-      } catch (_) {
-        setTracks([]);
-      } finally {
-        setLoading(false);
+async function getTracks(vehicleId: string): Promise<Track[]> {
+  if (!vehicleId) return [];
+  try {
+    const res = await fetch(
+      `${process.env.NEXTAUTH_URL}/api/tracking/${vehicleId}`,
+      {
+        cache: "no-store",
       }
-    }
-    loadTracks();
-    return () => abort.abort();
-  }, [vehicleId]);
+    );
+    const data = await res.json();
+    return (data || []).map((d: any) => ({
+      latitude: d.latitude,
+      longitude: d.longitude,
+      timestamp: d.timestamp,
+    }));
+  } catch (error) {
+    return [];
+  }
+}
 
-  const points = useMemo(
-    () => tracks.map((t) => ({ latitude: t.latitude, longitude: t.longitude })),
-    [tracks]
-  );
+export default async function TrackingPage({
+  searchParams,
+}: {
+  searchParams: { vehicleId?: string };
+}) {
+  const vehicles = await getVehicles();
+  const defaultVehicleId = searchParams.vehicleId || vehicles[0]?.id;
+  const tracks = defaultVehicleId ? await getTracks(defaultVehicleId) : [];
+
+  const points = tracks.map((t) => ({
+    latitude: t.latitude,
+    longitude: t.longitude,
+  }));
 
   return (
     <div className="p-4 space-y-4">
       <div className="flex items-center gap-2">
         <label className="text-sm">Vehicle</label>
         <select
-          value={vehicleId}
-          onChange={(e) => setVehicleId(e.target.value)}
+          defaultValue={defaultVehicleId}
           className="border rounded px-2 py-1"
         >
           {vehicles.map((v) => (
@@ -77,11 +66,7 @@ export default function TrackingPage() {
           ))}
         </select>
       </div>
-      {loading ? (
-        <div className="text-sm text-slate-500">Loading positions…</div>
-      ) : (
-        <Mapping data={points} />
-      )}
+      <Mapping data={points} />
     </div>
   );
 }
