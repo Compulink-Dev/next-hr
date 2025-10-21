@@ -4,8 +4,14 @@ import { getDataWithStatus } from "@/lib/apiResponse";
 import FixedHeader from "@/app/(dashboard)/_components/fixedHeader";
 import DataTable from "@/app/(dashboard)/_components/DataTable";
 
+import { cookies } from "next/headers";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function Leads() {
   const { data, status } = await getDataWithStatus("leads");
+  const cookieStore = cookies();
 
   if (status === 401 || status === 403) {
     return <div className="p-6 text-sm text-red-600">Access denied.</div>;

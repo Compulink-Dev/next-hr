@@ -1,6 +1,9 @@
-'use client'
+"use client";
 import React, { useEffect, useMemo, useState } from "react";
 import Mapping from "./_components/Mapping";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 type Vehicle = { id: string; name: string; numberPlate: string };
 
@@ -16,7 +19,7 @@ export default function TrackingPage() {
     let abort = new AbortController();
     async function loadVehicles() {
       try {
-        const res = await fetch('/api/vehicles', { signal: abort.signal });
+        const res = await fetch("/api/vehicles", { signal: abort.signal });
         const data = await res.json();
         setVehicles(data || []);
         if (data?.length && !vehicleId) setVehicleId(data[0].id);
@@ -32,9 +35,17 @@ export default function TrackingPage() {
     async function loadTracks() {
       setLoading(true);
       try {
-        const res = await fetch(`/api/tracking/${vehicleId}`, { signal: abort.signal });
+        const res = await fetch(`/api/tracking/${vehicleId}`, {
+          signal: abort.signal,
+        });
         const data = await res.json();
-        setTracks((data || []).map((d: any) => ({ latitude: d.latitude, longitude: d.longitude, timestamp: d.timestamp })));
+        setTracks(
+          (data || []).map((d: any) => ({
+            latitude: d.latitude,
+            longitude: d.longitude,
+            timestamp: d.timestamp,
+          }))
+        );
       } catch (_) {
         setTracks([]);
       } finally {
@@ -45,15 +56,24 @@ export default function TrackingPage() {
     return () => abort.abort();
   }, [vehicleId]);
 
-  const points = useMemo(() => tracks.map(t => ({ latitude: t.latitude, longitude: t.longitude })), [tracks]);
+  const points = useMemo(
+    () => tracks.map((t) => ({ latitude: t.latitude, longitude: t.longitude })),
+    [tracks]
+  );
 
   return (
     <div className="p-4 space-y-4">
       <div className="flex items-center gap-2">
         <label className="text-sm">Vehicle</label>
-        <select value={vehicleId} onChange={e => setVehicleId(e.target.value)} className="border rounded px-2 py-1">
-          {vehicles.map(v => (
-            <option key={v.id} value={v.id}>{v.name} ({v.numberPlate})</option>
+        <select
+          value={vehicleId}
+          onChange={(e) => setVehicleId(e.target.value)}
+          className="border rounded px-2 py-1"
+        >
+          {vehicles.map((v) => (
+            <option key={v.id} value={v.id}>
+              {v.name} ({v.numberPlate})
+            </option>
           ))}
         </select>
       </div>
