@@ -30,10 +30,18 @@ async function FixedUserHeader({ link, title }: { link: any; title: string }) {
         {userRole !== "user" && (
           <Link
             href={buildHref(link)}
-            className="bg-blue-600 hover:bg-blue-500 p-2 rounded-md flex items-center text-white text-sm"
+            className="group relative flex items-center gap-2 bg-gradient-to-br from-blue-600 to-purple-700 hover:from-blue-700 hover:to-purple-800 text-white px-5 py-3 rounded-2xl text-sm font-semibold transition-all duration-300 ease-out shadow-lg hover:shadow-xl hover:scale-105 backdrop-blur-sm border border-white/20"
+            aria-label={`Create new ${title}`}
           >
-            <Plus className="w-3 h-3" />
-            <span>New</span>
+            {/* Animated background effect */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 transform translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+
+            {/* Icon with animation */}
+            <Plus className="w-4 h-4 transition-transform duration-300 group-hover:rotate-90" />
+            <span className="relative z-10">New</span>
+
+            {/* Subtle pulse animation */}
+            <div className="absolute inset-0 rounded-2xl border-2 border-white/30 animate-pulse group-hover:animate-none" />
           </Link>
         )}
         <div className="mr-2">

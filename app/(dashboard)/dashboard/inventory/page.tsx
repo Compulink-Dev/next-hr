@@ -11,12 +11,22 @@ import {
   Shirt,
   User,
   Warehouse,
+  LucideIcon,
 } from "lucide-react";
 import OptionCard from "../../_components/OptionCard";
 import FixedHeader from "@/app/(dashboard)/_components/fixedHeader";
 
+interface OptionCardData {
+  title: string;
+  description: string;
+  link: string;
+  linkTitle: string;
+  enabled: boolean;
+  icon: LucideIcon;
+}
+
 function DashInventory() {
-  const optionCards = [
+  const optionCards: OptionCardData[] = [
     {
       title: "Items",
       description: "Create standalone items and services that you buy and sell",
@@ -27,7 +37,8 @@ function DashInventory() {
     },
     {
       title: "Categories",
-      description: "Create standalone items and services that you buy and sell",
+      description:
+        "Organize your products into categories for better management",
       link: "/categories",
       linkTitle: "New Category",
       enabled: true,
@@ -35,7 +46,7 @@ function DashInventory() {
     },
     {
       title: "Brands",
-      description: "Create standalone items and services that you buy and sell",
+      description: "Manage product brands and manufacturers",
       link: "/brands",
       linkTitle: "New Brand",
       enabled: true,
@@ -43,31 +54,31 @@ function DashInventory() {
     },
     {
       title: "Adjustments",
-      description: "Create standalone items and services that you buy and sell",
+      description: "Adjust inventory quantities and track changes",
       link: "/adjustments",
-      linkTitle: "New Adjustment Item",
+      linkTitle: "New Adjustment",
       enabled: true,
       icon: Cog,
     },
     {
       title: "Units",
-      description: "Create standalone items and services that you buy and sell",
+      description: "Manage measurement units for your products",
       link: "/units",
-      linkTitle: "New Units Item",
+      linkTitle: "New Unit",
       enabled: true,
       icon: Merge,
     },
     {
       title: "Warehouse",
-      description: "Create standalone items and services that you buy and sell",
+      description: "Manage warehouse locations and storage",
       link: "/warehouse",
-      linkTitle: "New Warehouse Item",
+      linkTitle: "New Warehouse",
       enabled: true,
       icon: Warehouse,
     },
     {
       title: "Supplier",
-      description: "Create standalone items and services that you buy and sell",
+      description: "Manage your suppliers and vendors",
       link: "/suppliers",
       linkTitle: "New Supplier",
       enabled: true,
@@ -76,11 +87,11 @@ function DashInventory() {
   ];
 
   return (
-    <div className="">
-      <FixedHeader link={"/dashboard/inventory/items/new"} title="Inventory" />
-      <div className="p-8 grid grid-col-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {optionCards.map((card, i) => (
-          <OptionCard key={i} optionData={card} />
+    <div className="min-h-screen bg-gray-50">
+      <FixedHeader link="/dashboard/inventory/items/new" title="Inventory" />
+      <div className="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {optionCards.map((card, index) => (
+          <OptionCard key={card.title} optionData={card} />
         ))}
       </div>
     </div>

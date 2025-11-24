@@ -1,9 +1,7 @@
 "use client";
 import React from "react";
 import HomeLayout from "../_components/home-layout";
-import { Line } from "react-chartjs-2";
-import { Bar } from "react-chartjs-2";
-import { Doughnut } from "react-chartjs-2";
+import { Line, Bar, Doughnut } from "react-chartjs-2";
 import OverviewStats from "./_components/OverviewStats";
 import {
   Chart as ChartJS,
@@ -31,7 +29,30 @@ ChartJS.register(
   Legend
 );
 
-// Sample data for charts
+// Modern chart configurations
+const chartOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: {
+      position: "top" as const,
+    },
+  },
+  scales: {
+    y: {
+      beginAtZero: true,
+      grid: {
+        color: "rgba(0, 0, 0, 0.1)",
+      },
+    },
+    x: {
+      grid: {
+        display: false,
+      },
+    },
+  },
+};
+
 const salesData = {
   labels: [
     "Jan",
@@ -40,7 +61,7 @@ const salesData = {
     "Apr",
     "May",
     "Jun",
-    "July",
+    "Jul",
     "Aug",
     "Sep",
     "Oct",
@@ -49,44 +70,63 @@ const salesData = {
   ],
   datasets: [
     {
-      label: "Sales",
+      label: "Revenue",
       data: [
         4000, 3000, 5000, 4000, 6000, 5000, 3500, 4500, 2000, 4000, 5050, 6500,
       ],
-      fill: false,
+      fill: true,
+      backgroundColor: "rgba(79, 70, 229, 0.1)",
       borderColor: "#4F46E5",
-      tension: 0.1,
+      tension: 0.4,
+      pointBackgroundColor: "#4F46E5",
+      pointBorderColor: "#ffffff",
+      pointBorderWidth: 2,
     },
   ],
 };
 
 const inventoryData = {
-  labels: ["Servers", "Computers", "Printers", "Monitors", "Phone"],
+  labels: ["Servers", "Computers", "Printers", "Monitors", "Phones"],
   datasets: [
     {
-      label: "Stock",
+      label: "Stock Levels",
       data: [120, 98, 86, 45, 60],
-      backgroundColor: ["#34D399", "#60A5FA", "#FBBF24", "#60A5FA"],
+      backgroundColor: [
+        "rgba(34, 197, 94, 0.8)",
+        "rgba(59, 130, 246, 0.8)",
+        "rgba(245, 158, 11, 0.8)",
+        "rgba(139, 92, 246, 0.8)",
+        "rgba(236, 72, 153, 0.8)",
+      ],
+      borderColor: ["#22c55e", "#3b82f6", "#f59e0b", "#8b5cf6", "#ec4899"],
+      borderWidth: 2,
+      borderRadius: 6,
     },
   ],
 };
 
 const hrData = {
-  labels: ["Available", "On Leave", "Terminated"],
+  labels: ["Active", "On Leave", "New Hires"],
   datasets: [
     {
-      data: [25, 5, 2],
-      backgroundColor: ["#10B981", "#F59E0B", "#EF4444"],
+      data: [25, 5, 3],
+      backgroundColor: ["#10B981", "#F59E0B", "#3B82F6"],
+      borderColor: ["#0f9668", "#d97706", "#1d4ed8"],
+      borderWidth: 2,
+      cutout: "70%",
     },
   ],
 };
 
 const fleetData = {
-  labels: ["Available", "On Duty", "Off Duty"],
+  labels: ["Available", "On Route", "Maintenance"],
   datasets: [
     {
       data: [4, 5, 2],
       backgroundColor: ["#10B981", "#F59E0B", "#EF4444"],
+      borderColor: ["#0f9668", "#d97706", "#dc2626"],
+      borderWidth: 2,
+      cutout: "70%",
     },
   ],
 };
@@ -94,50 +134,132 @@ const fleetData = {
 function Admin() {
   return (
     <HomeLayout>
-      {/* Live KPI cards */}
-      <div className="mb-4">
-        <OverviewStats />
-      </div>
-
-      <div className="flex gap-2">
-        {/* Sales Chart */}
-        <div className="mt-8 bg-white shadow rounded-lg p-4 w-full">
-          <h2 className="text-xl font-semibold mb-4">Sales Overview</h2>
-          <div className="">
-            <Line data={salesData} />
+      <div className="space-y-6 p-6">
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+              Dashboard Overview
+            </h1>
+            <p className="text-gray-600 dark:text-gray-400 mt-1">
+              {`Welcome back! Here's what's happening with your business today.`}
+            </p>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="text-sm text-gray-500 dark:text-gray-400">
+              Last updated: Just now
+            </div>
           </div>
         </div>
 
-        {/* Inventory Chart */}
-        <div className="mt-8 bg-white shadow rounded-lg p-4 w-full">
-          <h2 className="text-xl font-semibold mb-4">Inventory Levels</h2>
-          <div className="">
-            <Bar data={inventoryData} />
-          </div>
-        </div>
-      </div>
-
-      <div className="grid grid-col-1 md:grid-cols-2 gap-2 w-full">
-        {/* HR Chart */}
-        <div className="mt-8 bg-white shadow rounded-lg p-4">
-          <h2 className="text-xl font-semibold mb-4">HR Status</h2>
-          <div className="w-full h-[300px] md:h-[400px]">
-            {" "}
-            {/* Set the size using Tailwind classes */}
-            <Doughnut data={hrData} options={{ maintainAspectRatio: false }} />
-          </div>
+        {/* Live KPI cards */}
+        <div className="mb-6">
+          <OverviewStats />
         </div>
 
-        {/* Fleet Chart */}
-        <div className="mt-8 bg-white shadow rounded-lg p-4">
-          <h2 className="text-xl font-semibold mb-4">Fleet</h2>
-          <div className="w-full h-[300px] md:h-[400px]">
-            {" "}
-            {/* Set the size using Tailwind classes */}
-            <Doughnut
-              data={fleetData}
-              options={{ maintainAspectRatio: false }}
-            />
+        {/* Charts Grid */}
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+          {/* Sales Chart */}
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+                Sales Overview
+              </h2>
+              <div className="flex items-center gap-2 text-sm text-green-600 dark:text-green-400">
+                <span>↑ 12.5%</span>
+                <span>vs last month</span>
+              </div>
+            </div>
+            <div className="h-80">
+              <Line data={salesData} options={chartOptions} />
+            </div>
+          </div>
+
+          {/* Inventory Chart */}
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+                Inventory Levels
+              </h2>
+              <div className="text-sm text-gray-500 dark:text-gray-400">
+                Total Items: 409
+              </div>
+            </div>
+            <div className="h-80">
+              <Bar data={inventoryData} options={chartOptions} />
+            </div>
+          </div>
+
+          {/* HR Chart */}
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+                Workforce Status
+              </h2>
+              <div className="text-sm text-green-600 dark:text-green-400">
+                33 Total Employees
+              </div>
+            </div>
+            <div className="h-80 relative">
+              <Doughnut data={hrData} options={chartOptions} />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-gray-900 dark:text-white">
+                    33
+                  </div>
+                  <div className="text-sm text-gray-500 dark:text-gray-400">
+                    Employees
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Fleet Chart */}
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+                Fleet Management
+              </h2>
+              <div className="text-sm text-blue-600 dark:text-blue-400">
+                11 Total Vehicles
+              </div>
+            </div>
+            <div className="h-80 relative">
+              <Doughnut data={fleetData} options={chartOptions} />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-gray-900 dark:text-white">
+                    11
+                  </div>
+                  <div className="text-sm text-gray-500 dark:text-gray-400">
+                    Vehicles
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Quick Actions */}
+        <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-6 text-white">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-xl font-semibold mb-2">
+                Need help with something?
+              </h3>
+              <p className="text-blue-100">
+                Quick access to common tasks and settings
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <button className="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg transition-colors">
+                Add New Item
+              </button>
+              <button className="bg-white text-blue-600 hover:bg-blue-50 px-4 py-2 rounded-lg font-medium transition-colors">
+                Generate Report
+              </button>
+            </div>
           </div>
         </div>
       </div>

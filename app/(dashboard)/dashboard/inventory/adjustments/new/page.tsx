@@ -6,7 +6,7 @@ import NewHeader from "@/app/(dashboard)/_components/newHeader";
 function NewAdjustment() {
   return (
     <div className="">
-      <NewHeader title="New Adjustment" link="inventory" />
+      <NewHeader title="New Adjustment" />
       <div>
         <HeaderTabs />
       </div>

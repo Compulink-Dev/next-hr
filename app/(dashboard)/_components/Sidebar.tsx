@@ -2,23 +2,23 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { usePathname } from "next/navigation"; // Import usePathname
+import { usePathname } from "next/navigation";
 import {
   ChevronDown,
   ChevronUp,
   Home,
-  BaggageClaim,
   ShoppingCart,
   CreditCard,
-  User2,
-  BusFront,
+  Users,
+  Truck,
   FileBarChart,
   Book,
   Webhook,
-  Minimize2,
-  CalendarCheck,
+  X,
+  Package,
+  BarChart3,
+  Briefcase,
 } from "lucide-react";
-import { Separator } from "@/components/ui/separator";
 
 import { Button } from "@/components/ui/button";
 import SubscriptionCard from "./SubscriptionCard";
@@ -32,24 +32,19 @@ interface MenuItem {
 }
 
 const menuItems: MenuItem[] = [
-  { title: "Home", path: "/dashboard", icon: Home },
+  { title: "Dashboard", path: "/dashboard", icon: Home },
   {
     title: "Inventory",
-    icon: BaggageClaim,
+    icon: Package,
     roles: ["admin", "procurement"],
     children: [
-      { title: "Item", path: "/dashboard/inventory/items" },
+      { title: "Items", path: "/dashboard/inventory/items" },
       { title: "Categories", path: "/dashboard/inventory/categories" },
       { title: "Brands", path: "/dashboard/inventory/brands" },
       { title: "Units", path: "/dashboard/inventory/units" },
-      { title: "Warehouse", path: "/dashboard/inventory/warehouse" },
+      { title: "Warehouses", path: "/dashboard/inventory/warehouse" },
       { title: "Adjustments", path: "/dashboard/inventory/adjustments" },
       { title: "Suppliers", path: "/dashboard/inventory/suppliers" },
-      // {
-      //   title: "Mobile Development",
-      //   path: "/services/mobile-development",
-      //   roles: ["admin", "developer"], // Restricted to dashboard and developer
-      // },
     ],
   },
   {
@@ -73,13 +68,12 @@ const menuItems: MenuItem[] = [
     icon: CreditCard,
     children: [
       { title: "Suppliers", path: "/dashboard/purchases/suppliers" },
-      { title: "Purchase Order", path: "/dashboard/purchases/purchase-order" },
-      { title: "Debit Note", path: "/dashboard/purchases/debit-note" },
+      { title: "Purchase Orders", path: "/dashboard/purchases/purchase-order" },
     ],
   },
   {
-    title: "Employee",
-    icon: User2,
+    title: "Human Resources",
+    icon: Users,
     children: [
       { title: "Payslips", path: "/dashboard/hr/pay-slips" },
       { title: "Leave", path: "/dashboard/hr/leave" },
@@ -92,17 +86,30 @@ const menuItems: MenuItem[] = [
   },
   {
     title: "Fleet",
-    icon: BusFront,
+    icon: Truck,
     children: [
-      { title: "Logs", path: "/dashboard/fleet/logs" },
       { title: "Vehicles", path: "/dashboard/fleet/vehicles" },
       { title: "Drivers", path: "/dashboard/fleet/drivers" },
       { title: "Tracking", path: "/dashboard/fleet/tracking" },
+      { title: "Logs", path: "/dashboard/fleet/logs" },
+    ],
+  },
+  {
+    title: "Projects",
+    icon: Briefcase,
+    children: [
+      { title: "Projects", path: "/dashboard/projects/project" },
+      { title: "Job Cards", path: "/dashboard/projects/job-card" },
+      {
+        title: "Requisitions",
+        path: "/dashboard/projects/requisition",
+        roles: ["admin"],
+      },
     ],
   },
   {
     title: "Reports",
-    icon: FileBarChart,
+    icon: BarChart3,
     children: [
       { title: "Sales", path: "/dashboard/reports/sales" },
       { title: "Purchase", path: "/dashboard/reports/purchase" },
@@ -112,20 +119,6 @@ const menuItems: MenuItem[] = [
       { title: "Projects", path: "/dashboard/reports/projects" },
     ],
   },
-  {
-    title: "Projects",
-    icon: CalendarCheck,
-    children: [
-      { title: "Project", path: "/dashboard/projects/project" },
-      {
-        title: "Requisition",
-        path: "/dashboard/projects/requisition",
-        roles: ["admin"],
-      },
-      { title: "Job Cards", path: "/dashboard/projects/job-card" },
-    ],
-  },
-  // { title: "Integrations", path: "/dashboard/integrations", icon: Cable },
   { title: "Documents", path: "/dashboard/documents", icon: Book },
 ];
 
@@ -134,11 +127,10 @@ const Sidebar: React.FC<{
   setShowSide: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({ showSide, setShowSide }) => {
   const { data: session } = useSession();
-  const pathname = usePathname(); // Get current route
+  const pathname = usePathname();
   const [openMenu, setOpenMenu] = useState<string | null>(null);
 
   useEffect(() => {
-    // Automatically open the menu if a child route is active
     const activeParent = menuItems.find((item) =>
       item.children?.some((child) => child.path === pathname)
     );
@@ -159,95 +151,128 @@ const Sidebar: React.FC<{
   };
 
   return (
-    <div
-      className={`${
-        showSide
-          ? "w-64 h-full fixed p-4 bg-slate-900 text-white md:flex flex-col z-50 overflow-y-scroll"
-          : "hidden md:flex w-64 h-full fixed p-4 bg-slate-900 text-white flex-col z-50 overflow-y-scroll"
-      }`}
-    >
-      <div className="flex items-center justify-between">
-        <div className="flex gap-2 items-center p-4">
-          <Webhook />
-          <p>Corporate ERP</p>
+    <>
+      {/* Mobile Overlay */}
+      {showSide && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          onClick={() => setShowSide(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <div
+        className={`
+          flex-shrink-0
+          w-64
+          bg-white dark:bg-gray-900 
+          border-r border-gray-200 dark:border-gray-800
+          flex flex-col
+          transition-all duration-300 ease-in-out
+          h-screen
+          ${
+            showSide
+              ? "fixed inset-y-0 left-0 z-50 translate-x-0"
+              : "fixed inset-y-0 left-0 z-50 -translate-x-full lg:translate-x-0 lg:static lg:z-auto"
+          }
+        `}
+      >
+        {/* Header */}
+        <div className="flex-shrink-0 flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-800">
+          <Link href="/dashboard" className="flex items-center gap-3 group">
+            <div className="p-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl">
+              <Webhook className="h-6 w-6 text-white" />
+            </div>
+            <div>
+              <p className="font-semibold text-gray-900 dark:text-white">
+                Corporate ERP
+              </p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                Dashboard
+              </p>
+            </div>
+          </Link>
+          <Button
+            onClick={() => setShowSide(false)}
+            variant="ghost"
+            size="sm"
+            className="lg:hidden text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+          >
+            <X className="h-5 w-5" />
+          </Button>
         </div>
-        <Button onClick={() => setShowSide(false)} className="md:hidden">
-          <Minimize2 className="h-5 w-5" />
-        </Button>
-      </div>
-      <Separator />
-      <ul className="space-y-2 p-4">
-        {menuItems.map((item) =>
-          checkPermission(item) ? (
-            <li key={item.title} className="group p-2">
-              {item.children ? (
-                <>
-                  <span
-                    className={`flex items-center justify-between cursor-pointer p-2 rounded-md ${
-                      openMenu === item.title
-                        ? "bg-slate-800 text-white"
-                        : "text-gray-400 hover:text-white"
-                    }`}
-                    onClick={() => handleMenuClick(item.title)}
-                  >
-                    <span className="flex items-center">
-                      {item.icon && (
-                        <item.icon className="w-4 h-4 mr-2 text-gray-400" />
+
+        {/* Navigation - Scrollable independently */}
+        <div className="flex-1 overflow-y-auto">
+          <nav className="p-4 space-y-1">
+            {menuItems.map((item) =>
+              checkPermission(item) ? (
+                <div key={item.title}>
+                  {item.children ? (
+                    <>
+                      <button
+                        onClick={() => handleMenuClick(item.title)}
+                        className={`w-full flex items-center justify-between p-3 rounded-lg text-left transition-all duration-200 ${
+                          openMenu === item.title
+                            ? "bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400"
+                            : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                        }`}
+                      >
+                        <span className="flex items-center gap-3">
+                          {item.icon && <item.icon className="h-5 w-5" />}
+                          {item.title}
+                        </span>
+                        {openMenu === item.title ? (
+                          <ChevronUp className="h-4 w-4" />
+                        ) : (
+                          <ChevronDown className="h-4 w-4" />
+                        )}
+                      </button>
+                      {openMenu === item.title && (
+                        <div className="ml-4 mt-1 space-y-1">
+                          {item.children.map((subItem) =>
+                            checkPermission(subItem) ? (
+                              <Link
+                                key={subItem.title}
+                                href={subItem.path || "#"}
+                                className={`block p-2 pl-4 rounded-lg text-sm transition-all duration-200 ${
+                                  pathname === subItem.path
+                                    ? "bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 font-medium"
+                                    : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-800"
+                                }`}
+                              >
+                                {subItem.title}
+                              </Link>
+                            ) : null
+                          )}
+                        </div>
                       )}
+                    </>
+                  ) : (
+                    <Link
+                      href={item.path || "#"}
+                      className={`flex items-center gap-3 p-3 rounded-lg transition-all duration-200 ${
+                        pathname === item.path
+                          ? "bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 font-medium"
+                          : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                      }`}
+                    >
+                      {item.icon && <item.icon className="h-5 w-5" />}
                       {item.title}
-                    </span>
-                    {openMenu === item.title ? (
-                      <ChevronUp className="w-4 h-4" />
-                    ) : (
-                      <ChevronDown className="w-4 h-4" />
-                    )}
-                  </span>
-                  {openMenu === item.title && (
-                    <ul className="ml-4 space-y-1 mt-2">
-                      {item.children.map((subItem) =>
-                        checkPermission(subItem) ? (
-                          <li key={subItem.title}>
-                            <Link
-                              href={subItem.path || "#"}
-                              className={`block p-2 pl-4 rounded-md ${
-                                pathname === subItem.path
-                                  ? "bg-slate-700 text-white"
-                                  : "text-gray-400 hover:text-white"
-                              }`}
-                            >
-                              {subItem.title}
-                            </Link>
-                          </li>
-                        ) : null
-                      )}
-                    </ul>
+                    </Link>
                   )}
-                </>
-              ) : (
-                <Link
-                  href={item.path || "#"}
-                  className={`block p-2 rounded-md ${
-                    pathname === item.path
-                      ? "bg-slate-800 text-white"
-                      : "text-gray-400 hover:text-white"
-                  }`}
-                >
-                  <span className="flex items-center">
-                    {item.icon && (
-                      <item.icon className="w-4 h-4 mr-2 text-gray-400" />
-                    )}
-                    {item.title}
-                  </span>
-                </Link>
-              )}
-            </li>
-          ) : null
-        )}
-      </ul>
-      <div className="mt-4">
-        <SubscriptionCard />
+                </div>
+              ) : null
+            )}
+          </nav>
+        </div>
+
+        {/* Subscription Card */}
+        <div className="flex-shrink-0 p-4 border-t border-gray-200 dark:border-gray-800">
+          <SubscriptionCard />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -8,7 +8,7 @@ async function UpdateFleet({ params: { id } }) {
   const data = await getData(`fleetInvoice/${id}`);
   return (
     <div className="">
-      <NewHeader title="Update Tracking" link="fleet/tracking" />
+      <NewHeader title="Update Tracking" />
       <div className="">
         <UpdateForm initialData={data} />
       </div>

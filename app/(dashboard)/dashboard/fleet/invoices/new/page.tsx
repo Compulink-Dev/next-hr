@@ -1,11 +1,11 @@
-import NewHeader from "@/app/(admin)/_components/newHeader";
+import NewHeader from "@/app/(dashboard)/_components/newHeader";
 import React from "react";
 import Form from "../_components/Form";
 
 function NewInvoice() {
   return (
     <div className="">
-      <NewHeader title="New Invoice" link="fleet/invoices" />
+      <NewHeader title="New Invoice" />
       <div className="">
         <Form />
       </div>

@@ -5,7 +5,7 @@ import NewHeader from "@/app/(dashboard)/_components/newHeader";
 function NewCustomer() {
   return (
     <div className="">
-      <NewHeader title="New Customer" link="sales/customers" />
+      <NewHeader title="New Customer" />
       <div className="">
         <Form />
       </div>

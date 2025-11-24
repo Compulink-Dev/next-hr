@@ -8,7 +8,7 @@ async function UpdateDriver({ params: { id } }) {
   const data = await getData(`drivers/${id}`);
   return (
     <div className="">
-      <NewHeader title="Update Driver" link="fleet/drivers" />
+      <NewHeader title="Update Driver" />
       <div className="">
         <UpdateForm initialData={data} />
       </div>

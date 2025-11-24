@@ -8,7 +8,7 @@ async function UpdateCategory({ params: { id } }) {
   const data = await getData(`employees/${id}`);
   return (
     <div className="">
-      <NewHeader title="Update Employee" link="hr/employees" />
+      <NewHeader title="Update Employee" />
       <div className="">
         <UpdateForm initialData={data} />
       </div>
