@@ -12,52 +12,78 @@ import { getServerSession } from "next-auth";
 import Link from "next/link";
 import React from "react";
 
-async function FixedHeader({ link, title }: { link: string; title: string }) {
+interface FixedHeaderProps {
+  link: string;
+  title: string;
+}
+
+async function FixedHeader({ link, title }: FixedHeaderProps) {
   const session = await getServerSession(authOptions);
   const userRole = session?.user?.role;
 
-  // Sanitize link to support absolute paths (starting with "/") or dashboard-relative segments
-  const buildHref = (l: string) => {
-    // Remove any leading slashes and always prefix with /dashboard/
-    const cleanPath = l.replace(/^\/+/, "");
+  const buildHref = (path: string): string => {
+    const cleanPath = path.replace(/^\/+/, "");
     return `/dashboard/${cleanPath}`;
   };
 
-  const buildNewHref = (l: string) => {
-    const base = buildHref(l);
+  const buildNewHref = (path: string): string => {
+    const base = buildHref(path);
     return base.endsWith("/new") ? base : `${base}/new`;
   };
 
+  const canCreate = userRole === "hr" || userRole === "admin";
+
   return (
-    <div className="flex items-center justify-between p-4 bg-slate-50">
-      <Button className="bg-blue-600 hover:bg-blue-500">
-        <span>All {title}</span>
-        <ChevronDown className="w-4 h-4 pl-1" />
-      </Button>
-      <div className="flex items-center gap-2">
-        {(userRole === "hr" || userRole === "admin") && (
+    <div className="flex items-center justify-between p-6 bg-white border-b border-gray-200 shadow-sm">
+      <div className="flex items-center gap-4">
+        <h1 className="text-2xl font-semibold text-gray-900">{title}</h1>
+        <Button variant="outline" className="flex items-center gap-2">
+          <span>All {title}</span>
+          <ChevronDown className="w-4 h-4" />
+        </Button>
+      </div>
+
+      <div className="flex items-center gap-3">
+        {canCreate && (
           <Link
             href={buildNewHref(link)}
-            className="bg-blue-600 hover:bg-blue-500 p-2 rounded-md flex items-center text-white text-sm"
+            className="group relative flex items-center gap-2 bg-gradient-to-br from-blue-600 to-purple-700 hover:from-blue-700 hover:to-purple-800 text-white px-5 py-3 rounded-2xl text-sm font-semibold transition-all duration-300 ease-out shadow-lg hover:shadow-xl hover:scale-105 backdrop-blur-sm border border-white/20"
+            aria-label={`Create new ${title}`}
           >
-            <Plus className="w-3 h-3" />
-            <span>New</span>
+            {/* Animated background effect */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 transform translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+
+            {/* Icon with animation */}
+            <Plus className="w-4 h-4 transition-transform duration-300 group-hover:rotate-90" />
+            <span className="relative z-10">New</span>
+
+            {/* Subtle pulse animation */}
+            <div className="absolute inset-0 rounded-2xl border-2 border-white/30 animate-pulse group-hover:animate-none" />
           </Link>
         )}
-        <div className="mr-2">
-          <button className="bg-slate-400 rounded-tl-md rounded-bl-md p-2 text-white">
-            <List className="w-5 h-5" />
+
+        <div className="flex items-center bg-gray-100 rounded-lg p-1">
+          <button
+            className="p-2 rounded-md hover:bg-white transition-colors duration-200"
+            title="List view"
+          >
+            <List className="w-4 h-4 text-gray-600" />
           </button>
-          <button className="bg-slate-500 rounded-tr-md rounded-br-md p-2 text-white">
-            <LayoutGrid className="w-5 h-5" />
+          <button
+            className="p-2 rounded-md hover:bg-white transition-colors duration-200"
+            title="Grid view"
+          >
+            <LayoutGrid className="w-4 h-4 text-gray-600" />
           </button>
         </div>
-        <button className="bg-slate-400 rounded-md p-2 text-white">
+
+        <Button variant="ghost" size="icon" title="More options">
           <MoreHorizontal className="w-5 h-5" />
-        </button>
-        <button className="bg-orange-400 rounded-md p-2 text-white">
+        </Button>
+
+        <Button variant="ghost" size="icon" title="Help">
           <HelpCircle className="w-5 h-5" />
-        </button>
+        </Button>
       </div>
     </div>
   );

@@ -7,7 +7,7 @@ async function UpdateCategory({ params: { id } }) {
   const data = await getData(`certification/${id}`);
   return (
     <div className="">
-      <NewHeader title="Update Certificate" link="hr/certification" />
+      <NewHeader title="Update Certificate" />
       <div className="">
         <UpdateForm initialData={data} />
       </div>

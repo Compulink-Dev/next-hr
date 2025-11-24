@@ -5,7 +5,7 @@ import Form from "../_components/Form";
 function NewInvoice() {
   return (
     <div className="">
-      <NewHeader title="New Invoice" link="fleet/invoices" />
+      <NewHeader title="New Invoice" />
       <div className="">
         <Form />
       </div>

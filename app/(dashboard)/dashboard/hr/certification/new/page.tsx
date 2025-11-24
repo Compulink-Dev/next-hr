@@ -5,7 +5,7 @@ import NewHeader from "@/app/(dashboard)/_components/newHeader";
 function NewCertification() {
   return (
     <div className="">
-      <NewHeader title="New certification" link="hr/certification" />
+      <NewHeader title="New certification" />
       <div className="">
         <Form />
       </div>

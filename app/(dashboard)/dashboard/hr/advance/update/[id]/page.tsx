@@ -8,7 +8,7 @@ async function UpdateCategory({ params: { id } }) {
   const data = await getData(`categories/${id}`);
   return (
     <div className="">
-      <NewHeader title="Update Category" link="inventory/categories" />
+      <NewHeader title="Update Category" />
       <div className="">
         <UpdateForm initialData={data} />
       </div>

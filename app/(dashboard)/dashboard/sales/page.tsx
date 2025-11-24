@@ -16,8 +16,9 @@ import {
   User,
   Warehouse,
 } from "lucide-react";
-import OptionCard from "./_components/OptionCard";
+
 import FixedHeader from "../../_components/fixedHeader";
+import OptionCard from "../../_components/OptionCard";
 
 function DashInventory() {
   const optionCards = [

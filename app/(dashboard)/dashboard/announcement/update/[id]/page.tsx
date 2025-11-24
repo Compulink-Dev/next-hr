@@ -9,7 +9,7 @@ async function UpdateBrands({ params: { id } }) {
   const data = await getData(`brands/${id}`);
   return (
     <div className="">
-      <NewHeader title="New Brand" link="inventory/brands" />
+      <NewHeader title="New Brand" />
       <div className="">
         <UpdateForm initialData={data} />
       </div>

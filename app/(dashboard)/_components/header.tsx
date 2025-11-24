@@ -68,7 +68,10 @@ function Header({ setShowSide }: { setShowSide: (v: boolean) => void }) {
         </Button>
 
         {/* Brand */}
-        <Link href="/dashboard" className="hidden md:inline-flex items-center text-sm font-semibold text-gray-900 dark:text-white">
+        <Link
+          href="/dashboard"
+          className="hidden md:inline-flex items-center text-sm font-semibold text-gray-900 dark:text-white"
+        >
           Corporate ERP
         </Link>
 
@@ -82,12 +85,17 @@ function Header({ setShowSide }: { setShowSide: (v: boolean) => void }) {
         <nav className="hidden lg:block ml-4">
           <ul className="flex items-center gap-3 text-sm">
             {navLinks.map((link) => {
-              const active = pathname === link.href || pathname.startsWith(link.href + "/");
+              const active =
+                pathname === link.href || pathname.startsWith(link.href + "/");
               return (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className={`${active ? "text-blue-600 dark:text-blue-400" : "text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"} px-2 py-1 rounded-md`}
+                    className={`${
+                      active
+                        ? "text-blue-600 dark:text-blue-400"
+                        : "text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+                    } px-2 py-1 rounded-md`}
                   >
                     {link.title}
                   </Link>
@@ -99,19 +107,34 @@ function Header({ setShowSide }: { setShowSide: (v: boolean) => void }) {
 
         {/* Right section */}
         <div className="ml-auto flex items-center gap-2">
-          <Button variant="ghost" className="hidden md:inline-flex hover:bg-gray-100 dark:hover:bg-gray-800">
+          <Button
+            variant="ghost"
+            className="hidden md:inline-flex hover:bg-gray-100 dark:hover:bg-gray-800"
+          >
             <BellDot className="h-5 w-5" />
           </Button>
-          <Button variant="ghost" className="hidden md:inline-flex hover:bg-gray-100 dark:hover:bg-gray-800">
+          <Button
+            variant="ghost"
+            className="hidden md:inline-flex hover:bg-gray-100 dark:hover:bg-gray-800"
+          >
             <Settings className="h-5 w-5" />
           </Button>
 
           {/* User */}
           <div className="flex items-center">
             {session?.user?.image ? (
-              <Image src={session.user.image} alt="" height={32} width={32} className="w-8 h-8 rounded-full border border-slate-300" />
+              <Image
+                src={session.user.image}
+                alt=""
+                height={32}
+                width={32}
+                className="w-8 h-8 rounded-full border border-slate-300"
+              />
             ) : username ? (
-              <Button variant="ghost" className="hidden md:inline-flex hover:bg-gray-100 dark:hover:bg-gray-800">
+              <Button
+                variant="ghost"
+                className="hidden md:inline-flex hover:bg-gray-100 dark:hover:bg-gray-800"
+              >
                 {username}
               </Button>
             ) : null}
@@ -138,7 +161,9 @@ function Header({ setShowSide }: { setShowSide: (v: boolean) => void }) {
                     </DropdownMenuItem>
                     <Dialog>
                       <DialogTrigger asChild>
-                        <Button className="bg-blue-600 hover:bg-blue-500">Logout</Button>
+                        <Button className="bg-blue-600 hover:bg-blue-500">
+                          Logout
+                        </Button>
                       </DialogTrigger>
                       <DialogContent className="bg-white dark:bg-gray-900">
                         <DialogHeader>
@@ -146,8 +171,19 @@ function Header({ setShowSide }: { setShowSide: (v: boolean) => void }) {
                         </DialogHeader>
                         <p>Are you sure you want to log out?</p>
                         <div className="mt-4 flex gap-4">
-                          <Button variant="outline" className="border-slate-700" onClick={closeModal}>Cancel</Button>
-                          <Button className="bg-blue-600 text-white" onClick={handleLogout}>Logout</Button>
+                          <Button
+                            variant="outline"
+                            className="border-slate-700"
+                            onClick={closeModal}
+                          >
+                            Cancel
+                          </Button>
+                          <Button
+                            className="bg-blue-600 text-white"
+                            onClick={handleLogout}
+                          >
+                            Logout
+                          </Button>
                         </div>
                       </DialogContent>
                     </Dialog>

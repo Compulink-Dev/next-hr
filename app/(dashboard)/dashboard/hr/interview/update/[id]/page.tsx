@@ -1,7 +1,7 @@
 import React from "react";
 import UpdateForm from "../../_components/UpdateForm";
 import { getData } from "@/lib/apiResponse";
-import NewHeader from "@/app/(admin)/_components/newHeader";
+import NewHeader from "@/app/(dashboard)/_components/newHeader";
 
 //@ts-ignore
 async function UpdateCategory({ params: { id } }) {
@@ -11,7 +11,7 @@ async function UpdateCategory({ params: { id } }) {
 
   return (
     <div className="">
-      <NewHeader title="Update Interview" link="hr/interviews" />
+      <NewHeader title="Update Interview" />
       <div className="">
         <UpdateForm initialData={data} />
       </div>
